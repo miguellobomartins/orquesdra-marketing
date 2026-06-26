@@ -130,19 +130,19 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         );
       }
 
-      // títulos revelados linha-a-linha (máscara slide-up), responsivo via autoSplit
+      // títulos: caracteres sobem em cascata dentro da máscara de cada linha
       gsap.utils.toArray<HTMLElement>('[data-anim="lines"]').forEach((el) => {
         SplitText.create(el, {
-          type: "lines",
+          type: "lines,chars",
           mask: "lines",
           autoSplit: true,
           linesClass: "split-line",
           onSplit(self) {
-            return gsap.from(self.lines, {
-              yPercent: 115,
-              duration: 0.9,
+            return gsap.from(self.chars, {
+              yPercent: 110,
+              duration: 0.7,
               ease: "power3.out",
-              stagger: 0.1,
+              stagger: { each: 0.013, from: "start" },
               scrollTrigger: { trigger: el, start: "top 86%", once: true },
             });
           },

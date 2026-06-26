@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
-import HeroDepth from "@/components/HeroDepth";
+import HeroGrid from "@/components/HeroGrid";
 import { useT } from "@/components/LangProvider";
 
 export default function Hero() {
@@ -10,7 +10,7 @@ export default function Hero() {
   let idx = 0;
   return (
     <section className="hero hero-grid">
-      <HeroDepth />
+      <HeroGrid />
 
       <div className="hero-foot">
         <div className="hero-actions">
