@@ -9,7 +9,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+# Next 16 defaults to Turbopack, which has no prebuilt binary for Alpine/musl
+# in this builder; force the Webpack builder for a portable production build.
+RUN npm run build -- --webpack
 
 FROM node:22-alpine AS runner
 WORKDIR /app
