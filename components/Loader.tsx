@@ -4,34 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import BrandMark from "@/components/BrandMark";
 
+const BLOCKS = 9;
+
 /**
- * Loading screen (intro). Escura, wordmark + contador 0->100 + barra roxa.
- * Ao terminar, desliza para cima e revela a pagina; dispara `orq:loaded` para o
- * hero (HeroDepth) comecar a sua entrada exatamente quando e revelado.
+ * Loading screen em sequência:
+ *  1) contador grande 0->100 sobre fundo escuro
+ *  2) colunas/retângulos (cor da marca) sobem para cobrir o ecrã
+ *  3) as colunas saem em stagger e revelam a página — dispara `orq:loaded`
+ *     para a grelha do hero arrancar a sua entrada exatamente na revelação.
  */
 export default function Loader() {
   const [done, setDone] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
-  const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
     document.body.style.overflow = "hidden";
+    const blocks = el.querySelectorAll<HTMLElement>(".lblock");
 
     const ctx = gsap.context(() => {
-      gsap.from(".ld-brand", { y: 18, opacity: 0, duration: 0.8, ease: "power3.out" });
-      gsap.from(".ld-meta", { opacity: 0, duration: 0.6, delay: 0.25 });
+      gsap.from(".ld-brand", { y: 16, opacity: 0, duration: 0.7, ease: "power3.out" });
+      gsap.from(".ld-counter", { y: 24, opacity: 0, duration: 0.7, ease: "power3.out", delay: 0.1 });
       const counter = { v: 0 };
       gsap.to(counter, {
         v: 100,
-        duration: 1.55,
+        duration: 1.35,
         ease: "power2.inOut",
         onUpdate() {
-          const v = Math.round(counter.v);
-          if (countRef.current) countRef.current.textContent = String(v);
-          if (barRef.current) barRef.current.style.transform = `scaleX(${counter.v / 100})`;
+          if (countRef.current) countRef.current.textContent = String(Math.round(counter.v)).padStart(2, "0");
         },
       });
     }, el);
@@ -40,25 +42,41 @@ export default function Loader() {
     const exit = () => {
       if (exited) return;
       exited = true;
-      // dispara a entrada do hero ao comecar a revelar
-      window.dispatchEvent(new Event("orq:loaded"));
       gsap
-        .timeline({
+        .timeline()
+        // o ecrã do contador desvanece
+        .to(".ld-stage", { opacity: 0, duration: 0.3, ease: "power2.in" }, 0)
+        // 1) colunas sobem para cobrir
+        .set(".lblocks", { display: "grid" }, 0)
+        .fromTo(
+          blocks,
+          { scaleY: 0 },
+          { scaleY: 1, transformOrigin: "bottom center", duration: 0.5, ease: "power3.inOut", stagger: { each: 0.05, from: "start" } },
+          0.08,
+        )
+        // tudo coberto: revelar a página por baixo + arrancar a entrada do hero
+        .add(() => {
+          el.style.background = "transparent";
+          window.dispatchEvent(new Event("orq:loaded"));
+        })
+        // 2) colunas saem a revelar (sobem para fora)
+        .to(blocks, {
+          scaleY: 0,
+          transformOrigin: "top center",
+          duration: 0.6,
+          ease: "power3.inOut",
+          stagger: { each: 0.05, from: "start" },
           onComplete: () => {
             document.body.style.overflow = "";
             setDone(true);
           },
-        })
-        .to(".ld-brand, .ld-meta", { y: -26, opacity: 0, duration: 0.5, ease: "power3.in" })
-        .to(el, { yPercent: -100, duration: 0.95, ease: "power4.inOut" }, "-=0.18");
+        });
     };
 
-    // sair quando: tempo minimo passou E as fontes carregaram
-    const minTime = new Promise<void>((r) => window.setTimeout(r, 1750));
+    const minTime = new Promise<void>((r) => window.setTimeout(r, 1500));
     const fonts = (document.fonts?.ready ?? Promise.resolve()).then(() => {}).catch(() => {});
     Promise.all([minTime, fonts]).then(exit);
-    // failsafe: nunca deixar o loader preso
-    const failsafe = window.setTimeout(exit, 5000);
+    const failsafe = window.setTimeout(exit, 5500);
 
     return () => {
       ctx.revert();
@@ -71,20 +89,21 @@ export default function Loader() {
 
   return (
     <div className="loader" ref={root} aria-hidden="true">
-      <div className="ld-brand">
-        <BrandMark className="ld-mark" />
-        <span>Orquesdra</span>
-      </div>
-      <div className="ld-meta">
-        <span className="ld-count">
-          <span ref={countRef}>0</span>
+      <div className="ld-stage">
+        <div className="ld-brand">
+          <BrandMark className="ld-mark" />
+          <span>Orquesdra</span>
+        </div>
+        <div className="ld-counter">
+          <span ref={countRef}>00</span>
           <i>%</i>
-        </span>
-        <span className="ld-tag">a preparar a tua marca</span>
+        </div>
       </div>
-      <span className="ld-bar">
-        <span ref={barRef} />
-      </span>
+      <div className="lblocks">
+        {Array.from({ length: BLOCKS }, (_, i) => (
+          <span className="lblock" key={i} />
+        ))}
+      </div>
     </div>
   );
 }

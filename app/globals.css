@@ -509,16 +509,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .hd-card { position: absolute; opacity: 0; transform-style: preserve-3d; will-change: transform, opacity; }
 .hd-img { width: 100%; aspect-ratio: 4 / 5; border-radius: 14px; background-size: cover; background-position: center; background-color: #ece7e0; box-shadow: 0 18px 44px rgba(16,17,20,.20); }
 
-/* ===== LOADING SCREEN (intro) ===== */
-.loader { position: fixed; inset: 0; z-index: 200; background: #0c0c11; display: flex; align-items: center; justify-content: center; will-change: transform; }
-.ld-brand { display: inline-flex; align-items: center; gap: 14px; color: #fff; font-size: clamp(28px, 5vw, 54px); font-weight: 700; letter-spacing: -.02em; }
-.ld-brand .ld-mark { height: clamp(32px, 4.4vw, 50px); width: auto; color: #fff; }
-.ld-meta { position: absolute; left: clamp(22px, 5vw, 64px); bottom: clamp(26px, 5vw, 56px); display: flex; flex-direction: column; gap: 4px; }
-.ld-count { font-size: clamp(44px, 10vw, 104px); font-weight: 700; line-height: .85; letter-spacing: -.045em; color: #fff; display: inline-flex; align-items: baseline; }
-.ld-count i { font-style: normal; font-size: .32em; color: rgba(255,255,255,.45); margin-left: 5px; }
-.ld-tag { font-size: 13px; color: rgba(255,255,255,.4); letter-spacing: .02em; }
-.ld-bar { position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: rgba(255,255,255,.1); }
-.ld-bar > span { display: block; width: 100%; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+/* ===== LOADING SCREEN (intro): contador -> blocos ===== */
+.loader { position: fixed; inset: 0; z-index: 200; background: #0c0c11; overflow: hidden; will-change: transform; }
+.ld-stage { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(18px, 3.5vw, 38px); }
+.ld-brand { display: inline-flex; align-items: center; gap: 13px; color: #fff; font-size: clamp(22px, 3.6vw, 40px); font-weight: 700; letter-spacing: -.02em; }
+.ld-brand .ld-mark { height: clamp(26px, 3.2vw, 40px); width: auto; color: #fff; }
+.ld-counter { color: #fff; font-size: clamp(76px, 17vw, 200px); font-weight: 700; line-height: .82; letter-spacing: -.05em; display: inline-flex; align-items: baseline; }
+.ld-counter i { font-style: normal; font-size: .26em; color: var(--accent); margin-left: 8px; letter-spacing: 0; }
+.lblocks { position: absolute; inset: 0; display: none; grid-template-columns: repeat(9, 1fr); grid-template-rows: 100%; }
+.lblock { background: var(--accent); transform: scaleY(0); will-change: transform; height: 100%; }
 
 /* barra de progresso de scroll (topo) */
 .scroll-prog { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left center; z-index: 70; pointer-events: none; }

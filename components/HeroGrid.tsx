@@ -53,25 +53,35 @@ export default function HeroGrid() {
         );
       }, el);
 
-      // parallax subtil com o rato
+      // reatividade ao rato (estilo IntroGridMotion): as linhas deslizam todas no
+      // mesmo sentido (a do meio mais rápida) e o slab escurece + contrasta para as
+      // bordas — efeito cinematográfico de "holofote ao centro".
       const fine = window.matchMedia("(pointer: fine)").matches;
       if (fine) {
+        const gridrot = el.querySelector<HTMLElement>(".gridrot");
         const win = { w: window.innerWidth };
         const onResize = () => (win.w = window.innerWidth);
         const mouse = { x: win.w / 2 };
         const onMove = (e: MouseEvent) => (mouse.x = e.clientX);
-        const state = rows.map((_, i) => ({ x: 0, amt: 0.06 + (i % 3) * 0.015 }));
+        const mid = Math.floor(rows.length / 2);
+        const state = rows.map((_, i) => ({ x: 0, amt: Math.max(0.1 - Math.abs(i - mid) * 0.018, 0.045) }));
+        const filt = { b: 100, c: 100 };
         window.addEventListener("resize", onResize);
         window.addEventListener("mousemove", onMove);
         const render = () => {
-          const nx = (mouse.x / win.w) * 2 - 1;
-          const target = nx * 0.04 * win.w;
+          const nx = (mouse.x / win.w) * 2 - 1; // -1..1
+          const tX = nx * 0.16 * win.w; // alvo partilhado (~16% da largura)
+          const f = Math.min(Math.abs(nx), 1) ** 2; // não-linear
+          const tB = 100 - f * 40; // 100 -> 60
+          const tC = 100 + f * 22; // 100 -> 122
           rows.forEach((row, i) => {
             const s = state[i];
-            const dir = i % 2 === 0 ? 1 : -1;
-            s.x += (target * dir - s.x) * s.amt;
+            s.x += (tX - s.x) * s.amt;
             gsap.set(row, { x: s.x });
           });
+          filt.b += (tB - filt.b) * 0.09;
+          filt.c += (tC - filt.c) * 0.09;
+          if (gridrot) gsap.set(gridrot, { filter: `brightness(${filt.b}%) contrast(${filt.c}%)` });
           raf = requestAnimationFrame(render);
         };
         raf = requestAnimationFrame(render);
