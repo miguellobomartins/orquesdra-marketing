@@ -624,6 +624,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
    THEME SWITCH (no header, à esquerda do "Get started")
    ============================================================ */
 .po-nav-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+/* toggle de língua PT / EN */
+.lang-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: var(--pill); background: var(--surface-2); border: 1px solid var(--border); }
+.lang-toggle button { border: 0; background: transparent; color: var(--ink-3); font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 5px 9px; border-radius: var(--pill); cursor: pointer; transition: background .16s ease, color .16s ease; }
+.lang-toggle button.on { background: var(--ink); color: var(--bg); }
+.lang-toggle button:not(.on):hover { color: var(--ink); }
+@media (max-width: 560px) { .lang-toggle { display: none; } }
 .theme-switch {
   position: relative; width: 50px; height: 27px; flex: 0 0 auto; padding: 0; cursor: pointer;
   border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2);

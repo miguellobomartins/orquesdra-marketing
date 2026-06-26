@@ -3,15 +3,10 @@
 import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import BrandMark from "@/components/BrandMark";
-
-const LINKS: [string, string][] = [
-  ["#how", "Product"],
-  ["#pricing", "Pricing"],
-  ["#gallery", "Gallery"],
-  ["#", "Blog"],
-];
+import { useT, LangToggle } from "@/components/LangProvider";
 
 export default function SiteNav() {
+  const t = useT();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -26,20 +21,21 @@ export default function SiteNav() {
       <nav className="po-nav" id="nav">
         <span className="po-wordmark"><BrandMark className="po-mark" />Orquesdra</span>
         <div className="po-navlinks">
-          {LINKS.map(([href, label]) => (
+          {t.nav.links.map(({ href, label }) => (
             <a key={label} href={href}>
               {label}
             </a>
           ))}
         </div>
         <div className="po-nav-right">
+          <LangToggle />
           <ThemeToggle />
           <a className="po-btn-primary magnetic po-nav-cta" href="https://app.orquesdra.com">
-            Get started
+            {t.nav.cta}
           </a>
           <button
             className={`po-burger${open ? " open" : ""}`}
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
@@ -51,7 +47,7 @@ export default function SiteNav() {
 
       <div className={`po-menu${open ? " open" : ""}`} onClick={() => setOpen(false)}>
         <div className="po-menu-inner" onClick={(e) => e.stopPropagation()}>
-          {LINKS.map(([href, label], i) => (
+          {t.nav.links.map(({ href, label }, i) => (
             <a key={label} href={href} onClick={() => setOpen(false)} style={{ ["--i" as string]: i }}>
               {label}
             </a>
@@ -60,9 +56,9 @@ export default function SiteNav() {
             className="po-menu-cta"
             href="https://app.orquesdra.com"
             onClick={() => setOpen(false)}
-            style={{ ["--i" as string]: LINKS.length }}
+            style={{ ["--i" as string]: t.nav.links.length }}
           >
-            Get started
+            {t.nav.cta}
           </a>
         </div>
       </div>
