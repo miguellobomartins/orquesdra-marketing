@@ -6,7 +6,7 @@ export type Qa = { q: string; a: string };
 
 export type Dict = {
   nav: { links: { href: string; label: string }[]; cta: string };
-  hero: { headline: string; sub: string; ctaPrimary: string; ctaSecondary: string };
+  hero: { headlineLines: string[]; sub: string; ctaPrimary: string; ctaSecondary: string };
   problem: { eyebrow: string; headlinePre: string; headlineEm: string; headlinePost: string; alts: { n: string; h: string; p: string }[] };
   how: { eyebrow: string; h2: string; lead: string; features: Feature[] };
   diff: { eyebrow: string; h2: string; lead: string };
@@ -23,7 +23,7 @@ export type Dict = {
 const pt: Dict = {
   nav: { links: [{ href: "#how", label: "Produto" }, { href: "#pricing", label: "Preços" }, { href: "#gallery", label: "Galeria" }, { href: "#", label: "Blog" }], cta: "Começar" },
   hero: {
-    headline: "A tua marca nas redes, pronta a publicar.",
+    headlineLines: ["A tua marca nas redes,", "pronta a publicar."],
     sub: "Transforma as tuas fotos em posts com a tua marca, de gerar a publicar.",
     ctaPrimary: "Começar",
     ctaSecondary: "Ver planos",
@@ -116,7 +116,7 @@ const pt: Dict = {
 const en: Dict = {
   nav: { links: [{ href: "#how", label: "Product" }, { href: "#pricing", label: "Pricing" }, { href: "#gallery", label: "Gallery" }, { href: "#", label: "Blog" }], cta: "Get started" },
   hero: {
-    headline: "Your brand on social, ready to post.",
+    headlineLines: ["Your brand on social,", "ready to post."],
     sub: "Turn your photos into on-brand posts, from generating to publishing.",
     ctaPrimary: "Get started",
     ctaSecondary: "See plans",

@@ -60,6 +60,9 @@ export default function SiteNav() {
           >
             {t.nav.cta}
           </a>
+          <div className="po-menu-lang" style={{ ["--i" as string]: t.nav.links.length + 1 }}>
+            <LangToggle />
+          </div>
         </div>
       </div>
     </>
