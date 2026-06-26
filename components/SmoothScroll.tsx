@@ -168,6 +168,16 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         }
       });
 
+      // mocks ("como funciona" + concorrência): inclinam-se em 3D ao passar pelo
+      // ecrã — reação contínua ao scroll, por cima da entrada (clip-reveal)
+      gsap.utils.toArray<HTMLElement>(".features .vpanel").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { rotateX: 8 },
+          { rotateX: -5, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.4 } }
+        );
+      });
+
       // acento scramble: rótulos (eyebrows) decodificam ao entrar no viewport
       gsap.utils.toArray<HTMLElement>("[data-scramble], .eyebrow2, .feature-eyebrow").forEach((el) => {
         const text = el.textContent || "";
