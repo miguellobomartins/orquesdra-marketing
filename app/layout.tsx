@@ -3,6 +3,7 @@ import { Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import LangProvider from "@/components/LangProvider";
+import Loader from "@/components/Loader";
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
           {`(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`}
         </Script>
         <LangProvider>{children}</LangProvider>
+        <Loader />
       </body>
     </html>
   );

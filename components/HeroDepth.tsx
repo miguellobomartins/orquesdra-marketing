@@ -86,23 +86,19 @@ export default function HeroDepth() {
       }
     };
 
-    // pré-carregar as imagens (leves); revelar quando prontas ou após timeout.
-    let loaded = 0;
-    const total = UNIQUE_SRCS.length || 1;
-    const tick = () => {
-      loaded += 1;
-      if (loaded >= total) reveal();
-    };
+    // pré-carregar as imagens (leves) para estarem prontas quando revelar.
     UNIQUE_SRCS.forEach((s) => {
       const img = new window.Image();
-      img.onload = tick;
-      img.onerror = tick;
       img.src = s;
     });
-    const fallback = window.setTimeout(reveal, 1400);
+    // revelar a parede quando o loader termina (sincronizado com a revelação da
+    // página); failsafe caso o loader não exista ou falhe.
+    window.addEventListener("orq:loaded", reveal);
+    const fallback = window.setTimeout(reveal, 3000);
 
     return () => {
       window.clearTimeout(fallback);
+      window.removeEventListener("orq:loaded", reveal);
       cleanups.forEach((fn) => fn());
       ctx?.revert();
     };

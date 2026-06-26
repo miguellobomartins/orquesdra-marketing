@@ -506,6 +506,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .hd-card { position: absolute; opacity: 0; transform-style: preserve-3d; will-change: transform, opacity; }
 .hd-img { width: 100%; aspect-ratio: 4 / 5; border-radius: 14px; background-size: cover; background-position: center; background-color: #ece7e0; box-shadow: 0 18px 44px rgba(16,17,20,.20); }
 
+/* ===== LOADING SCREEN (intro) ===== */
+.loader { position: fixed; inset: 0; z-index: 200; background: #0c0c11; display: flex; align-items: center; justify-content: center; will-change: transform; }
+.ld-brand { display: inline-flex; align-items: center; gap: 14px; color: #fff; font-size: clamp(28px, 5vw, 54px); font-weight: 700; letter-spacing: -.02em; }
+.ld-brand .ld-mark { height: clamp(32px, 4.4vw, 50px); width: auto; color: #fff; }
+.ld-meta { position: absolute; left: clamp(22px, 5vw, 64px); bottom: clamp(26px, 5vw, 56px); display: flex; flex-direction: column; gap: 4px; }
+.ld-count { font-size: clamp(44px, 10vw, 104px); font-weight: 700; line-height: .85; letter-spacing: -.045em; color: #fff; display: inline-flex; align-items: baseline; }
+.ld-count i { font-style: normal; font-size: .32em; color: rgba(255,255,255,.45); margin-left: 5px; }
+.ld-tag { font-size: 13px; color: rgba(255,255,255,.4); letter-spacing: .02em; }
+.ld-bar { position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: rgba(255,255,255,.1); }
+.ld-bar > span { display: block; width: 100%; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+
 /* hero novo: botões a meio (esq.) + título grande no canto inferior-esquerdo */
 /* rodapé do hero: botões empilhados ACIMA da caixa, ancorado ao canto inferior-esquerdo da moldura.
    O gap botões→caixa é uma margem fixa (clamp), por isso é constante em qualquer largura/altura de ecrã. */
