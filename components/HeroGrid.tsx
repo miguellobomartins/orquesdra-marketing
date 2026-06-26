@@ -23,16 +23,19 @@ export default function HeroGrid() {
     const ctx = gsap.context(() => {
       // entrada
       gsap.from(".gridrot", { scale: 1.12, opacity: 0, duration: 1.3, ease: "power3.out" });
-      // marquee contínuo, direções e velocidades alternadas
+      // marquee contínuo: TODAS as linhas para a frente (sem volta atrás), ciclo
+      // infinito sem costura. Velocidades variadas + fase desfasada por linha para
+      // não andarem em união. O track é [imgs, imgs] e -50% = exatamente um set.
       rows.forEach((row, i) => {
         const track = row.querySelector<HTMLElement>(".gridrow-track");
         if (!track) return;
-        const dur = 46 + (i % 3) * 10;
-        if (i % 2 === 0) {
-          gsap.fromTo(track, { xPercent: 0 }, { xPercent: -50, duration: dur, ease: "none", repeat: -1 });
-        } else {
-          gsap.fromTo(track, { xPercent: -50 }, { xPercent: 0, duration: dur, ease: "none", repeat: -1 });
-        }
+        const dur = 50 + (i % 4) * 9;
+        const tween = gsap.fromTo(
+          track,
+          { xPercent: 0 },
+          { xPercent: -50, duration: dur, ease: "none", repeat: -1 },
+        );
+        tween.progress((i * 0.17) % 1);
       });
     }, el);
 

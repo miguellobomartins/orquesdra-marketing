@@ -29,18 +29,6 @@ const NETWORKS = ["Instagram", "Facebook", "TikTok", "X", "LinkedIn", "YouTube",
 export default function Sections() {
   return (
     <>
-      {/* trust */}
-      <section className="trust">
-        <p className="trust-label reveal">Brands already running on Orquesdra</p>
-        <div className="trust-marquee">
-          <div className="trust-track">
-            {[...POSTS, ...POSTS].map((p, i) => (
-              <span className="trust-brand" key={i}>{p.brand}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== HOW IT WORKS — the process (centerpiece) ===== */}
       <section className="wrap" id="how" style={{ scrollMarginTop: 100 }}>
         <div className="measure reveal fade-only" style={{ marginBottom: "clamp(12px, 2vw, 28px)" }}>
@@ -113,20 +101,10 @@ export default function Sections() {
               </ul>
             </div>
             <div className="vpanel accent" data-parallax="5" data-anim="clip">
-              <div className="io">
-                <div className="io-card io-in">
+              <div className="io-solo">
+                <div className="io-card io-solo-card">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={POSTS[4].src} alt="Your photo" loading="lazy" />
-                  <span className="io-tag">Your photo</span>
-                </div>
-                <div className="io-arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                </div>
-                <div className="io-card io-out">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={POSTS[4].src} alt="On-brand post generated in Orquesdra" loading="lazy" />
-                  <span className="io-cap">{POSTS[4].cap}</span>
-                  <span className="io-brand"><i />{POSTS[4].brand}</span>
+                  <img src={POSTS[5].src} alt={`${POSTS[5].brand} — ${POSTS[5].cap}`} loading="lazy" />
                   <span className="io-tag accent">On-brand post</span>
                 </div>
               </div>
@@ -247,9 +225,7 @@ export default function Sections() {
             {POSTS.map((p, i) => (
               <div className="pcard" key={i}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.src} alt={p.cap} loading="lazy" />
-                <div className="cap">{p.cap}</div>
-                <div className="brand"><i />{p.brand}</div>
+                <img src={p.src} alt={`${p.brand} — ${p.cap}`} loading="lazy" />
               </div>
             ))}
           </div>
@@ -369,6 +345,7 @@ export default function Sections() {
             <span>Made for brands everywhere · EN / PT</span>
           </div>
         </div>
+        <div className="footer-wordmark" aria-hidden="true">Orquesdra</div>
       </footer>
     </>
   );

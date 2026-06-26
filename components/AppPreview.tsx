@@ -13,37 +13,78 @@ export default function AppPreview() {
               </div>
               <div className="appshell">
                 <aside className="apprail">
-                  <div className="brandrow"><b />Orquesdra</div>
-                  <div className="approw"><s />Home</div>
-                  <div className="approw active"><s />Brand</div>
-                  <div className="approw"><s />Generate</div>
-                  <div className="approw"><s />Calendar</div>
-                  <div className="approw"><s />Intelligence</div>
+                  <div className="rail-top">
+                    <div className="brandrow"><b />orquesdra</div>
+                    <span className="rail-bell" aria-hidden />
+                  </div>
+                  <div className="rail-brand">
+                    <span className="rail-brand-ic" />
+                    <span className="rail-brand-name">Velto</span>
+                    <span className="rail-chev" />
+                  </div>
+                  <p className="rail-sec">Criar</p>
+                  <div className="approw active"><s />Início</div>
+                  <div className="approw"><s />Gerar</div>
+                  <div className="approw"><s />Fluxos</div>
+                  <div className="approw"><s />Modelos</div>
+                  <div className="approw"><s />Ativos</div>
+                  <div className="approw"><s />Calendário</div>
+                  <p className="rail-sec">Gerir</p>
+                  <div className="approw"><s />Marca</div>
+                  <div className="approw"><s />Inteligência</div>
+                  <div className="approw"><s />Analytics</div>
+                  <div className="rail-user">
+                    <span className="rail-ava">M</span>
+                    <span className="rail-user-meta"><b>Miguel Martins</b><i>Conta</i></span>
+                  </div>
                 </aside>
-                <div className="appcanvas">
-                  <div className="appnode" style={{ left: 44, top: 70, width: 158 }}>
-                    <div style={{ aspectRatio: "1/1", borderRadius: 10, background: "#efe7dd", marginBottom: 9 }} />
-                    <span className="lab">Photo</span>
-                  </div>
-                  <div className="appnode" style={{ left: 44, top: 286, width: 158 }}>
-                    <div style={{ display: "flex", gap: 6, marginBottom: 9 }}>
-                      <span style={{ width: 21, height: 21, borderRadius: "50%", background: "#5b5bd6" }} />
-                      <span style={{ width: 21, height: 21, borderRadius: "50%", background: "#1f2024" }} />
-                      <span style={{ width: 21, height: 21, borderRadius: "50%", background: "#e7ded4" }} />
+                <div className="apphome">
+                  <h3 className="apphome-h">Olá de novo, Miguel Martins</h3>
+                  <p className="apphome-sub">A gerir: Velto</p>
+                  <div className="apphome-cards">
+                    <div className="ahcard ahcard-active">
+                      <span className="ahcard-ic ic-spark" />
+                      <b>Gerar conteúdo</b>
+                      <i>Posts e carrosséis com IA</i>
                     </div>
-                    <span className="lab">Brand</span>
-                  </div>
-                  <div className="appnode gen" style={{ left: 300, top: 190, width: 156 }}>
-                    <span className="lab">Generate</span>
-                    <div style={{ height: 8, borderRadius: 4, background: "rgba(255,255,255,.3)", marginTop: 10, overflow: "hidden" }}>
-                      <div style={{ width: "72%", height: "100%", background: "#fff", borderRadius: 4 }} />
+                    <div className="ahcard">
+                      <span className="ahcard-ic ic-cal" />
+                      <b>Calendário</b>
+                      <i>Vê e agenda os teus posts</i>
+                    </div>
+                    <div className="ahcard">
+                      <span className="ahcard-ic ic-img" />
+                      <b>A tua marca</b>
+                      <i>Identidade, cores e voz</i>
                     </div>
                   </div>
-                  <div className="appout" style={{ right: 60, top: 88, width: 300, height: 376 }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/fashion.webp" alt="On-brand post generated in Orquesdra" />
+                  <div className="apphome-usage">
+                    <span>Uso este mês</span>
+                    <b>105 imagens</b>
+                    <em>·</em><span>8 marcas</span>
+                    <em>·</em><span>2 lugares</span>
+                    <span className="ah-badge">Agência</span>
                   </div>
-                  <div className="appgen-btn" style={{ fontSize: 15, padding: "13px 22px" }}>Generate</div>
+                  <div className="apphome-block">
+                    <div className="ah-blockhead">
+                      <span>Próximos posts</span>
+                      <i>Abrir calendário →</i>
+                    </div>
+                    <div className="ah-empty">
+                      <span className="ah-empty-ic" />
+                      <b>Nada agendado</b>
+                      <i>Não tens posts nos próximos 14 dias.</i>
+                      <span className="ah-empty-btn">Abrir calendário</span>
+                    </div>
+                  </div>
+                  <div className="apphome-block">
+                    <div className="ah-blockhead"><span>Desempenho</span></div>
+                    <div className="ah-empty">
+                      <span className="ah-empty-ic bars" />
+                      <b>Sem dados ainda</b>
+                      <i>As métricas aparecem aqui assim que houver atividade.</i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
