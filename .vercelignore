@@ -1,0 +1,9 @@
+node_modules
+.next
+.next-*
+.vercel
+out
+build
+.git
+*.tsbuildinfo
+.DS_Store
