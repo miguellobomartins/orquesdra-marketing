@@ -36,7 +36,7 @@
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
 }
 
-html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scrollbar-gutter: stable; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif; }
 * { box-sizing: border-box; }
 ::selection { background: var(--accent-soft); color: var(--accent-ink); }
@@ -71,11 +71,10 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 1px 2px rgba(16,17,20,.05), 0 10px 30px rgba(16,17,20,.08);
   transition: top .55s cubic-bezier(.16,1,.3,1), width .6s cubic-bezier(.16,1,.3,1), padding .6s cubic-bezier(.16,1,.3,1), background .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
-/* topo: header descido na hero; sobe (mais acima) e fica compacto ao sair da hero */
+/* topo: header descido na hero; sobe ao sair da hero. NAO encolhe a largura
+   (encolher fazia o conteudo refluir e "fugir") — so muda fundo/sombra. */
 .po-nav.raised { top: 24px; }
 .po-nav.compact {
-  width: min(680px, calc(100vw - 32px));
-  padding: 9px 9px 9px 24px;
   background: rgba(255,255,255,.93);
   box-shadow: 0 1px 2px rgba(16,17,20,.06), 0 16px 44px rgba(16,17,20,.12);
 }
@@ -626,16 +625,26 @@ html[lang="pt"] .hero-bl-h { font-size: clamp(2.5rem, 6vw, 5.3rem); }
    THEME SWITCH (no header, à esquerda do "Get started")
    ============================================================ */
 .po-nav-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
-/* toggle de língua PT / EN */
-.lang-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: var(--pill); background: var(--surface-2); border: 1px solid var(--border); }
-.lang-toggle button { border: 0; background: transparent; color: var(--ink-3); font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 5px 9px; border-radius: var(--pill); cursor: pointer; transition: background .16s ease, color .16s ease; }
-.lang-toggle button.on { background: var(--ink); color: var(--bg); }
-.lang-toggle button:not(.on):hover { color: var(--ink); }
-@media (max-width: 560px) { .po-nav-right .lang-toggle { display: none; } }
-/* toggle de língua dentro do menu mobile (mesma animação de entrada dos links) */
+/* seletor de língua (dropdown) */
+.lang-dd { position: relative; }
+.lang-dd-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px 7px 11px; border-radius: var(--pill); background: var(--surface-2); border: 1px solid var(--border); color: var(--ink-2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .16s ease, color .16s ease, border-color .16s ease; }
+.lang-dd-btn:hover { color: var(--ink); border-color: var(--border-strong); }
+.lang-dd-globe { opacity: .75; flex: 0 0 auto; }
+.lang-dd-chev { opacity: .55; transition: transform .2s ease; }
+.lang-dd.open .lang-dd-chev { transform: rotate(180deg); }
+.lang-dd-menu { position: absolute; top: calc(100% + 8px); right: 0; min-width: 170px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 8px 30px rgba(16,17,20,.14); display: flex; flex-direction: column; gap: 2px; z-index: 70; animation: lang-dd-in .16s ease; }
+@keyframes lang-dd-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.lang-dd-menu button { display: flex; align-items: center; gap: 10px; padding: 9px 11px; border: 0; background: transparent; border-radius: 10px; font: inherit; font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer; text-align: left; transition: background .14s ease; }
+.lang-dd-menu button:hover { background: var(--surface-2); }
+.lang-dd-menu button.on { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+.lang-dd-code { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--ink-3); width: 22px; flex: 0 0 auto; }
+.lang-dd-menu button.on .lang-dd-code { color: var(--accent-ink); }
+@media (max-width: 560px) { .po-nav-right .lang-dd { display: none; } }
+/* dropdown de língua dentro do menu mobile (mesma animação de entrada dos links) */
 .po-menu-lang { margin-top: 30px; opacity: 0; transform: translateY(24px); transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); transition-delay: calc(var(--i) * 0.05s); }
 .po-menu.open .po-menu-lang { opacity: 1; transform: none; }
-.po-menu-lang .lang-toggle { display: inline-flex; transform: scale(1.2); transform-origin: left center; }
+.po-menu-lang .lang-dd-btn { font-size: 15px; padding: 10px 14px; }
+.po-menu-lang .lang-dd-menu { right: auto; left: 0; }
 .theme-switch {
   position: relative; width: 50px; height: 27px; flex: 0 0 auto; padding: 0; cursor: pointer;
   border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2);

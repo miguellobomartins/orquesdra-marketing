@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import BrandMark from "@/components/BrandMark";
-import { useT, LangToggle } from "@/components/LangProvider";
+import { useT, LangDropdown } from "@/components/LangProvider";
 
 export default function SiteNav() {
   const t = useT();
@@ -28,7 +28,7 @@ export default function SiteNav() {
           ))}
         </div>
         <div className="po-nav-right">
-          <LangToggle />
+          <LangDropdown />
           <ThemeToggle />
           <a className="po-btn-primary magnetic po-nav-cta" href="https://app.orquesdra.com">
             {t.nav.cta}
@@ -61,7 +61,7 @@ export default function SiteNav() {
             {t.nav.cta}
           </a>
           <div className="po-menu-lang" style={{ ["--i" as string]: t.nav.links.length + 1 }}>
-            <LangToggle />
+            <LangDropdown />
           </div>
         </div>
       </div>
