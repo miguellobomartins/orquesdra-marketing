@@ -58,6 +58,25 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
 
+    // Conteúdo de altura variável (galeria masonry + imagens lazy) cresce DEPOIS de
+    // o Lenis fixar o limite de scroll. Sem isto, o scroll trancava antes do fim da
+    // página. Observamos a altura e refrescamos Lenis + ScrollTrigger quando muda.
+    let resizeRaf = 0;
+    const refreshAll = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(refreshAll);
+    });
+    ro.observe(document.body);
+    // o wordmark gigante muda de altura quando a fonte carrega; e há imagens lazy.
+    // Garantir o limite final exato em fonts.ready, no load e num refresh tardio.
+    document.fonts?.ready?.then(refreshAll).catch(() => {});
+    window.addEventListener("load", refreshAll);
+    const lateRefresh = window.setTimeout(refreshAll, 1200);
+
     // Header: expandido (lado a lado) no topo e ao subir; compacto ao descer.
     const nav = document.getElementById("nav");
     let lastY = 0;
@@ -174,6 +193,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     return () => {
       io.disconnect();
+      ro.disconnect();
+      cancelAnimationFrame(resizeRaf);
+      window.removeEventListener("load", refreshAll);
+      window.clearTimeout(lateRefresh);
       ctx.revert();
       gsap.ticker.remove(ticker);
       magnetCleanups.forEach((fn) => fn());
