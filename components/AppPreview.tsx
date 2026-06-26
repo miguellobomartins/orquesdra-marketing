@@ -77,14 +77,6 @@ export default function AppPreview() {
                       <span className="ah-empty-btn">Abrir calendário</span>
                     </div>
                   </div>
-                  <div className="apphome-block">
-                    <div className="ah-blockhead"><span>Desempenho</span></div>
-                    <div className="ah-empty">
-                      <span className="ah-empty-ic bars" />
-                      <b>Sem dados ainda</b>
-                      <i>As métricas aparecem aqui assim que houver atividade.</i>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
