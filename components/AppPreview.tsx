@@ -40,7 +40,7 @@ export default function AppPreview() {
                 </aside>
                 <div className="apphome">
                   <h3 className="apphome-h">Olá de novo, Miguel Martins</h3>
-                  <p className="apphome-sub">A gerir: Velto</p>
+                  <p className="apphome-sub">A gerir: Velto · 1 agendado esta semana</p>
                   <div className="apphome-cards">
                     <div className="ahcard ahcard-active">
                       <span className="ahcard-ic ic-spark" />
@@ -70,11 +70,12 @@ export default function AppPreview() {
                       <span>Próximos posts</span>
                       <i>Abrir calendário →</i>
                     </div>
-                    <div className="ah-empty">
-                      <span className="ah-empty-ic" />
-                      <b>Nada agendado</b>
-                      <i>Não tens posts nos próximos 14 dias.</i>
-                      <span className="ah-empty-btn">Abrir calendário</span>
+                    <div className="ah-post">
+                      <span className="ah-post-thumb" style={{ backgroundImage: "url(/posts/velto-tempo1.webp)" }} />
+                      <div className="ah-post-meta">
+                        <p>Publicar todos os dias não tem de ser uma luta. Com a Orquesdra, os teus posts saem prontos.</p>
+                        <span className="ah-post-date"><i />quarta, 1 jul · 09:00</span>
+                      </div>
                     </div>
                   </div>
                 </div>
