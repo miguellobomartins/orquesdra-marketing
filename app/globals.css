@@ -301,9 +301,12 @@ a { color: inherit; text-decoration: none; }
 /* masonry (column-count) para preservar o aspeto natural de cada post — sem cortar
    o texto que ja vem na imagem. Galeria limpa: sem overlay nem gradiente. */
 .ggrid { column-count: 4; column-gap: 16px; }
-.ggrid .pcard { margin: 0 0 16px; border-radius: var(--radius-lg); break-inside: avoid; }
-.ggrid .pcard img { aspect-ratio: auto; width: 100%; height: auto; display: block; }
+.ggrid .pcard { margin: 0 0 16px; border-radius: var(--radius-lg); break-inside: avoid; cursor: pointer; transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s cubic-bezier(.16,1,.3,1); }
+.ggrid .pcard img { aspect-ratio: auto; width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); will-change: transform; }
 .ggrid .pcard::after { display: none; }
+.ggrid .pcard:hover { transform: translateY(-8px); box-shadow: 0 4px 14px rgba(16,17,20,.10), 0 30px 64px rgba(16,17,20,.24); }
+.ggrid .pcard:hover img { transform: scale(1.06); }
+@media (hover: none) { .ggrid .pcard:hover { transform: none; } .ggrid .pcard:hover img { transform: none; } }
 @media (max-width: 1000px) { .ggrid { column-count: 2; } }
 
 /* capabilities */
@@ -516,6 +519,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .ld-tag { font-size: 13px; color: rgba(255,255,255,.4); letter-spacing: .02em; }
 .ld-bar { position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: rgba(255,255,255,.1); }
 .ld-bar > span { display: block; width: 100%; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+
+/* barra de progresso de scroll (topo) */
+.scroll-prog { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left center; z-index: 70; pointer-events: none; }
 
 /* hero novo: botões a meio (esq.) + título grande no canto inferior-esquerdo */
 /* rodapé do hero: botões empilhados ACIMA da caixa, ancorado ao canto inferior-esquerdo da moldura.

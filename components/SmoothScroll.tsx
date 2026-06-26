@@ -93,6 +93,13 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     });
 
     const ctx = gsap.context(() => {
+      // barra de progresso de scroll (topo) — escala com a posição na página
+      gsap.to(".scroll-prog", {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 },
+      });
+
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const amt = parseFloat(el.dataset.parallax || "12");
         gsap.fromTo(
@@ -161,15 +168,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         }
       });
 
-      // acento scramble (uma palavra/linha decodifica ao entrar)
-      gsap.utils.toArray<HTMLElement>("[data-scramble]").forEach((el) => {
+      // acento scramble: rótulos (eyebrows) decodificam ao entrar no viewport
+      gsap.utils.toArray<HTMLElement>("[data-scramble], .eyebrow2, .feature-eyebrow").forEach((el) => {
         const text = el.textContent || "";
         ScrollTrigger.create({
           trigger: el,
-          start: "top 84%",
+          start: "top 88%",
           once: true,
           onEnter: () =>
-            gsap.to(el, { duration: 1.1, ease: "none", scrambleText: { text, chars: "upperCase", speed: 0.5 } }),
+            gsap.to(el, { duration: 0.9, ease: "none", scrambleText: { text, chars: "upperCase", speed: 0.55 } }),
         });
       });
     });
@@ -204,5 +211,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      <div className="scroll-prog" aria-hidden="true" />
+      {children}
+    </>
+  );
 }
