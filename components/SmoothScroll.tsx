@@ -104,7 +104,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
       // fundo (hero) desfoca + escurece enquanto a demo sobe
       const heroEl = document.querySelector(".hero");
-      const appPanel = document.querySelector(".panel.app");
+      const appPanel = document.querySelector(".app-sec");
       if (heroEl && appPanel) {
         gsap.fromTo(
           heroEl,
@@ -113,15 +113,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         );
       }
 
-      // MacBook: sobe inclinado e endireita-se p/ o utilizador (monta-se ao scroll)
-      const appFrame = appPanel?.querySelector<HTMLElement>(".appframe");
-      if (appPanel && appFrame) {
-        gsap.fromTo(
-          appFrame,
-          { rotateX: 34, scale: 0.82, yPercent: 8 },
-          { rotateX: 0, scale: 1, yPercent: 0, ease: "none", scrollTrigger: { trigger: appPanel, start: "top bottom", end: "top 20%", scrub: true } }
-        );
-      }
+      // (o zoom-out do MacBook é tratado no próprio AppPreview, ligado ao scroll)
 
       // títulos: caracteres sobem em cascata dentro da máscara de cada linha
       gsap.utils.toArray<HTMLElement>('[data-anim="lines"]').forEach((el) => {
