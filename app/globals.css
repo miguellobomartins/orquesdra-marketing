@@ -125,7 +125,7 @@ a { color: inherit; text-decoration: none; }
 .hero { --frame: clamp(16px, 1.7vw, 24px); --frame-r: clamp(24px, 2.4vw, 36px); position: sticky; top: 0; z-index: 1; min-height: 100svh; height: 100svh; background: var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0; filter: blur(calc(var(--hb, 0) * 1px)); }
 
 /* palco de entrada: hero + mockup no MESMO sítio (crossfade -> zoom-out -> defocus) */
-.intro { position: relative; z-index: 1; height: 300svh; }
+.intro { position: relative; z-index: 1; height: 340svh; }
 .intro-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .intro-hero { position: absolute; inset: 0; z-index: 1; will-change: opacity, filter; }
 .intro-hero .hero { position: absolute; inset: 0; height: 100%; min-height: 0; filter: none; }
@@ -364,12 +364,12 @@ a { color: inherit; text-decoration: none; }
 /* ===== Design em movimento: espiral 3D de posts conduzida pelo scroll ===== */
 .dm-section { position: relative; width: 100vw; margin-left: calc(50% - 50vw); margin-top: clamp(20px, 3vw, 44px); height: 240vh; }
 .dm-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; perspective: 1300px; perspective-origin: 50% 48%; }
-.dm-heading { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 24px; pointer-events: none; }
+.dm-heading { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; padding: 0 24px clamp(56px, 9vh, 116px); pointer-events: none; }
 .dm-heading .eyebrow2 { margin: 0 0 14px; }
 .dm-heading .h2 { margin: 0; }
 .dm-heading .lead { margin: 16px auto 0; max-width: 520px; }
 .dm-field { position: absolute; inset: 0; transform-style: preserve-3d; z-index: 1; }
-.dm-card { position: absolute; left: 50%; top: 50%; width: clamp(170px, 16.5vw, 280px); will-change: transform, opacity; }
+.dm-card { position: absolute; left: 50%; top: 50%; width: clamp(130px, 13vw, 215px); will-change: transform, opacity; }
 .dm-card img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 36px 80px rgba(16,17,20,.30); background: #ece7e0; }
 .dm-foot { position: absolute; bottom: clamp(40px, 7vh, 80px); left: 0; right: 0; text-align: center; z-index: 30; margin: 0; font-size: clamp(.95rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 @media (max-width: 760px) { .dm-section { height: 250vh; } .dm-card { width: clamp(150px, 54vw, 250px); } }

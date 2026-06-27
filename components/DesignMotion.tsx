@@ -45,12 +45,12 @@ export default function DesignMotion() {
         // SEMICÍRCULO centrado: esquerda-baixo -> apex (centro/cima) -> direita-baixo.
         // Fica na faixa central do ecrã (não lá em cima) e deixa o MEIO livre p/ o título.
         const W = window.innerWidth;
-        const RX = Math.min(W * 0.42, 760); // largura do arco (cantos)
-        const RY = Math.min(vh * 0.42, 380); // altura do arco
+        const RX = Math.min(W * 0.4, 720); // largura do arco (cantos)
+        const RY = Math.min(vh * 0.2, 200); // altura do arco (mais raso p/ não bater no header)
         const ang = u * Math.PI; // 0..π
         const x = -Math.cos(ang) * RX; // -RX (esq) -> 0 -> +RX (dir)
-        const y = vh * 0.16 - Math.sin(ang) * RY; // apex no quarto superior, pontas em baixo
-        const z = Math.sin(ang) * 300; // aproxima-se no apex; nunca recua para trás
+        const y = vh * 0.06 - Math.sin(ang) * RY; // tudo mais para baixo (apex abaixo do header)
+        const z = Math.sin(ang) * 260; // aproxima-se no apex; nunca recua para trás
         const ry = (u - 0.5) * 22;
         const rz = (u - 0.5) * -30; // inclina ao longo da curva
         const op = Math.max(0, Math.min(1, Math.min(u / 0.07, (1 - u) / 0.12)));

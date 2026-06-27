@@ -34,26 +34,33 @@ export default function IntroStage() {
       return;
     }
 
+    const img = fr.querySelector("img");
     let raf = 0;
-    let cs = 1.75;
+    let cs = 1.3;
     const tick = () => {
       const vh = window.innerHeight;
+      const vw = window.innerWidth;
       const total = w.offsetHeight - vh;
       const top = w.getBoundingClientRect().top;
       const p = total > 0 ? Math.min(1, Math.max(0, -top / total)) : 0;
 
-      // A crossfade [0,0.22] | B zoom-out [0.25,0.5] | C defocus [0.55,1]
-      const fade = Math.min(1, p / 0.22);
+      // zoom MÁXIMO = o ecrã da app preenche a tela PERFEITAMENTE (cobre, sem
+      // ficar muito maior que a tela). Calculado a partir do tamanho real da print.
+      let fill = 1.35;
+      if (img && img.offsetWidth) fill = Math.max(vw / img.offsetWidth, vh / img.offsetHeight);
+
+      // A crossfade LENTO [0,0.34] | B zoom-out [0.37,0.6] | C defocus [0.62,1]
+      const fade = Math.min(1, p / 0.34);
       hl.style.opacity = (1 - fade).toFixed(3);
       hl.style.filter = fade > 0.02 ? `blur(${(fade * 7).toFixed(1)}px)` : "none";
       al.style.opacity = fade.toFixed(3);
 
-      let target = 1.75;
-      if (p >= 0.25 && p < 0.5) target = 1.75 + ((p - 0.25) / 0.25) * (0.8 - 1.75);
-      else if (p >= 0.5) target = 0.8;
+      let target = fill;
+      if (p >= 0.37 && p < 0.6) target = fill + ((p - 0.37) / 0.23) * (0.8 - fill);
+      else if (p >= 0.6) target = 0.8;
       cs += (target - cs) * 0.16;
 
-      const blur = p > 0.55 ? ((p - 0.55) / 0.45) * 9 : 0;
+      const blur = p > 0.62 ? ((p - 0.62) / 0.38) * 9 : 0;
       fr.style.transform = `scale(${cs.toFixed(3)})`;
       fr.style.filter = blur > 0.05 ? `blur(${blur.toFixed(1)}px)` : "none";
 
