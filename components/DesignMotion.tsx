@@ -9,6 +9,10 @@ const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 
 const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POSTS.length].src), i }));
 
+// telemóvel: duas filas para um marquee horizontal (CSS puro, sem rAF)
+const MROW1 = POSTS.slice(0, 10);
+const MROW2 = POSTS.slice(10, 20);
+
 /**
  * Arco 3D FINITO (estilo TRIONN): a um certo ponto do scroll começam a EMERGIR
  * imagens de um canto (baixo-esquerda), uma a uma, fazem o semicírculo por cima do
@@ -25,12 +29,13 @@ export default function DesignMotion() {
     const section = sec.current;
     const stageEl = stage.current;
     if (!section || !stageEl) return;
+    // telemóvel: marquee CSS (sem rAF, que travava) — sair sem montar o arco
+    if (window.matchMedia("(max-width: 760px)").matches) return;
     const cards = Array.from(stageEl.querySelectorAll<HTMLElement>(".dm-card"));
     let raf = 0;
     let running = false;
 
-    const mobile = window.matchMedia("(max-width: 760px)").matches;
-    const gap = mobile ? 0.3 : 0.12; // no telemóvel passam menos imagens ao mesmo tempo (mais espaçadas)
+    const gap = 0.12;
     const span = 1 + N * gap;
 
     const render = () => {
@@ -40,11 +45,10 @@ export default function DesignMotion() {
       const total = section.offsetHeight - vh;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
 
-      // geometria do arco (mais raso/estreito no telemóvel, mas cartões pequenos)
-      const RX = mobile ? W * 0.42 : Math.min(W * 0.4, 720);
-      const RY = mobile ? vh * 0.15 : Math.min(vh * 0.2, 200);
-      const baseY = mobile ? vh * 0.02 : vh * 0.06;
-      const zAmp = mobile ? 140 : 260;
+      const RX = Math.min(W * 0.4, 720);
+      const RY = Math.min(vh * 0.2, 200);
+      const baseY = vh * 0.06;
+      const zAmp = 260;
 
       for (let i = 0; i < cards.length; i++) {
         const u = p * span - i * gap; // posição desta imagem ao longo do rasto
@@ -103,6 +107,35 @@ export default function DesignMotion() {
               <img src={c.src} alt="" loading="lazy" />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* telemóvel: marquee horizontal CSS (leve, sem rAF; imagens eager p/ aparecerem) */}
+      <div className="dm-mobile">
+        <p className="eyebrow2">{t.gallery.eyebrow}</p>
+        <h2 className="h2">{t.gallery.h2}</h2>
+        <p className="lead">{t.gallery.lead}</p>
+        <div className="dm-marq" aria-hidden="true">
+          <div className="dm-mrow">
+            <div className="dm-mtrack">
+              {[...MROW1, ...MROW1].map((p, i) => (
+                <div className="dm-mcell" key={i}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={heroSrc(p.src)} alt="" loading="eager" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="dm-mrow rev">
+            <div className="dm-mtrack">
+              {[...MROW2, ...MROW2].map((p, i) => (
+                <div className="dm-mcell" key={i}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={heroSrc(p.src)} alt="" loading="eager" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -27,22 +27,22 @@ export default function IntroStage() {
 
     const mobile = window.matchMedia("(max-width: 760px)").matches;
     if (mobile) {
-      // telemóvel: SEM pin/zoom/crossfade. A hero fica normal e o mockup
-      // simplesmente SOBE (slide-up) ao entrar no ecrã.
+      // telemóvel: SEM rAF (era o que travava). O mockup faz slide-up UMA vez por
+      // CSS quando entra no ecrã (IntersectionObserver só liga a classe).
       hl.style.opacity = "1";
       hl.style.filter = "none";
       fr.style.filter = "none";
-      let rafM = 0;
-      const tickM = () => {
-        const vh = window.innerHeight;
-        const r = al.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.7)));
-        fr.style.transform = `translateY(${((1 - p) * 130).toFixed(1)}px)`;
-        al.style.opacity = Math.min(1, p * 1.7).toFixed(2);
-        rafM = requestAnimationFrame(tickM);
-      };
-      rafM = requestAnimationFrame(tickM);
-      return () => cancelAnimationFrame(rafM);
+      const io = new IntersectionObserver(
+        ([e]) => {
+          if (e.isIntersecting) {
+            al.classList.add("in");
+            io.disconnect();
+          }
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" },
+      );
+      io.observe(al);
+      return () => io.disconnect();
     }
 
     const img = fr.querySelector("img");
