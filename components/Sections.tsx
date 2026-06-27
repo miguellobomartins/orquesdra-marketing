@@ -174,7 +174,7 @@ export default function Sections() {
         </div>
         <h2 className="sr-only">{t.diff.h2}</h2>
         <div className="wrap center">
-          <p className="lead measure center" data-fade style={{ marginInline: "auto", fontSize: "clamp(1.15rem, 2vw, 1.6rem)", lineHeight: 1.45, color: "var(--ink)" }}>{t.diff.lead}</p>
+          <p className="lead measure center reveal fade-only" style={{ marginInline: "auto" }}>{t.diff.lead}</p>
         </div>
       </section>
 
@@ -210,13 +210,8 @@ export default function Sections() {
       </section>
 
       {/* proof — gallery */}
-      <section className="section" id="gallery" style={{ scrollMarginTop: 100 }}>
+      <section className="section" id="gallery" style={{ scrollMarginTop: 100, paddingTop: 0 }}>
         <div className="wrap">
-          <div className="measure center reveal fade-only" style={{ marginInline: "auto" }}>
-            <p className="eyebrow2">{t.gallery.eyebrow}</p>
-            <h2 className="h2" data-anim="lines" style={{ marginTop: 14 }}>{t.gallery.h2}</h2>
-            <p className="lead">{t.gallery.lead}</p>
-          </div>
           <DesignMotion />
           <div className="quote center reveal" style={{ marginTop: "clamp(40px, 6vw, 72px)" }}>
             <p>&ldquo;{t.gallery.quote}&rdquo;</p>

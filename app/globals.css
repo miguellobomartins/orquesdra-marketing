@@ -144,7 +144,15 @@ a { color: inherit; text-decoration: none; }
 .mac-dot { width: clamp(9px, .95vw, 12px); height: clamp(9px, .95vw, 12px); border-radius: 50%; flex: 0 0 auto; }
 .mac-dot.r { background: #ff5f57; } .mac-dot.y { background: #febc2e; } .mac-dot.g { background: #28c840; }
 .mac-url { margin-left: clamp(10px, 1.4vw, 20px); font-size: clamp(11px, 1vw, 13.5px); color: #9a9aa2; letter-spacing: .01em; }
-.mac-inner img { display: block; width: 100%; aspect-ratio: 2940 / 1666; object-fit: cover; object-position: top center; background: #fff; }
+.mac-shot { position: relative; container-type: inline-size; line-height: 0; }
+.mac-shot img { display: block; width: 100%; height: auto; background: #fff; }
+/* máscaras que cobrem o nome/email reais da print com texto fictício (mesma fonte) */
+.mac-mask { position: absolute; background: #fff; font-family: var(--font-hanken), system-ui, sans-serif; line-height: 1.15; white-space: nowrap; color: #1f2024; }
+.mac-mask.greet { left: 19.4%; top: 3.4%; font-size: 2cqw; font-weight: 600; letter-spacing: -.01em; padding: .3cqw 3.5cqw .3cqw 0; }
+.mac-mask.acct { left: 4.7%; top: 91.7%; display: flex; flex-direction: column; gap: .25cqw; padding-right: 2cqw; }
+.mac-mask.acct .acct-name { font-size: 1.22cqw; font-weight: 600; }
+.mac-mask.acct .acct-mail { font-size: .96cqw; color: #5d626f; }
+.mac-mask.avatar { left: 1.85%; top: 91.2%; width: 2.8%; aspect-ratio: 1; border-radius: 50%; background: #1f2024; color: #fff; display: grid; place-items: center; font-size: 1.15cqw; font-weight: 600; }
 .mac-base { position: relative; width: 114%; left: -7%; height: clamp(11px, 1.2vw, 16px); margin-top: -2px; border-radius: 2px 2px clamp(8px,1vw,12px) clamp(8px,1vw,12px); background: linear-gradient(180deg, #e0e0e2 0%, #b6b7bd 60%, #909199 100%); box-shadow: inset 0 2px 2px rgba(255,255,255,.55), 0 30px 42px rgba(16,17,20,.22); }
 .mac-groove { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 13%; height: clamp(5px, .6vw, 8px); background: #a7a8af; border-radius: 0 0 9px 9px; box-shadow: inset 0 -1px 1px rgba(0,0,0,.18); }
 
@@ -337,10 +345,12 @@ a { color: inherit; text-decoration: none; }
 /* ===== Design em movimento: espiral 3D de posts conduzida pelo scroll ===== */
 .dm-section { position: relative; width: 100vw; margin-left: calc(50% - 50vw); margin-top: clamp(20px, 3vw, 44px); height: 240vh; }
 .dm-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; perspective: 1300px; perspective-origin: 50% 48%; }
-.dm-eyebrow { position: absolute; top: clamp(80px, 12vh, 130px); left: 0; right: 0; text-align: center; z-index: 30; margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
-.dm-bg { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; margin: 0; font-size: clamp(2.6rem, 11vw, 11rem); font-weight: 800; letter-spacing: -.04em; line-height: .92; color: var(--ink); opacity: .06; pointer-events: none; z-index: 0; }
+.dm-heading { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 24px; pointer-events: none; }
+.dm-heading .eyebrow2 { margin: 0 0 14px; }
+.dm-heading .h2 { margin: 0; }
+.dm-heading .lead { margin: 16px auto 0; max-width: 520px; }
 .dm-field { position: absolute; inset: 0; transform-style: preserve-3d; z-index: 1; }
-.dm-card { position: absolute; left: 50%; top: 50%; width: clamp(220px, 21vw, 350px); will-change: transform, opacity; }
+.dm-card { position: absolute; left: 50%; top: 50%; width: clamp(170px, 16.5vw, 280px); will-change: transform, opacity; }
 .dm-card img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 36px 80px rgba(16,17,20,.30); background: #ece7e0; }
 .dm-foot { position: absolute; bottom: clamp(40px, 7vh, 80px); left: 0; right: 0; text-align: center; z-index: 30; margin: 0; font-size: clamp(.95rem, 1.4vw, 1.15rem); color: var(--ink-2); }
 @media (max-width: 760px) { .dm-section { height: 250vh; } .dm-card { width: clamp(150px, 54vw, 250px); } }
@@ -448,6 +458,10 @@ a { color: inherit; text-decoration: none; }
 .footer-cta { text-align: center; padding: clamp(36px, 6vw, 84px) 0 clamp(44px, 6vw, 80px); border-bottom: 1px solid var(--border); margin-bottom: clamp(40px, 5vw, 64px); }
 .footer-cta h2 { font-size: clamp(2.1rem, 5.6vw, 4.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.02; max-width: 16ch; margin: 0 auto clamp(24px, 3vw, 38px); }
 .footer-cta .po-ctas { justify-content: center; }
+/* corrigir: .footer a punha o texto dos botões cinzento (ilegível no roxo) */
+.footer .po-ctas a { margin-bottom: 0; }
+.footer .po-btn-primary { color: #fff; }
+.footer .po-btn-ghost { color: var(--ink); }
 
 /* wordmark gigante feito de LINHAS horizontais que se desenham (as "barras") */
 .line-bars {

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { POSTS } from "@/lib/posts";
+import { useT } from "@/components/LangProvider";
 
 const N = 9; // quantidade FINITA de imagens (o rasto acaba)
 const GAP = 0.12; // desfasamento entre imagens ao longo do rasto
@@ -17,6 +18,7 @@ const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POST
  * (não é um loop infinito). Conduzida pelo scroll (secção sticky + rAF).
  */
 export default function DesignMotion() {
+  const t = useT();
   const sec = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
 
@@ -40,16 +42,17 @@ export default function DesignMotion() {
           el.style.opacity = "0"; // ainda não emergiu, ou já saiu
           continue;
         }
-        // SEMICÍRCULO: esquerda-baixo -> apex (centro/cima) -> direita-baixo, sem ir para trás
+        // SEMICÍRCULO centrado: esquerda-baixo -> apex (centro/cima) -> direita-baixo.
+        // Fica na faixa central do ecrã (não lá em cima) e deixa o MEIO livre p/ o título.
         const W = window.innerWidth;
-        const RX = Math.min(W * 0.46, 800); // largura do arco
-        const RY = Math.min(vh * 0.42, 560); // altura do arco
+        const RX = Math.min(W * 0.42, 760); // largura do arco (cantos)
+        const RY = Math.min(vh * 0.42, 380); // altura do arco
         const ang = u * Math.PI; // 0..π
         const x = -Math.cos(ang) * RX; // -RX (esq) -> 0 -> +RX (dir)
-        const y = vh * 0.3 - Math.sin(ang) * (RY + vh * 0.3); // baixo -> apex -> baixo
-        const z = Math.sin(ang) * 360; // aproxima-se no apex; nunca recua para trás
+        const y = vh * 0.16 - Math.sin(ang) * RY; // apex no quarto superior, pontas em baixo
+        const z = Math.sin(ang) * 300; // aproxima-se no apex; nunca recua para trás
         const ry = (u - 0.5) * 22;
-        const rz = (u - 0.5) * -32; // inclina ao longo da curva
+        const rz = (u - 0.5) * -30; // inclina ao longo da curva
         const op = Math.max(0, Math.min(1, Math.min(u / 0.07, (1 - u) / 0.12)));
         el.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg) rotateZ(${rz.toFixed(1)}deg)`;
         el.style.opacity = op.toFixed(2);
@@ -81,6 +84,11 @@ export default function DesignMotion() {
   return (
     <div className="dm-section" ref={sec}>
       <div className="dm-stage" ref={stage}>
+        <div className="dm-heading">
+          <p className="eyebrow2">{t.gallery.eyebrow}</p>
+          <h2 className="h2">{t.gallery.h2}</h2>
+          <p className="lead">{t.gallery.lead}</p>
+        </div>
         <div className="dm-field">
           {CARDS.map((c) => (
             <div className="dm-card" key={c.i} style={{ opacity: 0 }}>

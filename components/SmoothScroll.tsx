@@ -193,8 +193,8 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
           onSplit(self) {
             return gsap.fromTo(
               self.words,
-              { opacity: 0.16 },
-              { opacity: 1, ease: "none", stagger: 0.06, scrollTrigger: { trigger: el, start: "top 82%", end: "top 38%", scrub: true } },
+              { opacity: 0.24 },
+              { opacity: 1, ease: "none", stagger: 0.06, scrollTrigger: { trigger: el, start: "top 85%", end: "top 45%", scrub: true } },
             );
           },
         });

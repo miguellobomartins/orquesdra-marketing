@@ -8,7 +8,7 @@ export default function Statement() {
     <section className="panel statement-panel">
       <div className="sp-inner">
         <p className="eyebrow2">{t.problem.eyebrow}</p>
-        <h2 className="sp-h">
+        <h2 className="sp-h" data-fade>
           {t.problem.headlinePre}
           <em>{t.problem.headlineEm}</em>
           {t.problem.headlinePost}
