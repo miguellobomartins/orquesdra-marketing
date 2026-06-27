@@ -15,10 +15,12 @@ export default function Statement() {
         </h2>
         <div className="alts">
           {t.problem.alts.map((a) => (
-            <div className="alt" key={a.n}>
-              <span className="n">{a.n}</span>
-              <h3>{a.h}</h3>
-              <p>{a.p}</p>
+            <div className="alt reveal" key={a.n}>
+              <span className="alt-n">{a.n}</span>
+              <div className="alt-body">
+                <h3 data-anim="lines">{a.h}</h3>
+                <p>{a.p}</p>
+              </div>
             </div>
           ))}
         </div>
