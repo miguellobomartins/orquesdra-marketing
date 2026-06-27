@@ -279,22 +279,16 @@ export default function Sections() {
         </div>
       </section>
 
-      {/* final cta */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      {/* footer (com CTA grande integrado, estilo TRIONN) */}
+      <footer className="footer">
         <div className="wrap">
-          <div className="finalcta reveal fade-only">
+          <div className="footer-cta reveal fade-only">
             <h2 data-anim="lines">{t.finalCta.h2}</h2>
             <div className="po-ctas">
               <a className="po-btn-primary po-btn-lg magnetic" href="https://app.orquesdra.com">{t.finalCta.ctaPrimary}</a>
               <a className="po-btn-ghost" href="#pricing">{t.finalCta.ctaSecondary}</a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* footer */}
-      <footer className="footer">
-        <div className="wrap">
           <div className="footer-grid">
             <div>
               <div className="fbrand"><BrandMark className="po-mark" />Orquesdra</div>
@@ -312,7 +306,7 @@ export default function Sections() {
             <span>{t.footer.madeFor}</span>
           </div>
         </div>
-        <div className="footer-wordmark" aria-hidden="true">Orquesdra</div>
+        <div className="footer-wordmark line-bars" aria-hidden="true">Orquesdra</div>
       </footer>
     </>
   );

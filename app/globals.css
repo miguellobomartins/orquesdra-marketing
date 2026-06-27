@@ -441,6 +441,18 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
+/* CTA grande integrado no topo do footer (estilo TRIONN) */
+.footer-cta { text-align: center; padding: clamp(36px, 6vw, 84px) 0 clamp(44px, 6vw, 80px); border-bottom: 1px solid var(--border); margin-bottom: clamp(40px, 5vw, 64px); }
+.footer-cta h2 { font-size: clamp(2.1rem, 5.6vw, 4.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.02; max-width: 16ch; margin: 0 auto clamp(24px, 3vw, 38px); }
+.footer-cta .po-ctas { justify-content: center; }
+
+/* wordmark gigante feito de LINHAS horizontais que se desenham (as "barras") */
+.line-bars {
+  -webkit-mask-image: repeating-linear-gradient(to bottom, #000 0, #000 5px, transparent 5px, transparent 11px);
+  mask-image: repeating-linear-gradient(to bottom, #000 0, #000 5px, transparent 5px, transparent 11px);
+  clip-path: inset(0 0 100% 0);
+}
+
 /* ============================================================
    v3 — secções editoriais + showcases de produto
    ============================================================ */

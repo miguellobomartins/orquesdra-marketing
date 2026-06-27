@@ -175,6 +175,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         });
       });
 
+      // wordmark de LINHAS que se desenham top->bottom ao scroll (as "barras")
+      gsap.utils.toArray<HTMLElement>(".line-bars").forEach((el) => {
+        gsap.fromTo(
+          el,
+          { clipPath: "inset(0 0 100% 0)" },
+          { clipPath: "inset(0 0 0% 0)", ease: "none", scrollTrigger: { trigger: el, start: "top 92%", end: "bottom bottom", scrub: 0.5 } },
+        );
+      });
+
       // texto cinza -> branco/tinta ao scroll (estilo About do TRIONN): cada
       // palavra acende a opacidade à medida que a frase atravessa o ecrã
       gsap.utils.toArray<HTMLElement>("[data-fade]").forEach((el) => {
