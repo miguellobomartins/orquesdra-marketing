@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { POSTS } from "@/lib/posts";
-import GalleryGrid from "@/components/GalleryGrid";
 import DesignMotion from "@/components/DesignMotion";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/components/LangProvider";
@@ -158,9 +157,6 @@ export default function Sections() {
         </div>
       </section>
 
-      {/* design em movimento — espiral 3D de posts */}
-      <DesignMotion />
-
       {/* it's actually yours — differentiation band (marquee cinético) */}
       <section className="section diff-band">
         <div className="wrap center">
@@ -221,7 +217,7 @@ export default function Sections() {
             <h2 className="h2" data-anim="lines" style={{ marginTop: 14 }}>{t.gallery.h2}</h2>
             <p className="lead">{t.gallery.lead}</p>
           </div>
-          <GalleryGrid />
+          <DesignMotion />
           <div className="quote center reveal" style={{ marginTop: "clamp(40px, 6vw, 72px)" }}>
             <p>&ldquo;{t.gallery.quote}&rdquo;</p>
             <p className="who">{t.gallery.author}</p>

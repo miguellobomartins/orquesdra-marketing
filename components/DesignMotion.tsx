@@ -1,23 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useT } from "@/components/LangProvider";
 import { POSTS } from "@/lib/posts";
 
-const N = 14;
-const CYCLES = 1.15; // quantas "voltas" do conveyor ao atravessar a secção
-const heroSrc = (s: string) => s.replace("/posts/", "/hero/"); // versões leves
+const N = 11;
+const CYCLES = 1.0; // cada cartão percorre a hélice uma vez ao atravessar a secção
+const TURNS = 1.45; // voltas da espiral
+const T0 = Math.PI * 0.32; // ângulo de entrada (canto inferior-direito)
+const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 
 const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POSTS.length].src), o: i / N }));
 
 /**
- * "Design em movimento" — adaptação do efeito DESIGN IN MOTION do TRIONN:
- * uma linha 3D de posts que flui ao longo de uma curva conduzida pelo scroll —
- * entram longe/pequenos, aproximam-se da câmara ao centro (grandes) e saem
- * pela curva para cima/longe. Secção fixada (sticky) + posições calculadas no rAF.
+ * Espiral 3D de posts (estilo TRIONN "Design in Motion"): as imagens ENTRAM por
+ * um canto (longe/pequenas), fazem uma HÉLICE (orbitam enquanto se aproximam da
+ * câmara) e SAEM por cima. Conduzida pelo scroll (secção sticky + rAF).
  */
 export default function DesignMotion() {
-  const t = useT();
   const sec = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
 
@@ -36,17 +35,21 @@ export default function DesignMotion() {
       const total = section.offsetHeight - vh;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
       for (let i = 0; i < cards.length; i++) {
-        const u = frac(CARDS[i].o + p * CYCLES); // 0..1 ao longo da curva
-        const bump = Math.sin(u * Math.PI); // 0 (longe) -> 1 (perto) -> 0 (longe)
-        const z = -1550 + 1980 * bump; // recua nas pontas, aproxima-se ao centro
-        const x = (u - 0.5) * 1780; // varre da esquerda para a direita
-        const y = (u - 0.5) * 360 - bump * 30; // entra por baixo, sai por cima
-        const ry = (u - 0.5) * 44; // roda ao passar
-        const op = Math.max(0, Math.min(1, bump * 1.7 - 0.12));
+        const u = frac(CARDS[i].o + p * CYCLES); // 0 (entrada) -> 1 (saída)
+        const th = u * TURNS * Math.PI * 2 + T0; // ângulo da hélice
+        const R = 340 + u * 300; // raio da órbita (abre ao aproximar)
+        const x = Math.cos(th) * R;
+        const yOrbit = Math.sin(th) * R * 0.58;
+        const yRise = -Math.pow(u, 2.3) * 1650 + (1 - u) * 170; // sobe e sai por cima
+        const y = yOrbit + yRise;
+        const z = -2050 + u * 2450; // longe -> perto
+        const ry = Math.cos(th) * 22;
+        const rz = Math.sin(th) * 7;
+        const op = Math.max(0, Math.min(1, Math.min(u / 0.07, (1 - u) / 0.16)));
         const el = cards[i];
-        el.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg)`;
+        el.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg) rotateZ(${rz.toFixed(1)}deg)`;
         el.style.opacity = op.toFixed(2);
-        el.style.zIndex = String(Math.round(z + 2000));
+        el.style.zIndex = String(Math.round(z + 2200));
       }
       raf = requestAnimationFrame(render);
     };
@@ -72,10 +75,8 @@ export default function DesignMotion() {
   }, []);
 
   return (
-    <section className="dm-section" ref={sec}>
+    <div className="dm-section" ref={sec}>
       <div className="dm-stage" ref={stage}>
-        <p className="dm-eyebrow">{t.motion.eyebrow}</p>
-        <h2 className="dm-bg" aria-hidden="true">{t.motion.h2}</h2>
         <div className="dm-field">
           {CARDS.map((c, i) => (
             <div className="dm-card" key={i}>
@@ -84,8 +85,7 @@ export default function DesignMotion() {
             </div>
           ))}
         </div>
-        <p className="dm-foot">{t.motion.foot}</p>
       </div>
-    </section>
+    </div>
   );
 }
