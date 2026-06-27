@@ -174,7 +174,7 @@ export default function Sections() {
         </div>
         <h2 className="sr-only">{t.diff.h2}</h2>
         <div className="wrap center">
-          <p className="lead measure center reveal fade-only" style={{ marginInline: "auto" }}>{t.diff.lead}</p>
+          <p className="lead measure center" data-fade style={{ marginInline: "auto", fontSize: "clamp(1.15rem, 2vw, 1.6rem)", lineHeight: 1.45, color: "var(--ink)" }}>{t.diff.lead}</p>
         </div>
       </section>
 

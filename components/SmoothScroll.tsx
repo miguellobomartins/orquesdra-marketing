@@ -174,6 +174,22 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
             gsap.to(el, { duration: 0.9, ease: "none", scrambleText: { text, chars: "upperCase", speed: 0.55 } }),
         });
       });
+
+      // texto cinza -> branco/tinta ao scroll (estilo About do TRIONN): cada
+      // palavra acende a opacidade à medida que a frase atravessa o ecrã
+      gsap.utils.toArray<HTMLElement>("[data-fade]").forEach((el) => {
+        SplitText.create(el, {
+          type: "words",
+          wordsClass: "fade-word",
+          onSplit(self) {
+            return gsap.fromTo(
+              self.words,
+              { opacity: 0.16 },
+              { opacity: 1, ease: "none", stagger: 0.06, scrollTrigger: { trigger: el, start: "top 82%", end: "top 38%", scrub: true } },
+            );
+          },
+        });
+      });
     });
 
     const magnetCleanups: Array<() => void> = [];
