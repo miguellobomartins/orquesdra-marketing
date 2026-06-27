@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { POSTS } from "@/lib/posts";
+import GalleryGrid from "@/components/GalleryGrid";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/components/LangProvider";
 import type { Feature, Qa } from "@/lib/i18n";
@@ -216,14 +217,7 @@ export default function Sections() {
             <h2 className="h2" data-anim="lines" style={{ marginTop: 14 }}>{t.gallery.h2}</h2>
             <p className="lead">{t.gallery.lead}</p>
           </div>
-          <div className="ggrid reveal" style={{ marginTop: "clamp(28px, 4vw, 52px)" }}>
-            {POSTS.map((p, i) => (
-              <div className="pcard" key={i}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.src} alt={`${p.brand} — ${p.cap}`} loading="lazy" />
-              </div>
-            ))}
-          </div>
+          <GalleryGrid />
           <div className="quote center reveal" style={{ marginTop: "clamp(40px, 6vw, 72px)" }}>
             <p>&ldquo;{t.gallery.quote}&rdquo;</p>
             <p className="who">{t.gallery.author}</p>

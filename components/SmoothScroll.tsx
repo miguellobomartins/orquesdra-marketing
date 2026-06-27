@@ -93,13 +93,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     });
 
     const ctx = gsap.context(() => {
-      // barra de progresso de scroll (topo) — escala com a posição na página
-      gsap.to(".scroll-prog", {
-        scaleX: 1,
-        ease: "none",
-        scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 },
-      });
-
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const amt = parseFloat(el.dataset.parallax || "12");
         gsap.fromTo(
@@ -221,10 +214,5 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     };
   }, []);
 
-  return (
-    <>
-      <div className="scroll-prog" aria-hidden="true" />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
