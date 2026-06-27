@@ -26,30 +26,9 @@ export default function IntroStage() {
     if (!w || !hl || !al || !fr) return;
 
     const mobile = window.matchMedia("(max-width: 760px)").matches;
-    if (mobile) {
-      // no telemóvel não fixamos nada, mas o mockup GANHA VIDA ao entrar:
-      // fade + sobe + inclina em 3D + leve scale, conduzido pelo scroll.
-      hl.style.opacity = "1";
-      hl.style.filter = "none";
-      let rafM = 0;
-      const tickM = () => {
-        const vh = window.innerHeight;
-        const r = al.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height * 0.5)));
-        const scale = 0.94 + p * 0.12; // 0.94 -> 1.06
-        const ty = (0.5 - p) * 42; // sobe ao atravessar
-        const rx = (0.5 - p) * 11; // inclina 3D ~+5 -> -5
-        fr.style.transform = `perspective(1100px) translateY(${ty.toFixed(1)}px) rotateX(${rx.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
-        al.style.opacity = Math.min(1, p * 2.4).toFixed(2);
-        rafM = requestAnimationFrame(tickM);
-      };
-      rafM = requestAnimationFrame(tickM);
-      return () => cancelAnimationFrame(rafM);
-    }
-
     const img = fr.querySelector("img");
     let raf = 0;
-    let cs = 1.3;
+    let cs = mobile ? 1.5 : 1.3;
     const tick = () => {
       const vh = window.innerHeight;
       const vw = window.innerWidth;
@@ -57,10 +36,11 @@ export default function IntroStage() {
       const top = w.getBoundingClientRect().top;
       const p = total > 0 ? Math.min(1, Math.max(0, -top / total)) : 0;
 
-      // zoom MÁXIMO = o ecrã da app preenche a tela PERFEITAMENTE (cobre, sem
-      // ficar muito maior que a tela). Calculado a partir do tamanho real da print.
-      let fill = 1.35;
-      if (img && img.offsetWidth) fill = Math.max(vw / img.offsetWidth, vh / img.offsetHeight);
+      // zoom MÁXIMO: no desktop o ecrã da app cobre a tela (calculado da print);
+      // no telemóvel (tela vertical) um zoom moderado, senão ficaria gigante.
+      let fill = 1.6;
+      if (!mobile && img && img.offsetWidth) fill = Math.max(vw / img.offsetWidth, vh / img.offsetHeight);
+      const small = mobile ? 1.0 : 0.8; // estado "dispositivo inteiro"
 
       // A crossfade LENTO [0,0.34] | B zoom-out [0.37,0.6] | C defocus [0.62,1]
       const fade = Math.min(1, p / 0.34);
@@ -69,8 +49,8 @@ export default function IntroStage() {
       al.style.opacity = fade.toFixed(3);
 
       let target = fill;
-      if (p >= 0.37 && p < 0.6) target = fill + ((p - 0.37) / 0.23) * (0.8 - fill);
-      else if (p >= 0.6) target = 0.8;
+      if (p >= 0.37 && p < 0.6) target = fill + ((p - 0.37) / 0.23) * (small - fill);
+      else if (p >= 0.6) target = small;
       cs += (target - cs) * 0.16;
 
       const blur = p > 0.62 ? ((p - 0.62) / 0.38) * 9 : 0;
