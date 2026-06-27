@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { POSTS } from "@/lib/posts";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/components/LangProvider";
-import type { Feature } from "@/lib/i18n";
+import type { Feature, Qa } from "@/lib/i18n";
 
 function Check() {
   return (
@@ -22,6 +23,27 @@ function FeatureText({ f, i }: { f: Feature; i: number }) {
       <ul className="feature-list">
         {f.list.map((item, k) => (<li key={k}><Check />{item}</li>))}
       </ul>
+    </div>
+  );
+}
+
+function Faq({ items }: { items: Qa[] }) {
+  const [open, setOpen] = useState(0);
+  return (
+    <div className="faq reveal">
+      {items.map((f, i) => (
+        <div className={`faq-item${open === i ? " open" : ""}`} key={i}>
+          <button className="faq-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
+            <span>{f.q}</span>
+            <span className="faq-ic" aria-hidden="true" />
+          </button>
+          <div className="faq-a-wrap">
+            <div className="faq-a">
+              <p>{f.a}</p>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -134,14 +156,24 @@ export default function Sections() {
         </div>
       </section>
 
-      {/* it's actually yours — differentiation band */}
-      <section className="section">
+      {/* it's actually yours — differentiation band (marquee cinético) */}
+      <section className="section diff-band">
         <div className="wrap center">
-          <div className="measure center reveal fade-only">
-            <p className="eyebrow2">{t.diff.eyebrow}</p>
-            <h2 className="h2" data-anim="lines">{t.diff.h2}</h2>
-            <p className="lead">{t.diff.lead}</p>
+          <p className="eyebrow2 reveal fade-only" style={{ textAlign: "center" }}>{t.diff.eyebrow}</p>
+        </div>
+        <div className="kmarquee" aria-hidden="true">
+          <div className="kmarquee-track">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span className={i % 2 ? "ko" : undefined} key={i}>
+                {t.diff.h2}
+                <i className="kdot">✦</i>
+              </span>
+            ))}
           </div>
+        </div>
+        <h2 className="sr-only">{t.diff.h2}</h2>
+        <div className="wrap center">
+          <p className="lead measure center reveal fade-only" style={{ marginInline: "auto" }}>{t.diff.lead}</p>
         </div>
       </section>
 
@@ -249,14 +281,7 @@ export default function Sections() {
           <div className="measure center reveal fade-only">
             <h2 className="h2" data-anim="lines">{t.faq.h2}</h2>
           </div>
-          <div className="faq reveal">
-            {t.faq.items.map((f, i) => (
-              <details key={i} open={i === 0}>
-                <summary>{f.q}<span className="plus" aria-hidden="true">+</span></summary>
-                <p className="ans">{f.a}</p>
-              </details>
-            ))}
-          </div>
+          <Faq items={t.faq.items} />
         </div>
       </section>
 
