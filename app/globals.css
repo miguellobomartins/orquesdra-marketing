@@ -373,14 +373,19 @@ a { color: inherit; text-decoration: none; }
 .dm-card { position: absolute; left: 50%; top: 50%; width: clamp(130px, 13vw, 215px); will-change: transform, opacity; }
 .dm-card img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 36px 80px rgba(16,17,20,.30); background: #ece7e0; }
 .dm-foot { position: absolute; bottom: clamp(40px, 7vh, 80px); left: 0; right: 0; text-align: center; z-index: 30; margin: 0; font-size: clamp(.95rem, 1.4vw, 1.15rem); color: var(--ink-2); }
-/* galeria no telemóvel: grelha masonry simples (sem arco 3D) */
-.dm-mobile { display: none; text-align: center; padding: clamp(8px, 4vw, 24px) 4px 0; }
-.dm-mobile .eyebrow2 { margin: 0 0 12px; }
-.dm-mobile .h2 { margin: 0; }
-.dm-mobile .lead { margin: 14px auto clamp(22px, 6vw, 34px); max-width: 30ch; }
-.dm-grid { columns: 2; column-gap: 12px; }
-.dm-gcell { break-inside: avoid; margin: 0 0 12px; }
-.dm-gcell img { display: block; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 12px 32px rgba(16,17,20,.14); }
+/* galeria no telemóvel: marquee horizontal vivo (sem arco 3D que se sobrepunha) */
+.dm-mobile { display: none; padding: clamp(8px, 4vw, 24px) 0 0; }
+.dm-mobile .eyebrow2 { margin: 0 0 12px; text-align: center; }
+.dm-mobile .h2 { margin: 0; text-align: center; padding: 0 16px; }
+.dm-mobile .lead { margin: 14px auto clamp(24px, 7vw, 38px); max-width: 30ch; text-align: center; padding: 0 16px; }
+.dm-marq { display: flex; flex-direction: column; gap: 14px; }
+.dm-mrow { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.dm-mtrack { display: flex; gap: 14px; width: max-content; animation: dm-marq 34s linear infinite; will-change: transform; }
+.dm-mrow.rev .dm-mtrack { animation-duration: 42s; animation-direction: reverse; }
+.dm-mcell { flex: 0 0 auto; height: clamp(190px, 54vw, 280px); }
+.dm-mcell img { display: block; height: 100%; width: auto; border-radius: 14px; box-shadow: 0 16px 40px rgba(16,17,20,.16); background: #ece7e0; }
+@keyframes dm-marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .dm-mtrack { animation: none; } }
 @media (max-width: 760px) {
   .dm-section { height: auto; }
   .dm-stage { display: none; }

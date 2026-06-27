@@ -11,6 +11,10 @@ const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 
 const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POSTS.length].src), i }));
 
+// duas filas para o marquee horizontal do telemóvel (sentidos opostos)
+const MROW1 = POSTS;
+const MROW2 = [...POSTS].reverse();
+
 /**
  * Espiral 3D FINITA (estilo TRIONN): a um certo ponto do scroll começam a EMERGIR
  * imagens de um canto (baixo-esquerda), uma a uma, fazem a espiral e sobem para o
@@ -101,18 +105,32 @@ export default function DesignMotion() {
         </div>
       </div>
 
-      {/* telemóvel: grelha simples (sem arco 3D que se sobrepõe) */}
+      {/* telemóvel: marquee horizontal (vivo, sem o arco 3D que se sobrepunha) */}
       <div className="dm-mobile">
         <p className="eyebrow2">{t.gallery.eyebrow}</p>
         <h2 className="h2">{t.gallery.h2}</h2>
         <p className="lead">{t.gallery.lead}</p>
-        <div className="dm-grid">
-          {POSTS.slice(0, 8).map((p, i) => (
-            <div className="dm-gcell reveal" key={i}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={heroSrc(p.src)} alt="" loading="lazy" />
+        <div className="dm-marq" aria-hidden="true">
+          <div className="dm-mrow">
+            <div className="dm-mtrack">
+              {[...MROW1, ...MROW1].map((p, i) => (
+                <div className="dm-mcell" key={i}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={heroSrc(p.src)} alt="" loading="lazy" />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="dm-mrow rev">
+            <div className="dm-mtrack">
+              {[...MROW2, ...MROW2].map((p, i) => (
+                <div className="dm-mcell" key={i}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={heroSrc(p.src)} alt="" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
