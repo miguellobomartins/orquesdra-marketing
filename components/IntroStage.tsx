@@ -26,9 +26,28 @@ export default function IntroStage() {
     if (!w || !hl || !al || !fr) return;
 
     const mobile = window.matchMedia("(max-width: 760px)").matches;
+    if (mobile) {
+      // telemóvel: SEM pin/zoom/crossfade. A hero fica normal e o mockup
+      // simplesmente SOBE (slide-up) ao entrar no ecrã.
+      hl.style.opacity = "1";
+      hl.style.filter = "none";
+      fr.style.filter = "none";
+      let rafM = 0;
+      const tickM = () => {
+        const vh = window.innerHeight;
+        const r = al.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.7)));
+        fr.style.transform = `translateY(${((1 - p) * 130).toFixed(1)}px)`;
+        al.style.opacity = Math.min(1, p * 1.7).toFixed(2);
+        rafM = requestAnimationFrame(tickM);
+      };
+      rafM = requestAnimationFrame(tickM);
+      return () => cancelAnimationFrame(rafM);
+    }
+
     const img = fr.querySelector("img");
     let raf = 0;
-    let cs = mobile ? 1.5 : 1.3;
+    let cs = 1.3;
     const tick = () => {
       const vh = window.innerHeight;
       const vw = window.innerWidth;

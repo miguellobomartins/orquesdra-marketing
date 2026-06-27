@@ -26,6 +26,8 @@ export default function DesignMotion() {
     const section = sec.current;
     const stageEl = stage.current;
     if (!section || !stageEl) return;
+    // no telemóvel mostramos uma grelha simples (sem arco 3D) — saltar o rAF
+    if (window.matchMedia("(max-width: 760px)").matches) return;
     const cards = Array.from(stageEl.querySelectorAll<HTMLElement>(".dm-card"));
     let raf = 0;
     let running = false;
@@ -94,6 +96,21 @@ export default function DesignMotion() {
             <div className="dm-card" key={c.i} style={{ opacity: 0 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.src} alt="" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* telemóvel: grelha simples (sem arco 3D que se sobrepõe) */}
+      <div className="dm-mobile">
+        <p className="eyebrow2">{t.gallery.eyebrow}</p>
+        <h2 className="h2">{t.gallery.h2}</h2>
+        <p className="lead">{t.gallery.lead}</p>
+        <div className="dm-grid">
+          {POSTS.slice(0, 8).map((p, i) => (
+            <div className="dm-gcell reveal" key={i}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroSrc(p.src)} alt="" loading="lazy" />
             </div>
           ))}
         </div>
