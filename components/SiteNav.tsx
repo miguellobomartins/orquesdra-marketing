@@ -46,6 +46,11 @@ export default function SiteNav() {
       </nav>
 
       <div className={`po-menu${open ? " open" : ""}`} onClick={() => setOpen(false)}>
+        <button className="po-menu-close" aria-label="Fechar menu" onClick={() => setOpen(false)}>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
         <div className="po-menu-inner" onClick={(e) => e.stopPropagation()}>
           {t.nav.links.map(({ href, label }, i) => (
             <a key={label} href={href} onClick={() => setOpen(false)} style={{ ["--i" as string]: i }}>
