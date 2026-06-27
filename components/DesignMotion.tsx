@@ -5,21 +5,16 @@ import { POSTS } from "@/lib/posts";
 import { useT } from "@/components/LangProvider";
 
 const N = 9; // quantidade FINITA de imagens (o rasto acaba)
-const GAP = 0.12; // desfasamento entre imagens ao longo do rasto
-const SPAN = 1 + N * GAP; // quanto progresso é preciso para escoar tudo
 const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 
 const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POSTS.length].src), i }));
 
-// duas filas para o marquee horizontal do telemóvel (sentidos opostos)
-const MROW1 = POSTS;
-const MROW2 = [...POSTS].reverse();
-
 /**
- * Espiral 3D FINITA (estilo TRIONN): a um certo ponto do scroll começam a EMERGIR
- * imagens de um canto (baixo-esquerda), uma a uma, fazem a espiral e sobem para o
- * canto direito, saindo de cena. Passa um número finito de imagens e o rasto ACABA
- * (não é um loop infinito). Conduzida pelo scroll (secção sticky + rAF).
+ * Arco 3D FINITO (estilo TRIONN): a um certo ponto do scroll começam a EMERGIR
+ * imagens de um canto (baixo-esquerda), uma a uma, fazem o semicírculo por cima do
+ * texto e descem para o canto direito, saindo de cena. Passa um número finito e o
+ * rasto ACABA. Funciona em desktop E telemóvel — no telemóvel os cartões são mais
+ * pequenos e passam MENOS de cada vez (mais espaçados) para não se sobreporem.
  */
 export default function DesignMotion() {
   const t = useT();
@@ -30,33 +25,39 @@ export default function DesignMotion() {
     const section = sec.current;
     const stageEl = stage.current;
     if (!section || !stageEl) return;
-    // no telemóvel mostramos uma grelha simples (sem arco 3D) — saltar o rAF
-    if (window.matchMedia("(max-width: 760px)").matches) return;
     const cards = Array.from(stageEl.querySelectorAll<HTMLElement>(".dm-card"));
     let raf = 0;
     let running = false;
 
+    const mobile = window.matchMedia("(max-width: 760px)").matches;
+    const gap = mobile ? 0.3 : 0.12; // no telemóvel passam menos imagens ao mesmo tempo (mais espaçadas)
+    const span = 1 + N * gap;
+
     const render = () => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
+      const W = window.innerWidth;
       const total = section.offsetHeight - vh;
       const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+
+      // geometria do arco (mais raso/estreito no telemóvel, mas cartões pequenos)
+      const RX = mobile ? W * 0.42 : Math.min(W * 0.4, 720);
+      const RY = mobile ? vh * 0.15 : Math.min(vh * 0.2, 200);
+      const baseY = mobile ? vh * 0.02 : vh * 0.06;
+      const zAmp = mobile ? 140 : 260;
+
       for (let i = 0; i < cards.length; i++) {
-        const u = p * SPAN - i * GAP; // posição desta imagem ao longo do rasto
+        const u = p * span - i * gap; // posição desta imagem ao longo do rasto
         const el = cards[i];
         if (u <= 0 || u >= 1) {
           el.style.opacity = "0"; // ainda não emergiu, ou já saiu
           continue;
         }
-        // SEMICÍRCULO centrado: esquerda-baixo -> apex (centro/cima) -> direita-baixo.
-        // Fica na faixa central do ecrã (não lá em cima) e deixa o MEIO livre p/ o título.
-        const W = window.innerWidth;
-        const RX = Math.min(W * 0.4, 720); // largura do arco (cantos)
-        const RY = Math.min(vh * 0.2, 200); // altura do arco (mais raso p/ não bater no header)
+        // SEMICÍRCULO: esquerda-baixo -> apex (centro/cima) -> direita-baixo
         const ang = u * Math.PI; // 0..π
         const x = -Math.cos(ang) * RX; // -RX (esq) -> 0 -> +RX (dir)
-        const y = vh * 0.06 - Math.sin(ang) * RY; // tudo mais para baixo (apex abaixo do header)
-        const z = Math.sin(ang) * 260; // aproxima-se no apex; nunca recua para trás
+        const y = baseY - Math.sin(ang) * RY; // apex em cima, pontas em baixo
+        const z = Math.sin(ang) * zAmp; // aproxima-se no apex; nunca recua para trás
         const ry = (u - 0.5) * 22;
         const rz = (u - 0.5) * -30; // inclina ao longo da curva
         const op = Math.max(0, Math.min(1, Math.min(u / 0.07, (1 - u) / 0.12)));
@@ -102,35 +103,6 @@ export default function DesignMotion() {
               <img src={c.src} alt="" loading="lazy" />
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* telemóvel: marquee horizontal (vivo, sem o arco 3D que se sobrepunha) */}
-      <div className="dm-mobile">
-        <p className="eyebrow2">{t.gallery.eyebrow}</p>
-        <h2 className="h2">{t.gallery.h2}</h2>
-        <p className="lead">{t.gallery.lead}</p>
-        <div className="dm-marq" aria-hidden="true">
-          <div className="dm-mrow">
-            <div className="dm-mtrack">
-              {[...MROW1, ...MROW1].map((p, i) => (
-                <div className="dm-mcell" key={i}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={heroSrc(p.src)} alt="" loading="lazy" />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="dm-mrow rev">
-            <div className="dm-mtrack">
-              {[...MROW2, ...MROW2].map((p, i) => (
-                <div className="dm-mcell" key={i}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={heroSrc(p.src)} alt="" loading="lazy" />
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
