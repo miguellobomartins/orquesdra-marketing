@@ -104,7 +104,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
       // fundo (hero) desfoca + escurece enquanto a demo sobe
       const heroEl = document.querySelector(".hero");
-      const appPanel = document.querySelector(".app-sec");
+      const appPanel = document.querySelector(".panel.app");
       if (heroEl && appPanel) {
         gsap.fromTo(
           heroEl,

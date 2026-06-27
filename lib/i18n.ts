@@ -17,7 +17,7 @@ export type Dict = {
   billing: { h2: string; lead: string; points: string[] };
   faq: { h2: string; items: Qa[] };
   finalCta: { h2: string; ctaPrimary: string; ctaSecondary: string };
-  footer: { tagline: string; cols: { title: string; links: { label: string; href: string }[] }[]; copyright: string; madeFor: string };
+  footer: { tagline: string; cols: { title: string; links: { label: string; href: string }[] }[]; legal: { label: string; href: string }[]; copyright: string; madeFor: string };
   mock: { brandKit: string; month: string; scheduled: string; approvedScheduled: string; publishingTo: string; livePublishing: string; onBrandPost: string };
 };
 
@@ -112,9 +112,11 @@ const pt: Dict = {
       { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar", href: "https://app.orquesdra.com" }] },
       { title: "Comparar", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
       { title: "Empresa", links: [{ label: "Sobre", href: "#" }, { label: "Blog", href: "#" }, { label: "Contacto", href: "#" }] },
+      { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
+    legal: [{ label: "Privacidade", href: "#" }, { label: "Termos", href: "#" }],
     copyright: "© 2026 Orquesdra",
-    madeFor: "Feito para marcas em todo o lado · PT / EN",
+    madeFor: "Feito para marcas em todo o lado",
   },
   mock: { brandKit: "Kit de marca", month: "Junho", scheduled: "12 agendados", approvedScheduled: "Aprovado e agendado", publishingTo: "A publicar em", livePublishing: "Ao vivo · a publicar em 8 redes", onBrandPost: "Post pronto" },
 };
@@ -210,9 +212,11 @@ const en: Dict = {
       { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Get started", href: "https://app.orquesdra.com" }] },
       { title: "Compare", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
       { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }, { label: "Contact", href: "#" }] },
+      { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
+    legal: [{ label: "Privacy", href: "#" }, { label: "Terms", href: "#" }],
     copyright: "© 2026 Orquesdra",
-    madeFor: "Made for brands everywhere · PT / EN",
+    madeFor: "Made for brands everywhere",
   },
   mock: { brandKit: "Brand kit", month: "June", scheduled: "12 scheduled", approvedScheduled: "Approved and scheduled", publishingTo: "Publishing to", livePublishing: "Live · publishing to 8 networks", onBrandPost: "On-brand post" },
 };

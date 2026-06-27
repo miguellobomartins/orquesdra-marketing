@@ -3,31 +3,35 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Mockup do computador (estilo bridge.surf): SEM base/teclado. Secção própria de
- * scroll-scrub — o conteúdo (print real) começa a ENCHER o ecrã e, ao fazer scroll,
- * dá ZOOM-OUT até se ver o dispositivo INTEIRO (ocupa só parte do ecrã). Fica inteiro
- * no fim. (Não tem base; não fica estático a meio.)
+ * Mockup do computador: painel fixo com a HERO DESFOCADA por trás (não fundo
+ * branco). À medida que o painel "O Problema" sobe (slide-up) por cima, o
+ * dispositivo ENCOLHE e SOBE ao mesmo tempo — não fica cortado de forma esquisita.
+ * Sem base/teclado, com as bolinhas da janela.
  */
 export default function AppPreview() {
-  const sec = useRef<HTMLElement>(null);
   const frame = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const s = sec.current;
     const el = frame.current;
-    if (!s || !el) return;
+    if (!el) return;
+    const statement = document.querySelector<HTMLElement>(".statement-panel");
     let raf = 0;
-    let cur = 1.75;
+    let cs = 1.3;
+    let cy = 0;
 
     const tick = () => {
       const vh = window.innerHeight;
-      const total = s.offsetHeight - vh;
-      const top = s.getBoundingClientRect().top;
-      const p = total > 0 ? Math.min(1, Math.max(0, -top / total)) : 0;
-      // 0 -> 0.6: enche (1.75) -> inteiro (0.84); depois fica inteiro
-      const target = p < 0.6 ? 1.75 + (p / 0.6) * (0.84 - 1.75) : 0.84;
-      cur += (target - cur) * 0.16; // suavização
-      el.style.transform = `scale(${cur.toFixed(3)})`;
+      // t: 1 = Problema ainda em baixo (mac grande) -> 0 = Problema a cobrir (mac pequeno)
+      let t = 1;
+      if (statement) {
+        const top = statement.getBoundingClientRect().top;
+        t = Math.min(1, Math.max(0, top / vh));
+      }
+      const ts = 0.8 + t * (1.3 - 0.8); // escala 1.3 -> 0.8
+      const ty = (1 - t) * -0.07 * vh; // sobe enquanto encolhe
+      cs += (ts - cs) * 0.14;
+      cy += (ty - cy) * 0.14;
+      el.style.transform = `translateY(${cy.toFixed(1)}px) scale(${cs.toFixed(3)})`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -35,8 +39,8 @@ export default function AppPreview() {
   }, []);
 
   return (
-    <section className="app-sec" ref={sec}>
-      <div className="app-stage">
+    <section className="panel app">
+      <div className="app-panel-inner">
         <div className="appframe" ref={frame}>
           <div className="mac">
             <div className="mac-screen">

@@ -303,10 +303,13 @@ export default function Sections() {
           </div>
           <div className="footer-bottom">
             <span>{t.footer.copyright}</span>
+            <div className="footer-legal">
+              {t.footer.legal.map((l) => (<a key={l.label} href={l.href}>{l.label}</a>))}
+            </div>
             <span>{t.footer.madeFor}</span>
           </div>
         </div>
-        <div className="footer-wordmark line-bars" aria-hidden="true">Orquesdra</div>
+        <div className="footer-wordmark" aria-hidden="true">Orquesdra</div>
       </footer>
     </>
   );

@@ -6,9 +6,6 @@ import { POSTS } from "@/lib/posts";
 const N = 9; // quantidade FINITA de imagens (o rasto acaba)
 const GAP = 0.12; // desfasamento entre imagens ao longo do rasto
 const SPAN = 1 + N * GAP; // quanto progresso é preciso para escoar tudo
-const TURNS = 1.25; // voltas da espiral
-const SPIRAL_R = 175; // raio do enrolamento
-const PH = Math.PI * 0.9; // fase de entrada
 const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 
 const CARDS = Array.from({ length: N }, (_, i) => ({ src: heroSrc(POSTS[i % POSTS.length].src), i }));
@@ -43,12 +40,16 @@ export default function DesignMotion() {
           el.style.opacity = "0"; // ainda não emergiu, ou já saiu
           continue;
         }
-        const ang = u * TURNS * Math.PI * 2 + PH;
-        const x = -660 + u * 1360 + Math.cos(ang) * SPIRAL_R; // canto-esq -> canto-dir
-        const y = 340 - u * 900 + Math.sin(ang) * SPIRAL_R; // baixo -> cima
-        const z = -750 + Math.sin(u * Math.PI) * 1150; // aproxima a meio
-        const ry = Math.cos(ang) * 18;
-        const rz = Math.sin(ang) * 7;
+        // SEMICÍRCULO: esquerda-baixo -> apex (centro/cima) -> direita-baixo, sem ir para trás
+        const W = window.innerWidth;
+        const RX = Math.min(W * 0.46, 800); // largura do arco
+        const RY = Math.min(vh * 0.42, 560); // altura do arco
+        const ang = u * Math.PI; // 0..π
+        const x = -Math.cos(ang) * RX; // -RX (esq) -> 0 -> +RX (dir)
+        const y = vh * 0.3 - Math.sin(ang) * (RY + vh * 0.3); // baixo -> apex -> baixo
+        const z = Math.sin(ang) * 360; // aproxima-se no apex; nunca recua para trás
+        const ry = (u - 0.5) * 22;
+        const rz = (u - 0.5) * -32; // inclina ao longo da curva
         const op = Math.max(0, Math.min(1, Math.min(u / 0.07, (1 - u) / 0.12)));
         el.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg) rotateZ(${rz.toFixed(1)}deg)`;
         el.style.opacity = op.toFixed(2);
