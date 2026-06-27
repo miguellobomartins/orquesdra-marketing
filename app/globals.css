@@ -124,6 +124,25 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .hero { --frame: clamp(16px, 1.7vw, 24px); --frame-r: clamp(24px, 2.4vw, 36px); position: sticky; top: 0; z-index: 1; min-height: 100svh; height: 100svh; background: var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 0; filter: blur(calc(var(--hb, 0) * 1px)); }
 
+/* palco de entrada: hero + mockup no MESMO sítio (crossfade -> zoom-out -> defocus) */
+.intro { position: relative; z-index: 1; height: 300svh; }
+.intro-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.intro-hero { position: absolute; inset: 0; z-index: 1; will-change: opacity, filter; }
+.intro-hero .hero { position: absolute; inset: 0; height: 100%; min-height: 0; filter: none; }
+.intro-app { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; padding: 0 24px; opacity: 0; pointer-events: none; }
+.intro-app .appframe { width: min(1080px, calc(100vw - 40px)); max-width: 100%; transform-origin: center center; will-change: transform, filter; }
+/* "O Problema" puxado para cima para fazer slide-up sobre o mockup (fase C) */
+.statement-panel { margin-top: -100svh; }
+@media (max-width: 760px) {
+  .intro { height: auto; }
+  .intro-pin { position: relative; height: auto; overflow: visible; }
+  .intro-hero { position: relative; }
+  .intro-hero .hero { position: relative; min-height: 100svh; height: auto; }
+  .intro-app { position: relative; opacity: 1 !important; padding: 24px 16px 0; }
+  .intro-app .appframe { transform: none !important; filter: none !important; width: 100%; }
+  .statement-panel { margin-top: 0; }
+}
+
 /* painéis empilhados que deslizam para cima uns sobre os outros (motion-lab pattern 19) */
 .panel { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .panel.app { z-index: 2; background: transparent; box-shadow: none; display: flex; align-items: center; justify-content: center; padding: 0 24px; }

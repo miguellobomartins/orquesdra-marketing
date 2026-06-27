@@ -102,18 +102,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         );
       });
 
-      // fundo (hero) desfoca + escurece enquanto a demo sobe
-      const heroEl = document.querySelector(".hero");
-      const appPanel = document.querySelector(".panel.app");
-      if (heroEl && appPanel) {
-        gsap.fromTo(
-          heroEl,
-          { "--hb": 0, opacity: 1 },
-          { "--hb": 9, opacity: 0.78, ease: "none", scrollTrigger: { trigger: appPanel, start: "top bottom", end: "top top", scrub: true } }
-        );
-      }
-
-      // (o zoom-out do MacBook é tratado no próprio AppPreview, ligado ao scroll)
+      // (o crossfade hero->mockup + zoom-out + defocus são tratados no IntroStage)
 
       // títulos: caracteres sobem em cascata dentro da máscara de cada linha
       gsap.utils.toArray<HTMLElement>('[data-anim="lines"]').forEach((el) => {

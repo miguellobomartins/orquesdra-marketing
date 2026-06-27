@@ -1,6 +1,5 @@
 import SiteNav from "@/components/SiteNav";
-import Hero from "@/components/Hero";
-import AppPreview from "@/components/AppPreview";
+import IntroStage from "@/components/IntroStage";
 import Statement from "@/components/Statement";
 import Sections from "@/components/Sections";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -11,8 +10,7 @@ export default function Home() {
       <div className="grain" aria-hidden="true" />
       <SiteNav />
       <main>
-        <Hero />
-        <AppPreview />
+        <IntroStage />
         <Statement />
         <div className="sheet">
           <Sections />
