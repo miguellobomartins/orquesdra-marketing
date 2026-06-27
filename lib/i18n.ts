@@ -10,6 +10,7 @@ export type Dict = {
   problem: { eyebrow: string; headlinePre: string; headlineEm: string; headlinePost: string; alts: { n: string; h: string; p: string }[] };
   how: { eyebrow: string; h2: string; lead: string; features: Feature[] };
   diff: { eyebrow: string; h2: string; lead: string };
+  motion: { eyebrow: string; h2: string; foot: string };
   competitor: { eyebrow: string; h2: string; p: string; list: string[]; mockLabel: string };
   gallery: { eyebrow: string; h2: string; lead: string; quote: string; author: string };
   pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startWith: string; tiers: Tier[] };
@@ -55,6 +56,11 @@ const pt: Dict = {
     eyebrow: "Feito para ti, literalmente",
     h2: "Se não parece a tua marca, não vai para o ar.",
     lead: "Cada post é construído a partir das tuas cores, da tua tipografia e das tuas fotos. Não é um modelo que preenches. Não é stock. Não é um modelo genérico que nunca viu a tua marca.",
+  },
+  motion: {
+    eyebrow: "O resultado, em movimento",
+    h2: "Design em movimento",
+    foot: "Cada post gerado na Orquesdra, com a tua marca.",
   },
   competitor: {
     eyebrow: "Análise da concorrência",
@@ -148,6 +154,11 @@ const en: Dict = {
     eyebrow: "Made for you, literally",
     h2: "If it doesn’t look like your brand, it doesn’t ship.",
     lead: "Every post is built from your colors, your type and your photos. Not a template you fill in. Not stock. Not a generic model that never saw your brand.",
+  },
+  motion: {
+    eyebrow: "The output, in motion",
+    h2: "Design in motion",
+    foot: "Every post generated in Orquesdra, with your brand.",
   },
   competitor: {
     eyebrow: "Competitor insights",

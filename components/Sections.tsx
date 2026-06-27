@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { POSTS } from "@/lib/posts";
 import GalleryGrid from "@/components/GalleryGrid";
+import DesignMotion from "@/components/DesignMotion";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/components/LangProvider";
 import type { Feature, Qa } from "@/lib/i18n";
@@ -156,6 +157,9 @@ export default function Sections() {
           </div>
         </div>
       </section>
+
+      {/* design em movimento — espiral 3D de posts */}
+      <DesignMotion />
 
       {/* it's actually yours — differentiation band (marquee cinético) */}
       <section className="section diff-band">

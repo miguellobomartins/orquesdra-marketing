@@ -2,84 +2,15 @@ export default function AppPreview() {
   return (
     <section className="panel app">
       <div className="app-panel-inner">
-        <div className="appframe-wrap">
-          <div className="appframe">
-            <div className="appscreen">
-              <div className="appbar">
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
-                <span className="url">app.orquesdra.com</span>
-              </div>
-              <div className="appshell">
-                <aside className="apprail">
-                  <div className="rail-top">
-                    <div className="brandrow"><b />orquesdra</div>
-                    <span className="rail-bell" aria-hidden />
-                  </div>
-                  <div className="rail-brand">
-                    <span className="rail-brand-ic" />
-                    <span className="rail-brand-name">Velto</span>
-                    <span className="rail-chev" />
-                  </div>
-                  <p className="rail-sec">Criar</p>
-                  <div className="approw active"><s />Início</div>
-                  <div className="approw"><s />Gerar</div>
-                  <div className="approw"><s />Fluxos</div>
-                  <div className="approw"><s />Modelos</div>
-                  <div className="approw"><s />Ativos</div>
-                  <div className="approw"><s />Calendário</div>
-                  <p className="rail-sec">Gerir</p>
-                  <div className="approw"><s />Marca</div>
-                  <div className="approw"><s />Inteligência</div>
-                  <div className="approw"><s />Analytics</div>
-                  <div className="rail-user">
-                    <span className="rail-ava">M</span>
-                    <span className="rail-user-meta"><b>Miguel Martins</b><i>Conta</i></span>
-                  </div>
-                </aside>
-                <div className="apphome">
-                  <h3 className="apphome-h">Olá de novo, Miguel Martins</h3>
-                  <p className="apphome-sub">A gerir: Velto · 1 agendado esta semana</p>
-                  <div className="apphome-cards">
-                    <div className="ahcard ahcard-active">
-                      <span className="ahcard-ic ic-spark" />
-                      <b>Gerar conteúdo</b>
-                      <i>Posts e carrosséis com IA</i>
-                    </div>
-                    <div className="ahcard">
-                      <span className="ahcard-ic ic-cal" />
-                      <b>Calendário</b>
-                      <i>Vê e agenda os teus posts</i>
-                    </div>
-                    <div className="ahcard">
-                      <span className="ahcard-ic ic-img" />
-                      <b>A tua marca</b>
-                      <i>Identidade, cores e voz</i>
-                    </div>
-                  </div>
-                  <div className="apphome-usage">
-                    <span>Uso este mês</span>
-                    <b>105 imagens</b>
-                    <em>·</em><span>8 marcas</span>
-                    <em>·</em><span>2 lugares</span>
-                    <span className="ah-badge">Agência</span>
-                  </div>
-                  <div className="apphome-block">
-                    <div className="ah-blockhead">
-                      <span>Próximos posts</span>
-                      <i>Abrir calendário →</i>
-                    </div>
-                    <div className="ah-post">
-                      <span className="ah-post-thumb" style={{ backgroundImage: "url(/posts/velto-tempo1.webp)" }} />
-                      <div className="ah-post-meta">
-                        <p>Publicar todos os dias não tem de ser uma luta. Com a Orquesdra, os teus posts saem prontos.</p>
-                        <span className="ah-post-date"><i />quarta, 1 jul · 09:00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div className="appframe">
+          <div className="mac">
+            <div className="mac-screen">
+              <span className="mac-notch" aria-hidden="true" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/app-home.webp" alt="A app Orquesdra: a tua marca, geração de posts e calendário num só sítio" />
+            </div>
+            <div className="mac-base">
+              <span className="mac-groove" aria-hidden="true" />
             </div>
           </div>
         </div>

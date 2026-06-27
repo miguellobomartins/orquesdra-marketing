@@ -113,13 +113,13 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         );
       }
 
-      // mockup (container scroll): entra inclinado para trás e endireita ao subir — sempre nítido (sem blur)
+      // MacBook: sobe inclinado e endireita-se p/ o utilizador (monta-se ao scroll)
       const appFrame = appPanel?.querySelector<HTMLElement>(".appframe");
       if (appPanel && appFrame) {
         gsap.fromTo(
           appFrame,
-          { rotateX: 18, scale: 1.04 },
-          { rotateX: 0, scale: 1, ease: "none", scrollTrigger: { trigger: appPanel, start: "top bottom", end: "top 18%", scrub: true } }
+          { rotateX: 34, scale: 0.82, yPercent: 8 },
+          { rotateX: 0, scale: 1, yPercent: 0, ease: "none", scrollTrigger: { trigger: appPanel, start: "top bottom", end: "top 20%", scrub: true } }
         );
       }
 
