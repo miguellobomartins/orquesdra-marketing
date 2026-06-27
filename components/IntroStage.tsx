@@ -27,11 +27,24 @@ export default function IntroStage() {
 
     const mobile = window.matchMedia("(max-width: 760px)").matches;
     if (mobile) {
-      // no telemóvel não fixamos nada: hero e mockup ficam empilhados, visíveis
+      // no telemóvel não fixamos nada, mas o mockup GANHA VIDA ao entrar:
+      // fade + sobe + inclina em 3D + leve scale, conduzido pelo scroll.
       hl.style.opacity = "1";
-      al.style.opacity = "1";
-      fr.style.transform = "scale(1)";
-      return;
+      hl.style.filter = "none";
+      let rafM = 0;
+      const tickM = () => {
+        const vh = window.innerHeight;
+        const r = al.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height * 0.5)));
+        const scale = 0.94 + p * 0.12; // 0.94 -> 1.06
+        const ty = (0.5 - p) * 42; // sobe ao atravessar
+        const rx = (0.5 - p) * 11; // inclina 3D ~+5 -> -5
+        fr.style.transform = `perspective(1100px) translateY(${ty.toFixed(1)}px) rotateX(${rx.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+        al.style.opacity = Math.min(1, p * 2.4).toFixed(2);
+        rafM = requestAnimationFrame(tickM);
+      };
+      rafM = requestAnimationFrame(tickM);
+      return () => cancelAnimationFrame(rafM);
     }
 
     const img = fr.querySelector("img");

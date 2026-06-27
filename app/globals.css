@@ -138,8 +138,8 @@ a { color: inherit; text-decoration: none; }
   .intro-pin { position: relative; height: auto; overflow: visible; }
   .intro-hero { position: relative; }
   .intro-hero .hero { position: relative; min-height: 100svh; height: auto; }
-  .intro-app { position: relative; opacity: 1 !important; padding: 24px 16px 0; }
-  .intro-app .appframe { transform: none !important; filter: none !important; width: 100%; }
+  .intro-app { position: relative; opacity: 1; padding: clamp(20px, 6vw, 40px) 16px 0; }
+  .intro-app .appframe { filter: none !important; width: 100%; transform-origin: center top; }
   .statement-panel { margin-top: 0; }
 }
 
