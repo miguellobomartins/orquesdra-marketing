@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "orquesdra-site",
+      "name": "orquesdra-site-live",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "/Users/miguelmartins/Developer/orquesdra-site", "run", "dev", "--", "--port", "3140"],
+      "runtimeArgs": ["--prefix", "/Users/miguelmartins/Developer/orquesdra-site-live", "run", "dev", "--", "--port", "3140"],
       "port": 3140
     }
   ]

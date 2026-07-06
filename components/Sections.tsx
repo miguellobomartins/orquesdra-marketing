@@ -239,10 +239,14 @@ export default function Sections() {
                   {tier.feats.map((f, k) => (<li key={k}><Check />{f}</li>))}
                 </ul>
                 <div className="cta-row">
-                  {tier.featured ? (
-                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href="https://app.orquesdra.com">{t.pricing.startWith} {tier.name}</a>
+                  {/* Solo/Studio compram sozinhos (registo com o plano pré-escolhido);
+                      Agency e sales-led (falar connosco). A app le o ?plan= no checkout. */}
+                  {tier.name === "Agency" ? (
+                    <a className={tier.featured ? "po-btn-primary po-btn-lg magnetic" : "tier-btn"} style={tier.featured ? { display: "block", textAlign: "center" } : undefined} href="mailto:info@orquesdra.com?subject=Plano%20Agency">{t.pricing.contactSales}</a>
+                  ) : tier.featured ? (
+                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startWith} {tier.name}</a>
                   ) : (
-                    <a className="tier-btn" href="https://app.orquesdra.com">{t.pricing.startWith} {tier.name}</a>
+                    <a className="tier-btn" href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startWith} {tier.name}</a>
                   )}
                 </div>
               </div>
@@ -280,7 +284,7 @@ export default function Sections() {
           <div className="footer-cta reveal fade-only">
             <h2 data-anim="lines">{t.finalCta.h2}</h2>
             <div className="po-ctas">
-              <a className="po-btn-primary po-btn-lg magnetic" href="https://app.orquesdra.com">{t.finalCta.ctaPrimary}</a>
+              <a className="po-btn-primary po-btn-lg magnetic" href="https://app.orquesdra.com/signup">{t.finalCta.ctaPrimary}</a>
               <a className="po-btn-ghost" href="#pricing">{t.finalCta.ctaSecondary}</a>
             </div>
           </div>

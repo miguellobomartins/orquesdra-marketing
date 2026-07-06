@@ -30,7 +30,7 @@ export default function SiteNav() {
         <div className="po-nav-right">
           <LangDropdown />
           <ThemeToggle />
-          <a className="po-btn-primary magnetic po-nav-cta" href="https://app.orquesdra.com">
+          <a className="po-btn-primary magnetic po-nav-cta" href="https://app.orquesdra.com/signup">
             {t.nav.cta}
           </a>
           <button
@@ -59,7 +59,7 @@ export default function SiteNav() {
           ))}
           <a
             className="po-menu-cta"
-            href="https://app.orquesdra.com"
+            href="https://app.orquesdra.com/signup"
             onClick={() => setOpen(false)}
             style={{ ["--i" as string]: t.nav.links.length }}
           >

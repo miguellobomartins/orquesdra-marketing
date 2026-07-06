@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import BrandMark from "@/components/BrandMark";
 
@@ -17,8 +18,14 @@ export default function Loader() {
   const [done, setDone] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const pathname = usePathname();
+  // O loader é a entrada do hero — só faz sentido na landing (PT em "/", EN em
+  // "/en"). Em páginas utilitárias (termos, privacidade, reembolsos) não o
+  // mostramos: seria um ecrã de 0->100 desnecessário antes de conteúdo legal.
+  const isLanding = pathname === "/" || pathname === "/en";
 
   useEffect(() => {
+    if (!isLanding) return;
     const el = root.current;
     if (!el) return;
     document.body.style.overflow = "hidden";
@@ -83,9 +90,9 @@ export default function Loader() {
       window.clearTimeout(failsafe);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [isLanding]);
 
-  if (done) return null;
+  if (done || !isLanding) return null;
 
   return (
     <div className="loader" ref={root} aria-hidden="true">

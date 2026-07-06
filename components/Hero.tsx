@@ -14,7 +14,7 @@ export default function Hero() {
 
       <div className="hero-foot">
         <div className="hero-actions">
-          <a className="hero-btn hero-btn-glass magnetic" href="https://app.orquesdra.com">{t.hero.ctaPrimary}</a>
+          <a className="hero-btn hero-btn-glass magnetic" href="https://app.orquesdra.com/signup">{t.hero.ctaPrimary}</a>
           <a className="hero-btn hero-btn-fill" href="#pricing">{t.hero.ctaSecondary}</a>
         </div>
 

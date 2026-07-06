@@ -13,7 +13,7 @@ export type Dict = {
   motion: { eyebrow: string; h2: string; foot: string };
   competitor: { eyebrow: string; h2: string; p: string; list: string[]; mockLabel: string };
   gallery: { eyebrow: string; h2: string; lead: string; quote: string; author: string };
-  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startWith: string; tiers: Tier[] };
+  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startWith: string; contactSales: string; tiers: Tier[] };
   billing: { h2: string; lead: string; points: string[] };
   faq: { h2: string; items: Qa[] };
   finalCta: { h2: string; ctaPrimary: string; ctaSecondary: string };
@@ -83,6 +83,7 @@ const pt: Dict = {
     mostPopular: "Mais popular",
     perMonth: "/ mês",
     startWith: "Começar no",
+    contactSales: "Falar connosco",
     tiers: [
       { name: "Solo", price: "99", desc: "Para a marca a solo", feats: ["1 marca", "2 lugares", "100 imagens / mês", "Publicação e análise da concorrência"], featured: false },
       { name: "Studio", price: "299", desc: "Para equipas pequenas", feats: ["Tudo no Solo, mais:", "5 marcas", "5 lugares", "500 imagens / mês"], featured: true },
@@ -110,12 +111,12 @@ const pt: Dict = {
   footer: {
     tagline: "Transforma as tuas fotos em posts com a tua marca, de gerar a publicar.",
     cols: [
-      { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar", href: "https://app.orquesdra.com" }] },
+      { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar", href: "https://app.orquesdra.com/signup" }] },
       { title: "Comparar", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
-      { title: "Empresa", links: [{ label: "Sobre", href: "#" }, { label: "Blog", href: "#" }, { label: "Contacto", href: "#" }] },
+      { title: "Empresa", links: [{ label: "Sobre", href: "#" }, { label: "Blog", href: "#" }, { label: "Contacto", href: "mailto:info@orquesdra.com" }] },
       { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
-    legal: [{ label: "Privacidade", href: "#" }, { label: "Termos", href: "#" }],
+    legal: [{ label: "Privacidade", href: "/privacidade" }, { label: "Termos", href: "/termos" }, { label: "Reembolsos", href: "/reembolsos" }],
     copyright: "© 2026 Orquesdra",
     madeFor: "Feito para marcas em todo o lado",
   },
@@ -184,6 +185,7 @@ const en: Dict = {
     mostPopular: "Most popular",
     perMonth: "/ month",
     startWith: "Start with",
+    contactSales: "Talk to us",
     tiers: [
       { name: "Solo", price: "99", desc: "For the solo brand", feats: ["1 brand", "2 seats", "100 images / month", "Publishing and competitor insights"], featured: false },
       { name: "Studio", price: "299", desc: "For small teams", feats: ["Everything in Solo, plus:", "5 brands", "5 seats", "500 images / month"], featured: true },
@@ -211,12 +213,12 @@ const en: Dict = {
   footer: {
     tagline: "Turn your photos into on-brand posts, from generating to publishing.",
     cols: [
-      { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Get started", href: "https://app.orquesdra.com" }] },
+      { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Get started", href: "https://app.orquesdra.com/signup" }] },
       { title: "Compare", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
-      { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }, { label: "Contact", href: "#" }] },
+      { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }, { label: "Contact", href: "mailto:info@orquesdra.com" }] },
       { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
-    legal: [{ label: "Privacy", href: "#" }, { label: "Terms", href: "#" }],
+    legal: [{ label: "Privacy", href: "/privacidade" }, { label: "Terms", href: "/termos" }, { label: "Refunds", href: "/reembolsos" }],
     copyright: "© 2026 Orquesdra",
     madeFor: "Made for brands everywhere",
   },

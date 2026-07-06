@@ -17,5 +17,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
       alternates: { languages: { "pt-PT": "https://orquesdra.com" } },
     },
+    {
+      url: "https://orquesdra.com/termos",
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: "https://orquesdra.com/privacidade",
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: "https://orquesdra.com/reembolsos",
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 }
