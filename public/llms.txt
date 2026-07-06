@@ -1,0 +1,37 @@
+# Orquesdra
+
+> A Orquesdra transforma as tuas fotos numa marca coerente nas redes sociais: gera posts, carrosséis e anúncios com as tuas cores, tipografia e composição, e leva-os da geração ao agendamento e à publicação, num só sítio.
+
+A Orquesdra é um estúdio de marketing com IA para marcas. Ligas o teu website (aprende logótipo, cores e fontes), adicionas as tuas fotos reais, e a Orquesdra compõe posts prontos a publicar que parecem mesmo teus — nunca stock, nunca modelos genéricos.
+
+## Como funciona (5 passos)
+1. Marca — colas o teu site; a Orquesdra extrai logótipo, cores e fontes num perfil de marca que todos os posts seguem.
+2. Fotos — adicionas as tuas fotos de produtos, espaços e pessoas; são as protagonistas de cada post.
+3. Gerar — a tua foto entra e sai um post editorial acabado, na tua marca, no tamanho de cada rede.
+4. Planear — calendário mensal com fluxo de aprovação (rascunho, pendente, aprovado, publicado).
+5. Publicar — uma aprovação publica em todas as redes na hora marcada.
+
+## Redes suportadas
+Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads.
+
+## Funcionalidades
+- Perfil de marca automático a partir do website (logótipo, cores, fontes).
+- Geração de posts a partir das tuas fotos reais (sem stock, sem imagens genéricas de IA).
+- Composições editoriais multi-formato, prontas a editar.
+- Calendário e fluxo de aprovação.
+- Publicação multi-rede a partir de uma só aprovação.
+- Análise da concorrência (temas, ritmo e falhas dos concorrentes relevantes para a tua marca).
+
+## Preços (por marca, não por crédito)
+- Solo — 99 EUR/mês: 1 marca, 2 lugares, 100 imagens/mês.
+- Studio — 299 EUR/mês (mais popular): 5 marcas, 5 lugares, 500 imagens/mês.
+- Agency — 899 EUR/mês: 25 marcas, 15 lugares, 2.500 imagens/mês.
+Cada plano inclui 10 gerações grátis, sem limite de tempo. Sem créditos, o conteúdo é teu, e cancelas quando quiseres.
+
+## Em que é diferente
+- vs ferramentas de design (Canva): não é uma tela em branco — gera já na tua marca.
+- vs agendadores (Buffer, Later): não só põe posts na fila — cria o post e leva-o até à publicação.
+
+## Links
+- Site: https://orquesdra.com
+- Aplicação: https://app.orquesdra.com
