@@ -17,6 +17,8 @@ const graph = {
       description:
         "A Orquesdra é uma plataforma de IA que transforma a tua marca e uma foto em posts, carrosséis e anúncios prontos a publicar — de gerar a agendar e publicar em Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads.",
       foundingDate: "2026",
+      foundingLocation: { "@type": "Place", name: "Portugal" },
+      address: { "@type": "PostalAddress", addressCountry: "PT" },
       email: "info@orquesdra.com",
       sameAs: [
         "https://www.instagram.com/orquesdra",
