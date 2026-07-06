@@ -11,10 +11,17 @@ const graph = {
       "@type": "Organization",
       "@id": ORG,
       name: "Orquesdra",
+      alternateName: "Orquesdra AI",
       url: SITE,
       logo: `${SITE}/icon.svg`,
       description:
-        "A Orquesdra transforma as tuas fotos em posts de redes sociais com a tua marca, de gerar a publicar.",
+        "A Orquesdra é uma plataforma de IA que transforma a tua marca e uma foto em posts, carrosséis e anúncios prontos a publicar — de gerar a agendar e publicar em Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads.",
+      foundingDate: "2026",
+      email: "info@orquesdra.com",
+      sameAs: [
+        "https://www.instagram.com/orquesdra",
+        "https://www.facebook.com/orquesdra",
+      ],
     },
     {
       "@type": "WebSite",

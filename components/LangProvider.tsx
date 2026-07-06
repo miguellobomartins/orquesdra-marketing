@@ -7,30 +7,24 @@ type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: Dict };
 
 const LangContext = createContext<Ctx | null>(null);
 
-const STORAGE_KEY = "orq-lang";
-
-export default function LangProvider({ children }: { children: React.ReactNode }) {
-  // Default PT-PT on both server and first client render (no hydration mismatch);
-  // switch to a stored preference (e.g. EN) after mount.
-  const [lang, setLangState] = useState<Lang>("pt");
-
-  useEffect(() => {
-    const stored = (typeof localStorage !== "undefined" && localStorage.getItem(STORAGE_KEY)) as Lang | null;
-    if (stored === "en" || stored === "pt") setLangState(stored);
-  }, []);
+/**
+ * Language is driven by the URL now (PT at "/", EN at "/en"), so each route
+ * mounts the provider with an explicit `initialLang`. The server renders the
+ * page in that language (indexable per URL); the switcher is a real <a href>
+ * to the other URL (crawlable + full navigation into the right SSR language).
+ */
+export default function LangProvider({
+  initialLang = "pt",
+  children,
+}: {
+  initialLang?: Lang;
+  children: React.ReactNode;
+}) {
+  const [lang, setLang] = useState<Lang>(initialLang);
 
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
-
-  const setLang = (l: Lang) => {
-    setLangState(l);
-    try {
-      localStorage.setItem(STORAGE_KEY, l);
-    } catch {
-      /* ignore */
-    }
-  };
 
   return <LangContext.Provider value={{ lang, setLang, t: STRINGS[lang] }}>{children}</LangContext.Provider>;
 }
@@ -46,9 +40,9 @@ export function useT(): Dict {
   return useLang().t;
 }
 
-/** Seletor de língua em dropdown (PT / EN) para o header. */
+/** Seletor de língua (PT / EN) para o header — links reais para "/" e "/en". */
 export function LangDropdown() {
-  const { lang, setLang } = useLang();
+  const { lang } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -68,9 +62,9 @@ export function LangDropdown() {
     };
   }, [open]);
 
-  const items: { code: Lang; label: string }[] = [
-    { code: "pt", label: "Português" },
-    { code: "en", label: "English" },
+  const items: { code: Lang; label: string; href: string }[] = [
+    { code: "pt", label: "Português", href: "/" },
+    { code: "en", label: "English", href: "/en" },
   ];
 
   return (
@@ -85,21 +79,19 @@ export function LangDropdown() {
       </button>
       {open && (
         <div className="lang-dd-menu" role="listbox" aria-label="Língua">
-          {items.map(({ code, label }) => (
-            <button
+          {items.map(({ code, label, href }) => (
+            <a
               key={code}
-              type="button"
               role="option"
               aria-selected={lang === code}
+              hrefLang={code}
+              href={href}
               className={lang === code ? "on" : ""}
-              onClick={() => {
-                setLang(code);
-                setOpen(false);
-              }}
+              onClick={() => setOpen(false)}
             >
               <span className="lang-dd-code">{code.toUpperCase()}</span>
               <span>{label}</span>
-            </button>
+            </a>
           ))}
         </div>
       )}

@@ -40,7 +40,9 @@
     ".next-arcs/types/**/*.ts",
     ".next-arcs/dev/types/**/*.ts",
     ".next-scurve/types/**/*.ts",
-    ".next-scurve/dev/types/**/*.ts"
+    ".next-scurve/dev/types/**/*.ts",
+    ".next-seo/types/**/*.ts",
+    ".next-seo/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

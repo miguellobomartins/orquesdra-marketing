@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import LangProvider from "@/components/LangProvider";
 import Loader from "@/components/Loader";
 import StructuredData from "@/components/StructuredData";
 
@@ -47,7 +46,8 @@ export const metadata: Metadata = {
     canonical: "/",
     languages: {
       "pt-PT": "/",
-      "en": "/",
+      en: "/en",
+      "x-default": "/",
     },
   },
   openGraph: {
@@ -95,7 +95,7 @@ export default function RootLayout({
           {`(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`}
         </Script>
         <StructuredData />
-        <LangProvider>{children}</LangProvider>
+        {children}
         <Loader />
       </body>
     </html>

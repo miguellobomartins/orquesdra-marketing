@@ -1,21 +1,12 @@
-import SiteNav from "@/components/SiteNav";
-import IntroStage from "@/components/IntroStage";
-import Statement from "@/components/Statement";
-import Sections from "@/components/Sections";
-import SmoothScroll from "@/components/SmoothScroll";
+import LangProvider from "@/components/LangProvider";
+import Site from "@/components/Site";
 
+// Portuguese homepage at "/". Title/description/OG come from the root layout
+// (PT defaults); hreflang alternates are declared there too.
 export default function Home() {
   return (
-    <SmoothScroll>
-      <div className="grain" aria-hidden="true" />
-      <SiteNav />
-      <main>
-        <IntroStage />
-        <Statement />
-        <div className="sheet">
-          <Sections />
-        </div>
-      </main>
-    </SmoothScroll>
+    <LangProvider initialLang="pt">
+      <Site />
+    </LangProvider>
   );
 }
