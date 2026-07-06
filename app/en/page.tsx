@@ -7,7 +7,7 @@ const DESCRIPTION =
   "Turn your photos into on-brand social media posts, from generating to publishing. Orquesdra creates posts that truly look like your brand.";
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: {
     canonical: "/en",

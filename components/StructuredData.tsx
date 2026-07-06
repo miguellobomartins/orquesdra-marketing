@@ -85,6 +85,14 @@ const graph = {
       mainEntity: [
         {
           "@type": "Question",
+          name: "O que é a Orquesdra?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "A Orquesdra é a plataforma de IA que orquestra a tua marca nas redes sociais: pega na tua marca e numa foto e devolve posts, carrosséis e anúncios prontos a publicar, de gerar a agendar e publicar em Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads.",
+          },
+        },
+        {
+          "@type": "Question",
           name: "Os posts vão mesmo parecer da minha marca?",
           acceptedAnswer: {
             "@type": "Answer",

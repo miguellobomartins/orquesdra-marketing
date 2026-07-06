@@ -97,6 +97,7 @@ const pt: Dict = {
   faq: {
     h2: "Perguntas, respondidas antes de comprares.",
     items: [
+      { q: "O que é a Orquesdra?", a: "A Orquesdra é a plataforma de IA que orquestra a tua marca nas redes sociais: pega na tua marca e numa foto e devolve posts, carrosséis e anúncios prontos a publicar, de gerar a agendar e publicar em Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads." },
       { q: "Os posts vão mesmo parecer da minha marca?", a: "Sim. A Orquesdra constrói cada post a partir das tuas fotos, nas tuas cores, na tua tipografia e na tua composição, por isso o resultado parece feito para ti, não genérico." },
       { q: "De onde vêm as fotos?", a: "De ti. Adicionas as tuas fotos de produto, espaço ou pessoas e elas continuam a ser o tema de cada post. Sem stock, sem imagens inventadas." },
       { q: "Em que redes posso publicar?", a: "Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest e Threads, através de uma ligação de publicação que associas à tua conta." },
@@ -197,6 +198,7 @@ const en: Dict = {
   faq: {
     h2: "Questions, answered before you buy.",
     items: [
+      { q: "What is Orquesdra?", a: "Orquesdra is the AI platform that orchestrates your brand on social: it takes your brand and one photo and returns finished posts, carousels and ads, from generating to scheduling and publishing across Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest and Threads." },
       { q: "Will the posts really look like my brand?", a: "Yes. Orquesdra builds each post from your photos, in your colors, your type and your layout, so the output looks made for you, not generic." },
       { q: "Where do the photos come from?", a: "From you. You add your own product, space or people photos and they stay the subject of every post. No stock, no invented imagery." },
       { q: "Which networks can I publish to?", a: "Instagram, Facebook, TikTok, X, LinkedIn, YouTube, Pinterest and Threads, through a publishing connection you link to your account." },
