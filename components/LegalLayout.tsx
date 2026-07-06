@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
  * NOTA: o conteúdo destas páginas é um RASCUNHO-BASE e deve ser revisto por um
  * jurista antes do lançamento comercial (a faixa no topo avisa disso).
  */
-export default function LegalLayout({ title, updated, children }: { title: string; updated: string; children: ReactNode }) {
+export default function LegalLayout({ title, updated, draft = true, children }: { title: string; updated?: string; draft?: boolean; children: ReactNode }) {
   return (
     <main style={{ minHeight: "100vh", background: "#fcfcfc", color: "#1f2024" }}>
       <header style={{ maxWidth: 760, margin: "0 auto", padding: "28px 24px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -18,11 +18,13 @@ export default function LegalLayout({ title, updated, children }: { title: strin
       </header>
 
       <article style={{ maxWidth: 760, margin: "0 auto", padding: "32px 24px 96px", lineHeight: 1.7, fontSize: 16 }}>
-        <p style={{ background: "#fff7ed", border: "1px solid #fed7aa", color: "#9a3412", borderRadius: 10, padding: "10px 14px", fontSize: 13.5, margin: "0 0 28px" }}>
-          Rascunho pendente de revisão jurídica antes do lançamento comercial. Não substitui aconselhamento legal.
-        </p>
-        <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.4rem)", lineHeight: 1.15, margin: "0 0 6px", letterSpacing: "-0.02em" }}>{title}</h1>
-        <p style={{ color: "#5d626f", fontSize: 14, margin: "0 0 32px" }}>Última atualização: {updated}</p>
+        {draft && (
+          <p style={{ background: "#fff7ed", border: "1px solid #fed7aa", color: "#9a3412", borderRadius: 10, padding: "10px 14px", fontSize: 13.5, margin: "0 0 28px" }}>
+            Rascunho pendente de revisão jurídica antes do lançamento comercial. Não substitui aconselhamento legal.
+          </p>
+        )}
+        <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.4rem)", lineHeight: 1.15, margin: updated ? "0 0 6px" : "0 0 24px", letterSpacing: "-0.02em" }}>{title}</h1>
+        {updated && <p style={{ color: "#5d626f", fontSize: 14, margin: "0 0 32px" }}>Última atualização: {updated}</p>}
         <div className="legal-body">{children}</div>
       </article>
 

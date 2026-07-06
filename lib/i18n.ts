@@ -13,7 +13,7 @@ export type Dict = {
   motion: { eyebrow: string; h2: string; foot: string };
   competitor: { eyebrow: string; h2: string; p: string; list: string[]; mockLabel: string };
   gallery: { eyebrow: string; h2: string; lead: string; quote: string; author: string };
-  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startWith: string; contactSales: string; tiers: Tier[] };
+  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startFree: string; contactSales: string; tiers: Tier[] };
   billing: { h2: string; lead: string; points: string[] };
   faq: { h2: string; items: Qa[] };
   finalCta: { h2: string; ctaPrimary: string; ctaSecondary: string };
@@ -22,11 +22,11 @@ export type Dict = {
 };
 
 const pt: Dict = {
-  nav: { links: [{ href: "#how", label: "Produto" }, { href: "#pricing", label: "Preços" }, { href: "#gallery", label: "Galeria" }, { href: "#", label: "Blog" }], cta: "Começar" },
+  nav: { links: [{ href: "#how", label: "Produto" }, { href: "#pricing", label: "Preços" }, { href: "#gallery", label: "Galeria" }], cta: "Começar grátis" },
   hero: {
     headlineLines: ["A tua marca nas redes,", "pronta a publicar."],
     sub: "Transforma as tuas fotos em posts com a tua marca, de gerar a publicar.",
-    ctaPrimary: "Começar",
+    ctaPrimary: "Começar grátis",
     ctaSecondary: "Ver planos",
   },
   problem: {
@@ -79,10 +79,10 @@ const pt: Dict = {
   pricing: {
     eyebrow: "Preços",
     h2: "Preço por marca. Não por crédito.",
-    lead: "Três planos com limites que se leem de relance. Cada plano começa com 10 gerações grátis, sem limite de tempo.",
+    lead: "Todos os planos começam com um teste grátis: 10 imagens, tudo desbloqueado, sem cartão. Escolhes o plano, experimentas, e só pagas quando quiseres continuar.",
     mostPopular: "Mais popular",
     perMonth: "/ mês",
-    startWith: "Começar no",
+    startFree: "Começar grátis",
     contactSales: "Falar connosco",
     tiers: [
       { name: "Solo", price: "99", desc: "Para a marca a solo", feats: ["1 marca", "2 lugares", "100 imagens / mês", "Publicação e análise da concorrência"], featured: false },
@@ -107,13 +107,12 @@ const pt: Dict = {
       { q: "As minhas fotos e a minha marca são minhas?", a: "Sempre. As tuas fotos, a tua marca e o teu conteúdo continuam teus, em qualquer plano, e podes cancelar quando quiseres." },
     ],
   },
-  finalCta: { h2: "Aparece todos os dias, com a tua cara.", ctaPrimary: "Começar", ctaSecondary: "Ver planos" },
+  finalCta: { h2: "Aparece todos os dias, com a tua cara.", ctaPrimary: "Começar grátis", ctaSecondary: "Ver planos" },
   footer: {
     tagline: "Transforma as tuas fotos em posts com a tua marca, de gerar a publicar.",
     cols: [
-      { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar", href: "https://app.orquesdra.com/signup" }] },
-      { title: "Comparar", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
-      { title: "Empresa", links: [{ label: "Sobre", href: "#" }, { label: "Blog", href: "#" }, { label: "Contacto", href: "mailto:info@orquesdra.com" }] },
+      { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar grátis", href: "https://app.orquesdra.com/signup" }] },
+      { title: "Empresa", links: [{ label: "Contacto", href: "/contacto" }] },
       { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
     legal: [{ label: "Privacidade", href: "/privacidade" }, { label: "Termos", href: "/termos" }, { label: "Reembolsos", href: "/reembolsos" }],
@@ -124,11 +123,11 @@ const pt: Dict = {
 };
 
 const en: Dict = {
-  nav: { links: [{ href: "#how", label: "Product" }, { href: "#pricing", label: "Pricing" }, { href: "#gallery", label: "Gallery" }, { href: "#", label: "Blog" }], cta: "Get started" },
+  nav: { links: [{ href: "#how", label: "Product" }, { href: "#pricing", label: "Pricing" }, { href: "#gallery", label: "Gallery" }], cta: "Start free" },
   hero: {
     headlineLines: ["Your brand on social,", "ready to post."],
     sub: "Turn your photos into on-brand posts, from generating to publishing.",
-    ctaPrimary: "Get started",
+    ctaPrimary: "Start free",
     ctaSecondary: "See plans",
   },
   problem: {
@@ -181,10 +180,10 @@ const en: Dict = {
   pricing: {
     eyebrow: "Pricing",
     h2: "Priced per brand. Not per credit.",
-    lead: "Three plans with limits you can read at a glance. Every plan starts with 10 free generations, no time limit.",
+    lead: "Every plan starts with a free trial: 10 images, everything unlocked, no card. Pick a plan, try it, and only pay when you want to keep going.",
     mostPopular: "Most popular",
     perMonth: "/ month",
-    startWith: "Start with",
+    startFree: "Start free",
     contactSales: "Talk to us",
     tiers: [
       { name: "Solo", price: "99", desc: "For the solo brand", feats: ["1 brand", "2 seats", "100 images / month", "Publishing and competitor insights"], featured: false },
@@ -209,13 +208,12 @@ const en: Dict = {
       { q: "Are my photos and brand mine?", a: "Always. Your photos, your brand and your content stay yours, on every plan, and you can cancel anytime." },
     ],
   },
-  finalCta: { h2: "Show up every day, looking exactly like you.", ctaPrimary: "Get started", ctaSecondary: "See plans" },
+  finalCta: { h2: "Show up every day, looking exactly like you.", ctaPrimary: "Start free", ctaSecondary: "See plans" },
   footer: {
     tagline: "Turn your photos into on-brand posts, from generating to publishing.",
     cols: [
-      { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Get started", href: "https://app.orquesdra.com/signup" }] },
-      { title: "Compare", links: [{ label: "vs Canva", href: "#" }, { label: "vs Buffer", href: "#" }, { label: "vs Later", href: "#" }] },
-      { title: "Company", links: [{ label: "About", href: "#" }, { label: "Blog", href: "#" }, { label: "Contact", href: "mailto:info@orquesdra.com" }] },
+      { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Start free", href: "https://app.orquesdra.com/signup" }] },
+      { title: "Company", links: [{ label: "Contact", href: "/contacto" }] },
       { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
     ],
     legal: [{ label: "Privacy", href: "/privacidade" }, { label: "Terms", href: "/termos" }, { label: "Refunds", href: "/reembolsos" }],

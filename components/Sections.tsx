@@ -239,14 +239,15 @@ export default function Sections() {
                   {tier.feats.map((f, k) => (<li key={k}><Check />{f}</li>))}
                 </ul>
                 <div className="cta-row">
-                  {/* Solo/Studio compram sozinhos (registo com o plano pré-escolhido);
-                      Agency e sales-led (falar connosco). A app le o ?plan= no checkout. */}
+                  {/* Todos os planos começam com o teste grátis: Solo/Studio levam ao
+                      registo (o ?plan= lembra o plano escolhido para o upgrade depois);
+                      Agency é sales-led (falar connosco). */}
                   {tier.name === "Agency" ? (
                     <a className={tier.featured ? "po-btn-primary po-btn-lg magnetic" : "tier-btn"} style={tier.featured ? { display: "block", textAlign: "center" } : undefined} href="mailto:info@orquesdra.com?subject=Plano%20Agency">{t.pricing.contactSales}</a>
                   ) : tier.featured ? (
-                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startWith} {tier.name}</a>
+                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startFree}</a>
                   ) : (
-                    <a className="tier-btn" href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startWith} {tier.name}</a>
+                    <a className="tier-btn" href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startFree}</a>
                   )}
                 </div>
               </div>
