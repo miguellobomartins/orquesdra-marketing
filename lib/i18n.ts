@@ -113,7 +113,7 @@ const pt: Dict = {
     cols: [
       { title: "Produto", links: [{ label: "Como funciona", href: "#how" }, { label: "Exemplos", href: "#gallery" }, { label: "Preços", href: "#pricing" }, { label: "Começar grátis", href: "https://app.orquesdra.com/signup" }] },
       { title: "Empresa", links: [{ label: "Contacto", href: "/contacto" }] },
-      { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
+      { title: "Social", links: [{ label: "Instagram", href: "https://instagram.com/orquesdra" }, { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61591331223329" }] },
     ],
     legal: [{ label: "Privacidade", href: "/privacidade" }, { label: "Termos", href: "/termos" }, { label: "Reembolsos", href: "/reembolsos" }],
     copyright: "© 2026 Orquesdra",
@@ -214,7 +214,7 @@ const en: Dict = {
     cols: [
       { title: "Product", links: [{ label: "How it works", href: "#how" }, { label: "Examples", href: "#gallery" }, { label: "Pricing", href: "#pricing" }, { label: "Start free", href: "https://app.orquesdra.com/signup" }] },
       { title: "Company", links: [{ label: "Contact", href: "/contacto" }] },
-      { title: "Social", links: [{ label: "Instagram", href: "#" }, { label: "LinkedIn", href: "#" }, { label: "TikTok", href: "#" }, { label: "X", href: "#" }] },
+      { title: "Social", links: [{ label: "Instagram", href: "https://instagram.com/orquesdra" }, { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61591331223329" }] },
     ],
     legal: [{ label: "Privacy", href: "/privacidade" }, { label: "Terms", href: "/termos" }, { label: "Refunds", href: "/reembolsos" }],
     copyright: "© 2026 Orquesdra",
