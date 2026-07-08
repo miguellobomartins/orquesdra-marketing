@@ -239,15 +239,16 @@ export default function Sections() {
                   {tier.feats.map((f, k) => (<li key={k}><Check />{f}</li>))}
                 </ul>
                 <div className="cta-row">
-                  {/* Todos os planos começam com o teste grátis: Solo/Studio levam ao
-                      registo (o ?plan= lembra o plano escolhido para o upgrade depois);
-                      Agency é sales-led (falar connosco). */}
-                  {tier.name === "Agency" ? (
-                    <a className={tier.featured ? "po-btn-primary po-btn-lg magnetic" : "tier-btn"} style={tier.featured ? { display: "block", textAlign: "center" } : undefined} href="mailto:info@orquesdra.com?subject=Plano%20Agency">{t.pricing.contactSales}</a>
-                  ) : tier.featured ? (
-                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startFree}</a>
+                  {/* CTA nomeado por plano ("Assinar Solo/Studio/Agency" | "Get ...")
+                      = PAGAR JÁ: leva a /subscribe na app, que cria a sessão de
+                      Checkout da Stripe do plano (regista/entra se preciso e volta a
+                      pagar). O teste grátis vive no "Começar grátis" (header). O
+                      destaque (Studio) leva o botão primário grande; os outros o
+                      tier-btn. */}
+                  {tier.featured ? (
+                    <a className="po-btn-primary po-btn-lg magnetic" style={{ display: "block", textAlign: "center" }} href={`https://app.orquesdra.com/subscribe?plan=${tier.name.toLowerCase()}`}>{`${t.pricing.choosePlan} ${tier.name}`}</a>
                   ) : (
-                    <a className="tier-btn" href={`https://app.orquesdra.com/signup?plan=${tier.name.toLowerCase()}`}>{t.pricing.startFree}</a>
+                    <a className="tier-btn" href={`https://app.orquesdra.com/subscribe?plan=${tier.name.toLowerCase()}`}>{`${t.pricing.choosePlan} ${tier.name}`}</a>
                   )}
                 </div>
               </div>

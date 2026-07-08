@@ -13,7 +13,7 @@ export type Dict = {
   motion: { eyebrow: string; h2: string; foot: string };
   competitor: { eyebrow: string; h2: string; p: string; list: string[]; mockLabel: string };
   gallery: { eyebrow: string; h2: string; lead: string; quote: string; author: string };
-  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; startFree: string; contactSales: string; tiers: Tier[] };
+  pricing: { eyebrow: string; h2: string; lead: string; mostPopular: string; perMonth: string; choosePlan: string; tiers: Tier[] };
   billing: { h2: string; lead: string; points: string[] };
   faq: { h2: string; items: Qa[] };
   finalCta: { h2: string; ctaPrimary: string; ctaSecondary: string };
@@ -79,11 +79,10 @@ const pt: Dict = {
   pricing: {
     eyebrow: "Preços",
     h2: "Preço por marca. Não por crédito.",
-    lead: "Todos os planos começam com um teste grátis: 10 imagens, tudo desbloqueado, sem cartão. Escolhes o plano, experimentas, e só pagas quando quiseres continuar.",
+    lead: "Assina já o plano que precisas. Ou experimenta grátis primeiro: 10 imagens, tudo desbloqueado, sem cartão.",
     mostPopular: "Mais popular",
     perMonth: "/ mês",
-    startFree: "Começar grátis",
-    contactSales: "Falar connosco",
+    choosePlan: "Assinar",
     tiers: [
       { name: "Solo", price: "99", desc: "Para a marca a solo", feats: ["1 marca", "2 lugares", "100 imagens / mês", "Publicação e análise da concorrência"], featured: false },
       { name: "Studio", price: "299", desc: "Para equipas pequenas", feats: ["Tudo no Solo, mais:", "5 marcas", "5 lugares", "500 imagens / mês"], featured: true },
@@ -180,11 +179,10 @@ const en: Dict = {
   pricing: {
     eyebrow: "Pricing",
     h2: "Priced per brand. Not per credit.",
-    lead: "Every plan starts with a free trial: 10 images, everything unlocked, no card. Pick a plan, try it, and only pay when you want to keep going.",
+    lead: "Subscribe to the plan you need. Or try it free first: 10 images, everything unlocked, no card.",
     mostPopular: "Most popular",
     perMonth: "/ month",
-    startFree: "Start free",
-    contactSales: "Talk to us",
+    choosePlan: "Get",
     tiers: [
       { name: "Solo", price: "99", desc: "For the solo brand", feats: ["1 brand", "2 seats", "100 images / month", "Publishing and competitor insights"], featured: false },
       { name: "Studio", price: "299", desc: "For small teams", feats: ["Everything in Solo, plus:", "5 brands", "5 seats", "500 images / month"], featured: true },
