@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { preload } from "react-dom";
 import gsap from "gsap";
 import { POSTS } from "@/lib/posts";
 
@@ -18,6 +19,14 @@ const UNIQUE_SRCS = Array.from(new Set(POSTS.map((p) => heroSrc(p.src))));
 
 export default function HeroGrid() {
   const scene = useRef<HTMLDivElement>(null);
+
+  // Pré-carregar as imagens do hero JÁ NO RENDER (SSR): o React emite
+  // <link rel="preload" as="image"> no <head> do HTML inicial, por isso o browser
+  // começa a puxá-las no parse — antes da hidratação. Antes o preload era um
+  // `new Image()` dentro do useEffect (pós-hidratação, tarde) e a revelação por
+  // timer disparava com as imagens ainda a caminho → quadrados bege ("espaços
+  // brancos"). Com o head-start, chegam antes da moldura assentar.
+  UNIQUE_SRCS.forEach((s) => preload(s, { as: "image", fetchPriority: "high", type: "image/webp" }));
 
   useEffect(() => {
     const el = scene.current;
@@ -92,15 +101,15 @@ export default function HeroGrid() {
       }
     };
 
-    // pré-carregar as imagens do hero para estarem prontas quando revelar
-    UNIQUE_SRCS.forEach((s) => {
-      const img = new window.Image();
-      img.src = s;
-    });
     // revelar quando o loader termina (sincronizado com a revelação da página);
     // failsafe caso o loader não exista ou falhe.
     window.addEventListener("orq:loaded", reveal);
     const fallback = window.setTimeout(reveal, 3000);
+    // Corrida: se o loader já disparou `orq:loaded` ANTES deste efeito ligar o
+    // ouvinte (hidratação tardia, re-mount), o evento perdia-se e o hero ficava
+    // preso em opacity:0 até ao fallback de 3s. O loader marca esta flag ao sair,
+    // por isso revelamos já se ele já terminou.
+    if ((window as Window & { __orqLoaded?: boolean }).__orqLoaded) reveal();
 
     return () => {
       window.clearTimeout(fallback);

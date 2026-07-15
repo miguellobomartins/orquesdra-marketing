@@ -64,6 +64,9 @@ export default function Loader() {
         // tudo coberto: revelar a página por baixo + arrancar a entrada do hero
         .add(() => {
           el.style.background = "transparent";
+          // Flag persistente além do evento: se o HeroGrid ligar o ouvinte tarde
+          // (perde o evento), lê esta flag e revela na mesma (sem ficar em branco).
+          (window as Window & { __orqLoaded?: boolean }).__orqLoaded = true;
           window.dispatchEvent(new Event("orq:loaded"));
         })
         // 2) colunas saem a revelar (sobem para fora)
