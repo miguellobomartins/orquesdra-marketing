@@ -103,8 +103,11 @@ export default function DesignMotion() {
         <div className="dm-field">
           {CARDS.map((c) => (
             <div className="dm-card" key={c.i} style={{ opacity: 0 }}>
+              {/* eager: os cartões nascem opacity:0 e posicionados por transform (rAF) —
+                  o lazy nativo não dispara a tempo e os cartões entravam em cena VAZIOS.
+                  São as versões leves /hero/ que a página já pré-carrega → cache hit. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={c.src} alt="" loading="lazy" />
+              <img src={c.src} alt="" loading="eager" />
             </div>
           ))}
         </div>

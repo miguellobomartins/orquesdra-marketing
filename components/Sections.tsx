@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { POSTS } from "@/lib/posts";
 import DesignMotion from "@/components/DesignMotion";
+
+// versões leves /hero/ (~560px, já pré-carregadas pelo hero) para slots pequenos
+const heroSrc = (s: string) => s.replace("/posts/", "/hero/");
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/components/LangProvider";
 import type { Feature, Qa } from "@/lib/i18n";
@@ -125,7 +128,8 @@ export default function Sections() {
                 </div>
                 <div className="cal">
                   {Array.from({ length: 14 }).map((_, i) => {
-                    const imgs: Record<number, string> = { 2: POSTS[1].src, 5: POSTS[6].src, 6: POSTS[3].src, 9: POSTS[7].src, 11: POSTS[5].src };
+                    // células minúsculas do mock: versões leves (o full de 40-186KB era desperdício)
+                    const imgs: Record<number, string> = { 2: heroSrc(POSTS[1].src), 5: heroSrc(POSTS[6].src), 6: heroSrc(POSTS[3].src), 9: heroSrc(POSTS[7].src), 11: heroSrc(POSTS[5].src) };
                     return (
                       <div className={`day${imgs[i] ? " has" : ""}`} key={i}>
                         {imgs[i] ? (

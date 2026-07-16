@@ -84,8 +84,14 @@ export default function Loader() {
     };
 
     const minTime = new Promise<void>((r) => window.setTimeout(r, 1500));
+    // fonts.ready é um nice-to-have (evita revelar a meio do swap da fonte) mas
+    // NUNCA pode segurar o site: uma fonte lenta deixava o loader escuro no ecrã
+    // até ao failsafe (5,5s). Espera-se pelas fontes NO MÁXIMO até aos 2,3s —
+    // a partir daí sai-se na mesma (o next/font já as pré-carrega; em condições
+    // normais estão prontas muito antes dos 1,5s mínimos do intro).
     const fonts = (document.fonts?.ready ?? Promise.resolve()).then(() => {}).catch(() => {});
-    Promise.all([minTime, fonts]).then(exit);
+    const fontsCapped = Promise.race([fonts, new Promise<void>((r) => window.setTimeout(r, 2300))]);
+    Promise.all([minTime, fontsCapped]).then(exit);
     const failsafe = window.setTimeout(exit, 5500);
 
     return () => {
