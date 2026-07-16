@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estúdio de assinatura · Orquesdra</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/brand/orquesdra-mark.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff; --surface:#ffffff; --surface-2:#f6f6f7;
+    --ink:#1f2024; --ink-2:#5d626f; --ink-3:#8a8a95;
+    --border:#e7e7ec; --border-strong:#d9d9e0;
+    --accent:#5b5bd6; --accent-strong:#4b4bc4; --accent-soft:#ecedfb; --sep:#d9d9e0;
+    --err:#d4544e;
+    --sig-font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Hanken Grotesk',var(--sig-font);
+    color:var(--ink); background:var(--bg);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; min-height:100%;
+    background-image:radial-gradient(120% 80% at 100% 0%, var(--accent-soft) 0%, rgba(236,239,255,0) 42%);
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:clamp(24px,5vw,64px) clamp(20px,4vw,48px)}
+
+  header{display:flex; align-items:center; gap:11px; opacity:0; animation:rise .7s var(--ease) .05s both}
+  header .glyph{width:26px;height:auto;color:var(--accent);display:block}
+  header .word{font-family:'Hanken Grotesk';font-weight:700;font-size:20px;letter-spacing:-.01em;color:var(--ink)}
+  header .crumb{margin-left:auto;font-size:12.5px;color:var(--ink-3);letter-spacing:.02em}
+
+  .lead{margin:clamp(36px,6vw,68px) 0 clamp(28px,4vw,44px); max-width:30ch}
+  .lead h1{font-family:'Hanken Grotesk';font-weight:700;font-size:clamp(30px,4.6vw,46px);line-height:1.02;letter-spacing:-.02em;opacity:0;animation:rise .8s var(--ease) .12s both}
+  .lead p{margin-top:14px;font-size:clamp(15px,1.6vw,17px);line-height:1.55;color:var(--ink-2);opacity:0;animation:rise .8s var(--ease) .2s both}
+
+  .grid{display:grid; grid-template-columns:minmax(0,0.92fr) minmax(0,1.08fr); gap:clamp(24px,4vw,56px); align-items:start}
+  @media(max-width:880px){.grid{grid-template-columns:1fr; gap:32px}}
+
+  .form{opacity:0;animation:rise .8s var(--ease) .28s both}
+  .field{position:relative;margin-bottom:22px}
+  .field label{display:block;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+  .field input{width:100%;font:inherit;font-size:15px;color:var(--ink);background:transparent;border:0;border-bottom:1.5px solid var(--border-strong);padding:7px 22px 7px 2px;outline:none;transition:border-color .25s var(--ease)}
+  .field input::placeholder{color:#b9b9c4}
+  .field .bar{position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+  .field input:focus ~ .bar{transform:scaleX(1)}
+  .field.err input{border-bottom-color:var(--err)}
+  .field.err .bar{background:var(--err);transform:scaleX(1)}
+  .field .ck{position:absolute;right:2px;bottom:8px;color:var(--accent);opacity:0;transform:scale(.6);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+  .field.ok .ck{opacity:1;transform:scale(1)}
+  .shake{animation:shake .36s cubic-bezier(.36,.07,.19,.97) both}
+
+  .netlabel{display:block;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+  .nets{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
+  .chip{width:40px;height:40px;border-radius:11px;border:1px solid var(--border-strong);background:transparent;color:var(--ink-3);display:grid;place-items:center;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease),transform .12s var(--ease)}
+  .chip:hover{border-color:var(--ink-3);color:var(--ink-2)}
+  .chip:active{transform:scale(.94)}
+  .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .cic{width:16px;height:16px;fill:currentColor;display:block}
+  .net-field{animation:rise .35s var(--ease) both}
+  .net-field label{display:flex;align-items:center;gap:6px}
+
+  .stage{opacity:0;animation:rise .8s var(--ease) .36s both}
+  .canvas{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:clamp(28px,4vw,46px) clamp(24px,4vw,42px);box-shadow:0 1px 2px rgba(35,36,43,.04),0 18px 44px -28px rgba(35,36,43,.28);overflow:hidden}
+  .canvas::before{content:"";position:absolute;inset:0;background:radial-gradient(58% 120% at 16% 30%, var(--accent-soft) 0%, rgba(236,239,255,0) 52%);opacity:.7;pointer-events:none;z-index:0}
+  .bleed{position:absolute;top:50%;right:-11%;height:122%;width:auto;color:var(--accent);opacity:.07;pointer-events:none;z-index:0;transform:translateY(-50%);transform-origin:50% 50%;animation:bleedspin 110s linear infinite}
+  .bleed path{fill:currentColor}
+  .canvas .tag{position:relative;z-index:1;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:22px}
+
+  .sig{position:relative;z-index:1;font-family:var(--sig-font);display:flex;align-items:center;gap:18px}
+  .sig .mark{flex:0 0 auto;width:46px;height:auto;display:block;padding-right:18px;border-right:1px solid var(--border)}
+  .sig .body{padding-left:2px}
+  .sig .nm{font-size:15px;line-height:20px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .sig .ro{font-size:13px;line-height:18px;color:var(--ink-2);padding-top:3px}
+  .sig .ro b{color:var(--accent);font-weight:500}
+  .sig .ct{font-size:13px;line-height:21px;color:var(--ink-2);margin-top:11px}
+  .sig .ct a{color:var(--accent);text-decoration:none}
+  .sig .lk{font-size:12px;line-height:19px;color:var(--ink-3);letter-spacing:.01em;margin-top:9px}
+  .sig .lk a{color:var(--accent);text-decoration:none}
+  .sig .lk .net{margin-left:13px;white-space:nowrap}
+  .sig .lk .sic{width:14px;height:14px;fill:var(--accent);vertical-align:-3px}
+
+  .glyphAnim{overflow:visible}
+  #markWrap{transform-box:fill-box;transform-origin:50% 50%;animation:markIn .9s var(--ease) both}
+  #mark{transform-box:fill-box;transform-origin:50% 50%;transition:transform .45s var(--ease)}
+  .canvas:hover #mark{transform:scale(1.06)}
+  .nin{opacity:0;animation:ninIn .55s var(--ease) both;animation-delay:calc(.2s + var(--i,0) * .085s)}
+  .core-in{animation-delay:0s}
+  .node,.core{fill:var(--accent);transform-box:fill-box;transform-origin:center}
+  .node{animation:wave 4.2s linear infinite;animation-delay:calc(var(--i) / 6 * -4.2s)}
+  .core{animation:breath 4.2s ease-in-out infinite}
+  @keyframes markIn{0%{opacity:0;transform:scale(.5)}100%{opacity:1;transform:scale(1)}}
+  @keyframes ninIn{to{opacity:1}}
+  @keyframes wave{0%,18%,100%{fill-opacity:.58;transform:scale(1)}8%{fill-opacity:1;transform:scale(1.07)}}
+  @keyframes breath{0%,100%{fill-opacity:.85}50%{fill-opacity:1}}
+  @keyframes shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
+  @keyframes bleedspin{from{transform:translateY(-50%) rotate(0)}to{transform:translateY(-50%) rotate(360deg)}}
+
+  .actions{position:relative;display:flex;gap:12px;align-items:center;margin-top:30px;flex-wrap:wrap}
+  .btn{font:inherit;font-size:14px;font-weight:600;border-radius:11px;padding:12px 20px;cursor:pointer;border:1px solid transparent;transition:transform .12s var(--ease),background .2s,box-shadow .2s,border-color .2s}
+  .btn:active{transform:scale(.97)}
+  .btn.primary{background:var(--accent);color:#fff;box-shadow:0 8px 20px -10px var(--accent)}
+  .btn.primary:hover{background:var(--accent-strong)}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--border-strong)}
+  .btn.ghost:hover{border-color:var(--ink-3);background:var(--surface-2)}
+  .toast{font-size:13px;font-weight:600;color:var(--accent);opacity:0;transform:translateY(4px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+  .toast.on{opacity:1;transform:translateY(0)}
+  .toast svg{vertical-align:-2px;margin-right:4px}
+  .hint{margin-top:16px;font-size:12.5px;color:var(--ink-3);line-height:1.5;max-width:46ch;position:relative}
+
+  @keyframes rise{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:translateY(0)}}
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .nin{opacity:1}.node{fill-opacity:.92}.core{fill-opacity:1}
+    .bleed{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="glyph" viewBox="-6 -6 279 315" fill="currentColor" aria-hidden="true"><path d="M 139 91 L 139 93 L 141 97 L 143 99 L 143 100 L 153 110 L 154 110 L 156 112 L 164 116 L 166 116 L 167 117 L 170 117 L 171 118 L 174 118 L 175 119 L 179 119 L 184 116 L 186 116 L 191 113 L 193 113 L 198 110 L 200 110 L 212 104 L 214 105 L 215 108 L 218 111 L 219 113 L 220 113 L 222 115 L 226 117 L 228 117 L 229 118 L 241 118 L 249 114 L 254 109 L 257 103 L 257 100 L 258 99 L 258 92 L 257 91 L 257 88 L 255 84 L 249 77 L 241 73 L 229 73 L 228 74 L 226 74 L 222 76 L 216 82 L 213 88 L 212 95 L 211 96 L 204 96 L 203 95 L 199 95 L 198 94 L 195 94 L 194 93 L 189 92 L 181 88 L 179 86 L 175 84 L 160 69 L 160 68 L 158 66 L 154 66 L 153 67 L 153 68 L 151 70 L 150 73 L 148 75 L 147 78 L 145 80 L 143 85 L 141 87 Z"/><path d="M 8 201 L 8 213 L 9 214 L 9 216 L 10 218 L 16 225 L 24 229 L 37 229 L 43 226 L 48 222 L 53 212 L 61 212 L 62 213 L 68 213 L 69 214 L 73 214 L 74 215 L 79 216 L 89 221 L 91 223 L 92 223 L 97 228 L 98 228 L 107 237 L 107 238 L 111 241 L 113 241 L 115 239 L 119 231 L 121 229 L 122 226 L 124 224 L 125 221 L 128 217 L 128 213 L 127 211 L 124 208 L 124 207 L 117 200 L 116 200 L 113 197 L 105 193 L 103 193 L 99 191 L 82 191 L 76 194 L 74 194 L 71 196 L 69 196 L 66 198 L 64 198 L 61 200 L 59 200 L 58 201 L 56 201 L 54 202 L 52 200 L 52 198 L 49 194 L 49 193 L 45 189 L 44 189 L 42 187 L 38 185 L 35 185 L 34 184 L 28 184 L 27 185 L 23 185 L 17 188 L 12 193 Z"/><path d="M 186 131 L 183 135 L 183 137 L 182 138 L 182 141 L 181 142 L 181 160 L 182 161 L 182 163 L 181 164 L 181 171 L 182 173 L 187 177 L 192 179 L 194 181 L 200 184 L 202 186 L 203 186 L 205 188 L 206 188 L 208 190 L 209 190 L 211 192 L 212 192 L 216 195 L 214 199 L 214 201 L 213 202 L 213 211 L 214 212 L 214 215 L 216 219 L 219 222 L 219 223 L 220 223 L 223 226 L 227 228 L 229 228 L 230 229 L 241 229 L 242 228 L 244 228 L 248 226 L 255 219 L 257 215 L 257 213 L 258 212 L 258 201 L 257 200 L 257 198 L 255 194 L 249 188 L 248 188 L 246 186 L 244 186 L 240 184 L 231 184 L 227 186 L 223 186 L 220 182 L 218 178 L 218 176 L 216 173 L 216 171 L 215 170 L 215 167 L 214 166 L 214 160 L 213 159 L 213 152 L 214 151 L 214 145 L 215 144 L 215 141 L 216 140 L 216 138 L 217 137 L 217 135 L 218 134 L 218 132 L 219 130 L 212 124 L 210 123 L 207 123 L 199 127 L 197 127 L 194 129 L 192 129 L 191 130 Z"/><path d="M 18 76 L 11 83 L 8 89 L 8 103 L 11 109 L 18 116 L 20 117 L 22 117 L 23 118 L 25 118 L 26 119 L 34 119 L 35 118 L 38 118 L 39 117 L 41 117 L 47 125 L 49 129 L 49 131 L 51 134 L 52 139 L 53 140 L 53 146 L 54 147 L 54 157 L 53 158 L 53 162 L 52 163 L 52 166 L 51 167 L 51 169 L 49 173 L 49 176 L 51 177 L 55 181 L 59 183 L 62 181 L 64 181 L 65 180 L 70 179 L 73 177 L 75 177 L 76 176 L 79 176 L 81 175 L 84 171 L 84 169 L 85 168 L 85 165 L 86 164 L 86 146 L 85 145 L 85 143 L 84 142 L 83 137 L 80 133 L 79 130 L 78 130 L 75 127 L 74 127 L 72 125 L 71 125 L 69 123 L 65 121 L 62 118 L 61 118 L 59 116 L 58 116 L 56 114 L 52 112 L 49 109 L 52 103 L 52 100 L 53 99 L 53 93 L 52 92 L 52 89 L 49 83 L 42 76 L 40 75 L 38 75 L 37 74 L 35 74 L 34 73 L 27 73 L 26 74 L 23 74 L 22 75 L 20 75 Z"/><path d="M 146 11 L 142 9 L 140 9 L 139 8 L 130 8 L 129 9 L 126 9 L 122 11 L 115 18 L 113 22 L 113 24 L 112 25 L 112 36 L 113 37 L 113 39 L 115 43 L 121 50 L 121 52 L 120 54 L 115 60 L 115 61 L 112 64 L 112 65 L 97 80 L 96 80 L 91 84 L 88 85 L 86 87 L 82 89 L 80 89 L 77 91 L 75 91 L 74 92 L 72 92 L 68 94 L 66 98 L 67 99 L 67 101 L 73 106 L 74 106 L 78 110 L 79 110 L 89 119 L 93 119 L 94 118 L 96 118 L 97 117 L 99 117 L 103 115 L 105 113 L 109 111 L 114 106 L 114 105 L 119 99 L 123 91 L 123 89 L 124 88 L 124 85 L 125 84 L 125 81 L 126 80 L 126 75 L 127 74 L 127 69 L 128 68 L 128 63 L 129 62 L 129 56 L 131 54 L 135 54 L 136 53 L 140 53 L 141 52 L 143 52 L 147 50 L 153 44 L 155 40 L 155 38 L 156 37 L 156 32 L 157 31 L 156 30 L 156 24 L 152 16 Z"/><path d="M 178 187 L 175 187 L 174 188 L 172 188 L 166 191 L 164 193 L 161 194 L 151 203 L 151 204 L 148 207 L 148 208 L 146 210 L 144 214 L 144 221 L 143 222 L 143 234 L 142 235 L 142 247 L 140 249 L 133 249 L 132 250 L 129 250 L 127 251 L 125 253 L 124 253 L 119 258 L 116 264 L 116 266 L 115 267 L 115 276 L 116 277 L 116 280 L 118 284 L 121 287 L 121 288 L 123 290 L 124 290 L 128 293 L 130 293 L 131 294 L 144 294 L 150 291 L 157 284 L 158 282 L 158 280 L 159 279 L 159 277 L 160 276 L 160 267 L 159 266 L 158 261 L 156 259 L 156 258 L 151 253 L 154 246 L 156 244 L 158 240 L 161 237 L 161 236 L 169 228 L 170 228 L 173 225 L 174 225 L 176 223 L 188 217 L 190 217 L 193 215 L 195 215 L 200 212 L 200 205 L 196 201 L 195 201 L 192 198 L 191 198 L 188 195 L 187 195 L 180 188 Z"/><path d="M 135 130 L 133 131 L 128 131 L 120 135 L 116 139 L 113 145 L 113 147 L 112 148 L 112 159 L 113 160 L 113 162 L 115 166 L 121 172 L 127 175 L 130 175 L 131 176 L 137 176 L 138 175 L 141 175 L 147 172 L 153 166 L 155 162 L 155 160 L 156 159 L 156 147 L 155 146 L 155 144 L 153 140 L 147 134 L 143 132 L 141 132 L 140 131 L 136 131 Z"/></svg>
+    <span class="word">Orquesdra</span>
+    <span class="crumb">Estúdio de assinatura</span>
+  </header>
+
+  <div class="lead">
+    <h1>A tua assinatura, afinada.</h1>
+    <p>Preenche os teus dados. A assinatura monta-se ao vivo. Copia, cola no teu email, pronto.</p>
+  </div>
+
+  <div class="grid">
+    <form class="form" autocomplete="off" onsubmit="return false">
+      <div class="field" data-f="nome">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" placeholder="Miguel Martins" value="Miguel Martins">
+        <span class="bar"></span>
+      </div>
+      <div class="field" data-f="cargo">
+        <label for="cargo">Cargo</label>
+        <input id="cargo" type="text" placeholder="Founder" value="Founder">
+        <span class="bar"></span>
+      </div>
+      <div class="field" data-f="email" data-validate="email">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="nome@orquesdra.com" value="miguel@orquesdra.com">
+        <span class="bar"></span>
+        <span class="ck" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="field" data-f="tel">
+        <label for="tel">Telefone</label>
+        <input id="tel" type="text" placeholder="+351 912 345 678" value="+351 912 345 678">
+        <span class="bar"></span>
+      </div>
+
+      <span class="netlabel">Redes sociais</span>
+      <div class="nets">
+        <button type="button" class="chip" data-net="linkedin" aria-label="LinkedIn" title="LinkedIn"><svg class="cic" viewBox="0 0 448 512" aria-hidden="true"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg></button>
+        <button type="button" class="chip" data-net="instagram" aria-label="Instagram" title="Instagram"><svg class="cic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></button>
+        <button type="button" class="chip" data-net="x" aria-label="X" title="X"><svg class="cic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg></button>
+        <button type="button" class="chip" data-net="tiktok" aria-label="TikTok" title="TikTok"><svg class="cic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></button>
+        <button type="button" class="chip" data-net="youtube" aria-label="YouTube" title="YouTube"><svg class="cic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></button>
+        <button type="button" class="chip" data-net="facebook" aria-label="Facebook" title="Facebook"><svg class="cic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></button>
+      </div>
+      <div id="netFields">
+        <div class="field net-field" data-netfield="linkedin" hidden>
+          <label for="net-linkedin">LinkedIn</label>
+          <input id="net-linkedin" type="text" placeholder="in/miguel ou URL">
+          <span class="bar"></span>
+        </div>
+        <div class="field net-field" data-netfield="instagram" hidden>
+          <label for="net-instagram">Instagram</label>
+          <input id="net-instagram" type="text" placeholder="@orquesdra">
+          <span class="bar"></span>
+        </div>
+        <div class="field net-field" data-netfield="x" hidden>
+          <label for="net-x">X</label>
+          <input id="net-x" type="text" placeholder="@orquesdra">
+          <span class="bar"></span>
+        </div>
+        <div class="field net-field" data-netfield="tiktok" hidden>
+          <label for="net-tiktok">TikTok</label>
+          <input id="net-tiktok" type="text" placeholder="@orquesdra">
+          <span class="bar"></span>
+        </div>
+        <div class="field net-field" data-netfield="youtube" hidden>
+          <label for="net-youtube">YouTube</label>
+          <input id="net-youtube" type="text" placeholder="@orquesdra">
+          <span class="bar"></span>
+        </div>
+        <div class="field net-field" data-netfield="facebook" hidden>
+          <label for="net-facebook">Facebook</label>
+          <input id="net-facebook" type="text" placeholder="orquesdra">
+          <span class="bar"></span>
+        </div>
+      </div>
+    </form>
+
+    <div class="stage">
+      <div class="canvas">
+        <svg class="bleed" viewBox="-6 -6 279 315" aria-hidden="true"><path d="M 139 91 L 139 93 L 141 97 L 143 99 L 143 100 L 153 110 L 154 110 L 156 112 L 164 116 L 166 116 L 167 117 L 170 117 L 171 118 L 174 118 L 175 119 L 179 119 L 184 116 L 186 116 L 191 113 L 193 113 L 198 110 L 200 110 L 212 104 L 214 105 L 215 108 L 218 111 L 219 113 L 220 113 L 222 115 L 226 117 L 228 117 L 229 118 L 241 118 L 249 114 L 254 109 L 257 103 L 257 100 L 258 99 L 258 92 L 257 91 L 257 88 L 255 84 L 249 77 L 241 73 L 229 73 L 228 74 L 226 74 L 222 76 L 216 82 L 213 88 L 212 95 L 211 96 L 204 96 L 203 95 L 199 95 L 198 94 L 195 94 L 194 93 L 189 92 L 181 88 L 179 86 L 175 84 L 160 69 L 160 68 L 158 66 L 154 66 L 153 67 L 153 68 L 151 70 L 150 73 L 148 75 L 147 78 L 145 80 L 143 85 L 141 87 Z"/><path d="M 8 201 L 8 213 L 9 214 L 9 216 L 10 218 L 16 225 L 24 229 L 37 229 L 43 226 L 48 222 L 53 212 L 61 212 L 62 213 L 68 213 L 69 214 L 73 214 L 74 215 L 79 216 L 89 221 L 91 223 L 92 223 L 97 228 L 98 228 L 107 237 L 107 238 L 111 241 L 113 241 L 115 239 L 119 231 L 121 229 L 122 226 L 124 224 L 125 221 L 128 217 L 128 213 L 127 211 L 124 208 L 124 207 L 117 200 L 116 200 L 113 197 L 105 193 L 103 193 L 99 191 L 82 191 L 76 194 L 74 194 L 71 196 L 69 196 L 66 198 L 64 198 L 61 200 L 59 200 L 58 201 L 56 201 L 54 202 L 52 200 L 52 198 L 49 194 L 49 193 L 45 189 L 44 189 L 42 187 L 38 185 L 35 185 L 34 184 L 28 184 L 27 185 L 23 185 L 17 188 L 12 193 Z"/><path d="M 186 131 L 183 135 L 183 137 L 182 138 L 182 141 L 181 142 L 181 160 L 182 161 L 182 163 L 181 164 L 181 171 L 182 173 L 187 177 L 192 179 L 194 181 L 200 184 L 202 186 L 203 186 L 205 188 L 206 188 L 208 190 L 209 190 L 211 192 L 212 192 L 216 195 L 214 199 L 214 201 L 213 202 L 213 211 L 214 212 L 214 215 L 216 219 L 219 222 L 219 223 L 220 223 L 223 226 L 227 228 L 229 228 L 230 229 L 241 229 L 242 228 L 244 228 L 248 226 L 255 219 L 257 215 L 257 213 L 258 212 L 258 201 L 257 200 L 257 198 L 255 194 L 249 188 L 248 188 L 246 186 L 244 186 L 240 184 L 231 184 L 227 186 L 223 186 L 220 182 L 218 178 L 218 176 L 216 173 L 216 171 L 215 170 L 215 167 L 214 166 L 214 160 L 213 159 L 213 152 L 214 151 L 214 145 L 215 144 L 215 141 L 216 140 L 216 138 L 217 137 L 217 135 L 218 134 L 218 132 L 219 130 L 212 124 L 210 123 L 207 123 L 199 127 L 197 127 L 194 129 L 192 129 L 191 130 Z"/><path d="M 18 76 L 11 83 L 8 89 L 8 103 L 11 109 L 18 116 L 20 117 L 22 117 L 23 118 L 25 118 L 26 119 L 34 119 L 35 118 L 38 118 L 39 117 L 41 117 L 47 125 L 49 129 L 49 131 L 51 134 L 52 139 L 53 140 L 53 146 L 54 147 L 54 157 L 53 158 L 53 162 L 52 163 L 52 166 L 51 167 L 51 169 L 49 173 L 49 176 L 51 177 L 55 181 L 59 183 L 62 181 L 64 181 L 65 180 L 70 179 L 73 177 L 75 177 L 76 176 L 79 176 L 81 175 L 84 171 L 84 169 L 85 168 L 85 165 L 86 164 L 86 146 L 85 145 L 85 143 L 84 142 L 83 137 L 80 133 L 79 130 L 78 130 L 75 127 L 74 127 L 72 125 L 71 125 L 69 123 L 65 121 L 62 118 L 61 118 L 59 116 L 58 116 L 56 114 L 52 112 L 49 109 L 52 103 L 52 100 L 53 99 L 53 93 L 52 92 L 52 89 L 49 83 L 42 76 L 40 75 L 38 75 L 37 74 L 35 74 L 34 73 L 27 73 L 26 74 L 23 74 L 22 75 L 20 75 Z"/><path d="M 146 11 L 142 9 L 140 9 L 139 8 L 130 8 L 129 9 L 126 9 L 122 11 L 115 18 L 113 22 L 113 24 L 112 25 L 112 36 L 113 37 L 113 39 L 115 43 L 121 50 L 121 52 L 120 54 L 115 60 L 115 61 L 112 64 L 112 65 L 97 80 L 96 80 L 91 84 L 88 85 L 86 87 L 82 89 L 80 89 L 77 91 L 75 91 L 74 92 L 72 92 L 68 94 L 66 98 L 67 99 L 67 101 L 73 106 L 74 106 L 78 110 L 79 110 L 89 119 L 93 119 L 94 118 L 96 118 L 97 117 L 99 117 L 103 115 L 105 113 L 109 111 L 114 106 L 114 105 L 119 99 L 123 91 L 123 89 L 124 88 L 124 85 L 125 84 L 125 81 L 126 80 L 126 75 L 127 74 L 127 69 L 128 68 L 128 63 L 129 62 L 129 56 L 131 54 L 135 54 L 136 53 L 140 53 L 141 52 L 143 52 L 147 50 L 153 44 L 155 40 L 155 38 L 156 37 L 156 32 L 157 31 L 156 30 L 156 24 L 152 16 Z"/><path d="M 178 187 L 175 187 L 174 188 L 172 188 L 166 191 L 164 193 L 161 194 L 151 203 L 151 204 L 148 207 L 148 208 L 146 210 L 144 214 L 144 221 L 143 222 L 143 234 L 142 235 L 142 247 L 140 249 L 133 249 L 132 250 L 129 250 L 127 251 L 125 253 L 124 253 L 119 258 L 116 264 L 116 266 L 115 267 L 115 276 L 116 277 L 116 280 L 118 284 L 121 287 L 121 288 L 123 290 L 124 290 L 128 293 L 130 293 L 131 294 L 144 294 L 150 291 L 157 284 L 158 282 L 158 280 L 159 279 L 159 277 L 160 276 L 160 267 L 159 266 L 158 261 L 156 259 L 156 258 L 151 253 L 154 246 L 156 244 L 158 240 L 161 237 L 161 236 L 169 228 L 170 228 L 173 225 L 174 225 L 176 223 L 188 217 L 190 217 L 193 215 L 195 215 L 200 212 L 200 205 L 196 201 L 195 201 L 192 198 L 191 198 L 188 195 L 187 195 L 180 188 Z"/><path d="M 135 130 L 133 131 L 128 131 L 120 135 L 116 139 L 113 145 L 113 147 L 112 148 L 112 159 L 113 160 L 113 162 L 115 166 L 121 172 L 127 175 L 130 175 L 131 176 L 137 176 L 138 175 L 141 175 L 147 172 L 153 166 L 155 162 L 155 160 L 156 159 L 156 147 L 155 146 L 155 144 L 153 140 L 147 134 L 143 132 L 141 132 L 140 131 L 136 131 Z"/></svg>
+        <div class="tag">Pré-visualização</div>
+        <div class="sig">
+          <svg class="mark glyphAnim" viewBox="-6 -6 279 315" aria-label="Orquesdra">
+            <g id="markWrap"><g id="mark">
+            <g class="nin" style="--i:2"><path class="node" d="M 139 91 L 139 93 L 141 97 L 143 99 L 143 100 L 153 110 L 154 110 L 156 112 L 164 116 L 166 116 L 167 117 L 170 117 L 171 118 L 174 118 L 175 119 L 179 119 L 184 116 L 186 116 L 191 113 L 193 113 L 198 110 L 200 110 L 212 104 L 214 105 L 215 108 L 218 111 L 219 113 L 220 113 L 222 115 L 226 117 L 228 117 L 229 118 L 241 118 L 249 114 L 254 109 L 257 103 L 257 100 L 258 99 L 258 92 L 257 91 L 257 88 L 255 84 L 249 77 L 241 73 L 229 73 L 228 74 L 226 74 L 222 76 L 216 82 L 213 88 L 212 95 L 211 96 L 204 96 L 203 95 L 199 95 L 198 94 L 195 94 L 194 93 L 189 92 L 181 88 L 179 86 L 175 84 L 160 69 L 160 68 L 158 66 L 154 66 L 153 67 L 153 68 L 151 70 L 150 73 L 148 75 L 147 78 L 145 80 L 143 85 L 141 87 Z"/></g>
+            <g class="nin" style="--i:5"><path class="node" d="M 8 201 L 8 213 L 9 214 L 9 216 L 10 218 L 16 225 L 24 229 L 37 229 L 43 226 L 48 222 L 53 212 L 61 212 L 62 213 L 68 213 L 69 214 L 73 214 L 74 215 L 79 216 L 89 221 L 91 223 L 92 223 L 97 228 L 98 228 L 107 237 L 107 238 L 111 241 L 113 241 L 115 239 L 119 231 L 121 229 L 122 226 L 124 224 L 125 221 L 128 217 L 128 213 L 127 211 L 124 208 L 124 207 L 117 200 L 116 200 L 113 197 L 105 193 L 103 193 L 99 191 L 82 191 L 76 194 L 74 194 L 71 196 L 69 196 L 66 198 L 64 198 L 61 200 L 59 200 L 58 201 L 56 201 L 54 202 L 52 200 L 52 198 L 49 194 L 49 193 L 45 189 L 44 189 L 42 187 L 38 185 L 35 185 L 34 184 L 28 184 L 27 185 L 23 185 L 17 188 L 12 193 Z"/></g>
+            <g class="nin" style="--i:3"><path class="node" d="M 186 131 L 183 135 L 183 137 L 182 138 L 182 141 L 181 142 L 181 160 L 182 161 L 182 163 L 181 164 L 181 171 L 182 173 L 187 177 L 192 179 L 194 181 L 200 184 L 202 186 L 203 186 L 205 188 L 206 188 L 208 190 L 209 190 L 211 192 L 212 192 L 216 195 L 214 199 L 214 201 L 213 202 L 213 211 L 214 212 L 214 215 L 216 219 L 219 222 L 219 223 L 220 223 L 223 226 L 227 228 L 229 228 L 230 229 L 241 229 L 242 228 L 244 228 L 248 226 L 255 219 L 257 215 L 257 213 L 258 212 L 258 201 L 257 200 L 257 198 L 255 194 L 249 188 L 248 188 L 246 186 L 244 186 L 240 184 L 231 184 L 227 186 L 223 186 L 220 182 L 218 178 L 218 176 L 216 173 L 216 171 L 215 170 L 215 167 L 214 166 L 214 160 L 213 159 L 213 152 L 214 151 L 214 145 L 215 144 L 215 141 L 216 140 L 216 138 L 217 137 L 217 135 L 218 134 L 218 132 L 219 130 L 212 124 L 210 123 L 207 123 L 199 127 L 197 127 L 194 129 L 192 129 L 191 130 Z"/></g>
+            <g class="nin" style="--i:0"><path class="node" d="M 18 76 L 11 83 L 8 89 L 8 103 L 11 109 L 18 116 L 20 117 L 22 117 L 23 118 L 25 118 L 26 119 L 34 119 L 35 118 L 38 118 L 39 117 L 41 117 L 47 125 L 49 129 L 49 131 L 51 134 L 52 139 L 53 140 L 53 146 L 54 147 L 54 157 L 53 158 L 53 162 L 52 163 L 52 166 L 51 167 L 51 169 L 49 173 L 49 176 L 51 177 L 55 181 L 59 183 L 62 181 L 64 181 L 65 180 L 70 179 L 73 177 L 75 177 L 76 176 L 79 176 L 81 175 L 84 171 L 84 169 L 85 168 L 85 165 L 86 164 L 86 146 L 85 145 L 85 143 L 84 142 L 83 137 L 80 133 L 79 130 L 78 130 L 75 127 L 74 127 L 72 125 L 71 125 L 69 123 L 65 121 L 62 118 L 61 118 L 59 116 L 58 116 L 56 114 L 52 112 L 49 109 L 52 103 L 52 100 L 53 99 L 53 93 L 52 92 L 52 89 L 49 83 L 42 76 L 40 75 L 38 75 L 37 74 L 35 74 L 34 73 L 27 73 L 26 74 L 23 74 L 22 75 L 20 75 Z"/></g>
+            <g class="nin" style="--i:1"><path class="node" d="M 146 11 L 142 9 L 140 9 L 139 8 L 130 8 L 129 9 L 126 9 L 122 11 L 115 18 L 113 22 L 113 24 L 112 25 L 112 36 L 113 37 L 113 39 L 115 43 L 121 50 L 121 52 L 120 54 L 115 60 L 115 61 L 112 64 L 112 65 L 97 80 L 96 80 L 91 84 L 88 85 L 86 87 L 82 89 L 80 89 L 77 91 L 75 91 L 74 92 L 72 92 L 68 94 L 66 98 L 67 99 L 67 101 L 73 106 L 74 106 L 78 110 L 79 110 L 89 119 L 93 119 L 94 118 L 96 118 L 97 117 L 99 117 L 103 115 L 105 113 L 109 111 L 114 106 L 114 105 L 119 99 L 123 91 L 123 89 L 124 88 L 124 85 L 125 84 L 125 81 L 126 80 L 126 75 L 127 74 L 127 69 L 128 68 L 128 63 L 129 62 L 129 56 L 131 54 L 135 54 L 136 53 L 140 53 L 141 52 L 143 52 L 147 50 L 153 44 L 155 40 L 155 38 L 156 37 L 156 32 L 157 31 L 156 30 L 156 24 L 152 16 Z"/></g>
+            <g class="nin" style="--i:4"><path class="node" d="M 178 187 L 175 187 L 174 188 L 172 188 L 166 191 L 164 193 L 161 194 L 151 203 L 151 204 L 148 207 L 148 208 L 146 210 L 144 214 L 144 221 L 143 222 L 143 234 L 142 235 L 142 247 L 140 249 L 133 249 L 132 250 L 129 250 L 127 251 L 125 253 L 124 253 L 119 258 L 116 264 L 116 266 L 115 267 L 115 276 L 116 277 L 116 280 L 118 284 L 121 287 L 121 288 L 123 290 L 124 290 L 128 293 L 130 293 L 131 294 L 144 294 L 150 291 L 157 284 L 158 282 L 158 280 L 159 279 L 159 277 L 160 276 L 160 267 L 159 266 L 158 261 L 156 259 L 156 258 L 151 253 L 154 246 L 156 244 L 158 240 L 161 237 L 161 236 L 169 228 L 170 228 L 173 225 L 174 225 L 176 223 L 188 217 L 190 217 L 193 215 L 195 215 L 200 212 L 200 205 L 196 201 L 195 201 L 192 198 L 191 198 L 188 195 L 187 195 L 180 188 Z"/></g>
+            <g class="nin core-in"><path class="core" d="M 135 130 L 133 131 L 128 131 L 120 135 L 116 139 L 113 145 L 113 147 L 112 148 L 112 159 L 113 160 L 113 162 L 115 166 L 121 172 L 127 175 L 130 175 L 131 176 L 137 176 L 138 175 L 141 175 L 147 172 L 153 166 L 155 162 L 155 160 L 156 159 L 156 147 L 155 146 L 155 144 L 153 140 L 147 134 L 143 132 L 141 132 L 140 131 L 136 131 Z"/></g>
+            </g></g>
+          </svg>
+          <div class="body">
+            <div class="nm" id="p-nome">Miguel Martins</div>
+            <div class="ro"><span id="p-cargo">Founder</span>&nbsp;·&nbsp;<b>Orquesdra</b></div>
+            <div class="ct"><a id="p-email" href="#">miguel@orquesdra.com</a><br><span id="p-tel">+351 912 345 678</span></div>
+            <div class="lk"><a href="https://orquesdra.com">orquesdra.com</a><span id="p-nets"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="copy">Copiar assinatura</button>
+        <button class="btn ghost" id="download">Descarregar .html</button>
+        <button class="btn ghost" id="copyTxt">Versão texto</button>
+        <span class="toast" id="toast"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span id="toast-msg">Copiado</span></span>
+      </div>
+      <p class="hint">Cola no Gmail (Definições → Assinatura), Apple Mail ou Outlook. As imagens (símbolo e ícones) são carregadas de <b>orquesdra.com</b>, por isso só aparecem com o site publicado.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const NS = 'http://www.w3.org/2000/svg';
+  const MARK = "https://orquesdra.com/brand/orquesdra-mark.gif";
+  const ICONBASE = "https://orquesdra.com/brand/icons/";
+  const STORE = "orq_sig_v2";
+  const fields = {nome:$('nome'),cargo:$('cargo'),email:$('email'),tel:$('tel')};
+
+  const ICONS = {"linkedin":{"vb":"0 0 448 512","paths":["M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"]},"instagram":{"vb":"0 0 24 24","paths":["M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"]},"x":{"vb":"0 0 24 24","paths":["M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"]},"tiktok":{"vb":"0 0 24 24","paths":["M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"]},"youtube":{"vb":"0 0 24 24","paths":["M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"]},"facebook":{"vb":"0 0 24 24","paths":["M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"]}};
+  const NETORDER = ["linkedin","instagram","x","tiktok","youtube","facebook"];
+  const NETS = {
+    linkedin:{name:'LinkedIn', host:'https://www.linkedin.com/', mk:v=>v.includes('/')?v:'in/'+v},
+    instagram:{name:'Instagram', host:'https://www.instagram.com/', mk:v=>v},
+    x:{name:'X', host:'https://x.com/', mk:v=>v},
+    tiktok:{name:'TikTok', host:'https://www.tiktok.com/', mk:v=>'@'+v},
+    youtube:{name:'YouTube', host:'https://www.youtube.com/', mk:v=>'@'+v},
+    facebook:{name:'Facebook', host:'https://www.facebook.com/', mk:v=>v},
+  };
+  const netInput = id => $('net-'+id);
+  const netChip = id => document.querySelector('.chip[data-net="'+id+'"]');
+  const netField = id => document.querySelector('[data-netfield="'+id+'"]');
+  const netState = {};
+  NETORDER.forEach(id => netState[id] = { on: (id==='linkedin'||id==='instagram'), val:'' });
+
+  const esc = s => (s||"").replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function netUrl(id, raw){
+    let v=(raw||'').trim().replace(/^@/,''); if(!v) return '';
+    if(/^https?:\/\//.test(v)) return v;
+    if(/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return 'https://'+v;
+    return NETS[id].host + NETS[id].mk(v);
+  }
+  function netHandle(raw){
+    let v=(raw||'').trim(); if(!v) return '';
+    v=v.replace(/[?#].*$/,'').replace(/\/+$/,'');
+    const seg=v.split('/').filter(Boolean).pop()||v;
+    return '@'+seg.replace(/^@/,'');
+  }
+
+  // restore
+  try{ const s=JSON.parse(localStorage.getItem(STORE)||'null'); if(s){
+    for(const k in fields){ if(s[k]!==undefined) fields[k].value=s[k]; }
+    if(s.nets){ NETORDER.forEach(id=>{ if(s.nets[id]){ netState[id].on=!!s.nets[id].on; netState[id].val=s.nets[id].val||''; } }); }
+  } }catch(e){}
+
+  function save(){
+    const o={}; for(const k in fields) o[k]=fields[k].value;
+    o.nets={}; NETORDER.forEach(id=>o.nets[id]={on:netState[id].on, val:netState[id].val});
+    try{ localStorage.setItem(STORE, JSON.stringify(o)); }catch(e){}
+  }
+
+  function iconEl(id){
+    const s=document.createElementNS(NS,'svg');
+    s.setAttribute('viewBox', ICONS[id].vb); s.classList.add('sic');
+    ICONS[id].paths.forEach(d=>{ const p=document.createElementNS(NS,'path'); p.setAttribute('d',d); s.appendChild(p); });
+    return s;
+  }
+  function renderNetUI(){
+    NETORDER.forEach(id=>{
+      netChip(id).classList.toggle('on', netState[id].on);
+      netField(id).hidden = !netState[id].on;
+      if(netInput(id).value !== netState[id].val) netInput(id).value = netState[id].val;
+    });
+  }
+  function sync(){
+    const d = {
+      nome:fields.nome.value.trim()||fields.nome.placeholder,
+      cargo:fields.cargo.value.trim()||fields.cargo.placeholder,
+      email:fields.email.value.trim(),
+      tel:fields.tel.value.trim(),
+      nets:NETORDER.filter(id=>netState[id].on && netState[id].val.trim())
+        .map(id=>({id, url:netUrl(id, netState[id].val), handle:netHandle(netState[id].val)}))
+    };
+    $('p-nome').textContent = d.nome;
+    $('p-cargo').textContent = d.cargo;
+    $('p-email').textContent = d.email||'nome@orquesdra.com';
+    $('p-email').href = 'mailto:'+d.email;
+    $('p-tel').textContent = d.tel||'';
+    const holder=$('p-nets');
+    while(holder.firstChild) holder.removeChild(holder.firstChild);
+    d.nets.forEach(n=>{
+      const a=document.createElement('a');
+      a.className='net'; a.href=n.url; a.target='_blank'; a.rel='noopener';
+      a.title = NETS[n.id].name+' '+n.handle;
+      a.appendChild(iconEl(n.id));
+      holder.appendChild(a);
+    });
+    return d;
+  }
+  function mark(el, ok){ const f=el.closest('.field'); if(!f) return; f.classList.toggle('ok', ok===true); if(ok!==false) f.classList.remove('err'); }
+  function validateField(el, onBlur){
+    const fieldEl=el.closest('.field'); if(!fieldEl) return;
+    const type=fieldEl.dataset.validate; const v=el.value.trim();
+    if(!type) return;
+    let ok = v==='' ? null : (type==='email'? reEmail.test(v) : true);
+    mark(el, ok);
+    if(onBlur && ok===false){ fieldEl.classList.add('err'); el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+  }
+  Object.values(fields).forEach(el=>{
+    el.addEventListener('input',()=>{ sync(); save(); validateField(el,false); });
+    el.addEventListener('blur',()=>validateField(el,true));
+    el.addEventListener('focus',()=>el.closest('.field').classList.remove('err'));
+  });
+  NETORDER.forEach(id=>{
+    netChip(id).addEventListener('click',()=>{
+      netState[id].on = !netState[id].on;
+      renderNetUI(); sync(); save();
+      if(netState[id].on) netInput(id).focus();
+    });
+    netInput(id).addEventListener('input',()=>{ netState[id].val=netInput(id).value; sync(); save(); });
+  });
+  renderNetUI(); sync(); Object.values(fields).forEach(el=>validateField(el,false));
+
+  function emailHTML(d){
+    const ink='#1f2024',ink2='#5d626f',ink3='#8a8a95',iris='#5b5bd6',line='#e7e7ec';
+    const FONT="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+    let links = '<a href="https://orquesdra.com" style="color:'+iris+';text-decoration:none;">orquesdra.com</a>';
+    d.nets.forEach(n=>{
+      links += '&nbsp;&nbsp;&nbsp;<a href="'+esc(n.url)+'" style="color:'+iris+';text-decoration:none;white-space:nowrap;">'
+        +'<img src="'+ICONBASE+n.id+'.png" alt="'+NETS[n.id].name+'" width="14" height="14" style="border:0;vertical-align:-3px;">'
+        +'</a>';
+    });
+    const tel = d.tel ? '<br><span style="color:'+ink2+';">'+esc(d.tel)+'</span>' : '';
+    return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;font-family:'+FONT+';">'
+      +'<tr>'
+      +'<td style="vertical-align:middle;padding:0 16px 0 0;border-right:1px solid '+line+';">'
+      +'<img src="'+MARK+'" alt="Orquesdra" width="44" height="50" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;"></td>'
+      +'<td style="vertical-align:middle;padding:0 0 0 16px;">'
+      +'<div style="font-size:15px;line-height:20px;font-weight:600;color:'+ink+';letter-spacing:-0.01em;">'+esc(d.nome)+'</div>'
+      +'<div style="font-size:13px;line-height:18px;color:'+ink2+';padding-top:3px;">'+esc(d.cargo)+'&nbsp;&middot;&nbsp;<span style="color:'+iris+';font-weight:500;">Orquesdra</span></div>'
+      +'<div style="height:11px;line-height:11px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</div>'
+      +'<div style="font-size:13px;line-height:21px;color:'+ink2+';"><a href="mailto:'+esc(d.email)+'" style="color:'+iris+';text-decoration:none;">'+esc(d.email)+'</a>'+tel+'</div>'
+      +'<div style="height:9px;line-height:9px;font-size:0;mso-line-height-rule:exactly;">&nbsp;</div>'
+      +'<div style="font-size:12px;line-height:19px;color:'+ink3+';letter-spacing:0.01em;">'+links+'</div>'
+      +'</td></tr></table>';
+  }
+  function textVersion(d){
+    let l = [d.nome, d.cargo+' · Orquesdra', d.email, d.tel, 'orquesdra.com'];
+    d.nets.forEach(n=>l.push(NETS[n.id].name+': '+n.url));
+    return l.filter(x=>x!==undefined && x!=='').join('\n').trim();
+  }
+
+  function flash(msg){ $('toast-msg').textContent=msg||'Copiado'; const t=$('toast'); t.classList.add('on'); clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('on'),1900); }
+  async function copyRich(html, text){
+    try{
+      await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);
+      return true;
+    }catch(e){
+      try{
+        const parsed=new DOMParser().parseFromString(html,'text/html');
+        const holder=document.createElement('div');
+        holder.style.position='fixed';holder.style.left='-9999px';
+        Array.from(parsed.body.childNodes).forEach(n=>holder.appendChild(document.importNode(n,true)));
+        document.body.appendChild(holder);
+        const r=document.createRange();r.selectNodeContents(holder);
+        const s=getSelection();s.removeAllRanges();s.addRange(r);
+        const ok=document.execCommand('copy');s.removeAllRanges();holder.remove();
+        return ok;
+      }catch(_){ return false; }
+    }
+  }
+  $('copy').addEventListener('click', async ()=>{ const d=sync(); const ok=await copyRich(emailHTML(d), textVersion(d)); ok?flash('Assinatura copiada'):alert('Não foi possível copiar. Usa "Descarregar .html".'); });
+  $('copyTxt').addEventListener('click', async ()=>{ const d=sync(); try{ await navigator.clipboard.writeText(textVersion(d)); flash('Texto copiado'); }catch(e){ alert(textVersion(d)); } });
+  $('download').addEventListener('click', ()=>{
+    const d=sync();
+    const doc='<!doctype html><meta charset="utf-8"><title>Assinatura Orquesdra</title>'+emailHTML(d);
+    const blob=new Blob([doc],{type:'text/html'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='assinatura-orquesdra.html'; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500); flash('Ficheiro descarregado');
+  });
+</script>
+</body>
+</html>
